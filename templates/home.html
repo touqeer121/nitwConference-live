@@ -1,10 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Conference Name | Home</title>
-</head>
-<body>
-    Conference Home
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}HOME{% endblock title %}
+{% load static %}
+{% block content %}
+	<header>
+  <a href="#" id="logo">Logo</a>
+</header>
+
+<section id="hero1" class="hero">
+  <div class="inner">
+    <div class="copy">
+    <h1>NITW Conference</h1>
+    <p>Share your knowledge and inspire others at this management conference of the year</p>
+    </div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="inner">
+    <div class="copy">
+    <h1>Conference Themes and Topics</h1>
+    <p>The conference is seeking submissions related to the following conference topics: Management, Economics, Business, Finance. Other related tracks and topics will also be considered.
+
+	Submitted abstracts will be evaluated by the Scientific Committee. If abstract is accepted, author agrees to send full text paper, including results, tables, figures and references. All submissions should report original and previously unpublished research results no matter the type of research paper you are presenting. Full text papers (.docx and .doc) will be accepted by Electronic Submission Form. Manuscripts should meet the format set by the Conference committee and are subject to review.</p>
+    </div>
+  </div>
+</section>
+
+<section id="hero2" class="hero">
+  <div class="inner">
+    <div class="copy">
+    <h1>What's in store for the 3rd edition of this preeminent economic conference</h1>
+    <p>Oral Presentation
+
+Be an oral presenter of the Management, Economics and Finance conferences 2021 and present your research to a truly international audience. Since time slots are limited send your abstract today.
+
+Poster Presentation
+
+Send your research paper to be a poster presenter at the conference and show your research work to the audience throughout the Management, Economics and Finance conference day. A good opportunity for extended discussions.</p>
+    </div>
+  </div>
+</section>
+  
+<section class="content">
+  <div class="inner">
+    <div class="copy">
+    <h1>Publication opportunities available at this prestigious economics conference</h1>
+     <h3>Academic conference Proceedings and Publication</h3>
+
+<ul>
+<li>Each Paper will be assigned Digital Object Identifier (DOI) from Cross Ref.</li>
+<li>The proceeding shall be submitted to Google Scholar for Indexing.</li>
+<li>All accepted papers will be published with ISBN Number.</li>
+<li>All papers have publication opportunity in ISI and Scopus indexed journals.</li>
+<li>All papers have publication opportunity in various indexed international journal.</li>
+</ul>
+    </div>
+  </div>
+</section>
+
+<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+
+{% endblock content %}
