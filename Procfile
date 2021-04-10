@@ -1,0 +1,1 @@
+web: gunicorn nitwConference.wsgi --log-file -
