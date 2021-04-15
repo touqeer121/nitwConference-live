@@ -2,17 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Static files directory">
-      <change afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/bg.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/bg1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/bg2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/bg3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/bg4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/custom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/js/note.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nitwConference/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/nitwConference/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,6 +62,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="nitwConference.settings" />
       </envs>
       <option name="SDK_HOME" value="D:\D\Github Repo\nitwConference_venv\Scripts\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -99,6 +97,9 @@
       <workItem from="1618048223512" duration="987000" />
       <workItem from="1618049220981" duration="211000" />
       <workItem from="1618049440538" duration="7847000" />
+      <workItem from="1618358923476" duration="71000" />
+      <workItem from="1618359003208" duration="9653000" />
+      <workItem from="1618462131257" duration="14342000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>

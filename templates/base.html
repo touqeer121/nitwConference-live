@@ -2,19 +2,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+    <title>GCIMB | {% block title %}
 
     {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
-
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    {% block scripts %}
+    {% endblock scripts %}
 </head>
 <body>
 
@@ -23,7 +26,7 @@
 			<div class="row">
 				<div class="col-12">
 					<nav class="navbar navbar-expand-md navbar-dark">
-						<a class="navbar-brand" href="">NITW</a>
+						<a class="navbar-brand" style="font-family: 'Fredoka One', cursive; font-size:28px" href="/">G C I M B</a>
 
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
@@ -32,13 +35,16 @@
 						<div class="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul class="navbar-nav ml-auto py-4 py-md-0">
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link" href="#">Home</a>
+									<a class="nav-link" href="/">Home</a>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link" href="#">Speakers</a>
+									<a class="nav-link" href="../speakers/">Speakers</a>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link" href="#">Information</a>
+									<a class="nav-link" href="../information/">Information</a>
+								</li>
+								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+									<a class="nav-link" href="../call_for_papers/">Call for papers</a>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Services</a>
@@ -50,7 +56,10 @@
 									</div>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link" href="#">Register</a>
+									<a class="nav-link" href="../news/">News</a>
+								</li>
+								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+									<a class="nav-link" href="../registration/">Registration</a>
 								</li>
 							</ul>
 						</div>
@@ -66,34 +75,32 @@
 {% endblock content %}
 
 
-
-
-
     <!-- Footer -->
 	<section id="footer">
-		<div class="container">
-			<div class="row text-center text-xs-center text-sm-left text-md-left">
-				<div class="col-xs-12 col-sm- col-md-4">
-					<h5>About</h5>
+		<div class="container" style="padding:0;  width: 100%;;        " >
+			<div class="row text-center" style="width: 100%; margin:0!important;">
+				<div class="col-xs-12 col-sm-4 col-md-5" >
+					<h5>About GCIMB</h5>
                     <p style="color:#43cae8">
-                        Join us on 10-12 September 2021 in Zurich, Switzerland for the 4th International Conference on
-                        Management, Economics and Finance. Between engaging presentations, buzzing networking, and
-                        immersive learning opportunities, this conference is a must-attend event for scholars,
-                        researchers, scientists, and other members of academia.
+                        Chapman University California, Howard University Washington and National Institute of Technology
+                        Warangal are organizing its first Global Conference on Innovations in Management and Business
+                        during July 27th and 28th, 2021. The conference aims to bring together academia, researchers,
+                        and scholars to exchange information and share experiences and research results about all
+                        aspects of specialized and interdisciplinary fields.
                     </p>
 				</div>
                 <div class="col-xs-12 col-sm-4 col-md-4">
 					<h5>Contact Us</h5>
 					<ul class="list-unstyled" style="color:#43cae8">
-						<li>Email : conference_nitw@gmail.com</li>
-                        <li>Phone : +9876543210</li>
+						<li><i class="fa fa-envelope"></i> Email : conference_nitw@gmail.com</li>
+                        <li><i class="fas fa-phone-alt"></i> Phone : +9876543210</li>
 					</ul>
 				</div>
-				<div class="col-xs-12 col-sm-4 col-md-4">
+				<div class="col-xs-12 col-sm-4 col-md-3">
 					<h5>Quick links</h5>
 					<ul class="list-unstyled quick-links">
-						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a></li>
-						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href=""><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href=""><i class="fa fa-angle-double-right"></i>About</a></li>
 						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
 						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
 						<li><a href="https://wwwe.sunlimetech.com" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
@@ -114,7 +121,7 @@
 {#			</div>#}
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
-					<p class="h6">© 2021 Copyright <a class="text-green ml-2" href="https://www.nitw.ac.in" target="_blank">NIT Warangal</a><br>All right Reversed</p>
+					<p class="h6">© 2021 Copyright GCIMB. All right Reserved.</p>
 				</div>
 				<hr>
 			</div>

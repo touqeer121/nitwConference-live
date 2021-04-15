@@ -11,7 +11,7 @@ section .section-title {
     text-transform: uppercase;
 }
 #footer {
-    background: black !important;
+    background: #1f1f1f !important;
 }
 #footer h5{
 	padding-left: 10px;
@@ -193,10 +193,11 @@ body{
     transition: all 200ms linear;
 }
 .nav-item:hover .nav-link{
-	color: #8167a9 !important;
+	color: white !important;
 }
 .nav-item.active .nav-link{
-	color: #777 !important;
+	color: white !important;
+	text-decoration: none;
 }
 .nav-link {
 	position: relative;
@@ -210,7 +211,7 @@ body{
 	width: 100%;
 	height: 2px;
 	content: '';
-	background-color: #8167a9;
+	background-color: #43cae8;
 	opacity: 0;
     transition: all 200ms linear;
 }
@@ -230,9 +231,11 @@ body{
 ================================================== */
 
 .custom-bg-light {
-	background-color: black !important;
+	background-color: #1f1f1f !important;
+	/*background-color: rgba(40,40,40,1) !important;*/
 	transition: all 200ms linear;
 	font-size: 18px;
+	/*box-shadow: 0px 5px 25px #8eebff;*/
 }
 .section {
     position: relative;
@@ -423,7 +426,7 @@ body.hero-anime #switch{
 }
 .switched {
 	border-color: #000 !important;
-	background: #8167a9 !important;
+	background: red !important;
 }
 .switched #circle {
 	left: 43px;
@@ -663,21 +666,29 @@ header a{
   position:relative;
   width: 100%;
 }
+.content{
+
+}
 
 .inner{
-  min-height:600px;
-  position: relative;
+  	min-height:500px;
+	width: 80%;
+	margin: auto;
+  	position: relative;
+	/*display: block;*/
+	/*overflow: auto;*/
 }
 
 .hero .inner{
-  background: rgba(0,0,0,0.7) url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAD0lEQVQIW2NkQABjRmQOAAM+AGkQsDBSAAAAAElFTkSuQmCC) repeat;}
+  background: rgba(0, 0, 0, 0.7) url("") repeat;
+}
 
 
 .copy{
   position:absolute; 
   top:50%; 
-  height:10em; 
-  margin-top:-5em; 
+  height:10em;
+  margin-top:-10em;
   width:100%;
 }
 
@@ -704,3 +715,63 @@ p{
 }
 
 
+.form-group{
+	/*background-color:red;*/
+	padding: .25em 1em;
+	width: 100%;
+}
+.form-subgroup{
+	/*background-color:yellow;*/
+	display: inline-block;
+	width: 100%;
+	text-align: left;
+}
+.formText{
+	font-weight: bold;
+
+}
+.one-third{
+	width: 33%;
+}
+.half{
+	width: 49.75%;
+}
+.my-input{
+	background-color: #dee9ff;
+	border-radius: 525px ;
+	border: none;
+	width: 80%;
+	min-height: 40px;
+	padding: 0px 10px;
+}
+.formButton{
+	position: relative;
+  	top: 0;
+	transition: all 0.5s ease;
+	width: 300px; !important;
+	background-color: #43cae8; !important;
+	font-weight: bold; !important;
+}
+.formButton:hover{
+	/*background-color: #51eaf8; !important;*/
+	top: -5px;
+	color: #1f1f1f;
+	box-shadow: 0px 5px 18px #5ffdfd;
+}
+.formButton:active{
+	background-color: #43cae8; !important;
+}
+
+/*message*/
+.message_container{
+    border-style: solid;
+    padding: 2px;
+    border-width: 1.5px;
+    border-color: darkcyan;
+    border-radius: 4px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 2px;
+    max-width: 640px;
+    background-color: #e1efe7;
+}
