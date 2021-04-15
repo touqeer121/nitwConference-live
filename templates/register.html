@@ -9,7 +9,7 @@
 <section id="hero1" class="hero">
   <div class="inner">
     <div class="copy">
-    <h1>Register</h1>
+    <h1>Registration</h1>
     <p></p>
     </div>
   </div>
@@ -31,27 +31,40 @@
             <div class="col-sm-12 col-sm-offset-3">
                 <div id="uploadForm" class="well well-lg">
                     <formset>
-                        <form method="POST" enctype="multipart/form-data" action="../registration/">
+                        <form method="POST" enctype="multipart/form-data" action="../call_for_papers/">
                             {% csrf_token %}
                             <div class="form-group">
-                                    <label class="formText">Prefix</label><br>
-                                    <input type="text" name="prefix" id="prefix" required/>
+                                    <div class="form-subgroup one-third">
+                                        <label class="formText">Prefix</label><br>
+                                        <select class="my-input" id="prefix" name="prefix" required>
+                                          <option value="default" disabled="true" selected="true">Select...</option>
+                                          <option value="Prof Dr.">Prof Dr.</option>
+                                          <option value="Dr.">Dr.</option>
+                                          <option value="MSC.">MSC.</option>
+                                          <option value="MD.">MD.</option>
+                                          <option value="Mrs.">Mrs.</option>
+                                          <option value="Ms.">Ms.</option>
+                                          <option value="Mr.">Mr.</option>
+                                          <option value="Rev.">Rev.</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-subgroup one-third">
+                                        <label class="formText">First Name</label><br>
+                                        <input class="my-input" type="text" name="fname" id="fname" required/>
+                                    </div>
+                                    <div class="form-subgroup one-third">
+                                        <label class="formText">Second Name</label><br>
+                                        <input class="my-input" type="text" name="lname" id="lname" required/>
+                                    </div>
                             </div>
                             <div class="form-group">
-                                    <label class="formText">First Name</label><br>
-                                    <input type="text" name="fname" id="fname" required/>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Second Name</label><br>
-                                    <input type="text" name="lname" id="lname" required/>
-                            </div>
-                            <div class="form-group">
+                                <div class="form-subgroup half">
                                     <label class="formText">Institution</label><br>
-                                    <input type="text" name="institution" id="institution" required/>
-                            </div>
-                            <div class="form-group">
+                                    <input class="my-input" type="text" name="institution" id="institution" required/>
+                                </div>
+                                <div class="form-subgroup half">
                                     <label class="formText">Country</label><br>
-                                    <select id="country" name="country" required>
+                                    <select class="my-input" d="country" name="country" required>
                                       <option value="default" disabled="true" selected="true">Select...</option>
                                       <option value="Afganistan">Afghanistan</option>
                                       <option value="Albania">Albania</option>
@@ -300,35 +313,25 @@
                                       <option value="Zambia">Zambia</option>
                                       <option value="Zimbabwe">Zimbabwe</option>
                                     </select>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Corresponding Author's email</label><br>
-                                    <input type="email" name="email" id="email" required/>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Phone No. (with country code)</label><br>
-                                    <input type="text" name="phone" id="phone" required/>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Paper Title</label><br>
-                                    <input type="text" name="paper_title" id="paper_title" required/>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Abstarct</label><br>
-                                    <textarea rows="" cols="" name="abstract" id="abstract" required>
-                                  </textarea>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Keywords</label><br>
-                                    <input type="text" name="keywords" id="keywords" required/>
-                            </div>
-                            <div class="form-group">
-                                    <label class="formText">Term of Agreement</label><br>
-                                    <input type="checkbox" name="keywords" id="keywords" required/>I accept the terms of the following Copyright Agreement, and on submitting the full text paper for possible publication to ICMEF conference; I confirm, acknowledge and agree expressly to the terms and conditions of this copyright agreement. This copyright agreement prevails and is binding to the contributing author(s).
-                            </div>
-                                <div class="form-group">
-                                    <button class="formButton" type="submit">Sign Up</button>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-subgroup half">
+                                    <label class="formText">Corresponding Author's email</label><br>
+                                    <input class="my-input" type="email" name="email" id="email" required/>
+                                </div>
+                                <div class="form-subgroup half">
+                                    <label class="formText">Phone No. (with country code)</label><br>
+                                    <input class="my-input" type="text" name="phone" id="phone" required/>
+                                </div>
+                            </div>
+                            <div class="form-group form-subgroup">
+                                    <label class="formText">Term of Agreement</label><br>
+                                    <input style="width:5%; margin: auto" type="checkbox" name="keywords" id="keywords" required/>I accept the terms of the following Copyright Agreement, and on submitting the full text paper for possible publication to ICMEF conference; I confirm, acknowledge and agree expressly to the terms and conditions of this copyright agreement. This copyright agreement prevails and is binding to the contributing author(s).
+                            </div>
+                            <div class="form-group" style="text-align: left;">
+                                <button class="my-input formButton"  type="submit">Register</button>
+                            </div>
                         </form>
                         <!--
                         <div class="border-top pt-3">
