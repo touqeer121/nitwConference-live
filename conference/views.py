@@ -6,7 +6,19 @@ from django.contrib import messages
 def index(request):
     return render(request, 'home.html')
 
-def speakers(request):
+def about_conference(request):
+	return render(request, 'about_conference.html')
+
+def committee(request):
+	return render(request, 'committee.html')
+
+def deadlines(request):
+	return render(request, 'deadlines.html')
+
+def brochure(request):
+	return render(request, 'brochure.html')
+
+def keynote_speakers(request):
 	return render(request, 'speakers.html')
 
 def registration(request):
@@ -31,3 +43,12 @@ def call_for_papers(request):
 	print("GET method")
 	# messages.success(request, "TESTING")
 	return render(request, 'online_submission.html')
+
+def abstract_format(request):
+	return render(request, 'abstract_format.html')
+
+def full_paper_format(request):
+	return render(request, 'full_paper_format.html')
+
+def review_process(request):
+	return render(request, 'review_process.html')

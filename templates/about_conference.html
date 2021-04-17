@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}About Conference{% endblock title %}
+{% load static %}
+{% block scripts %}
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+{% endblock scripts %}
+{% block content %}
+{#	<header>#}
+{#  <a href="#" id="logo">Logo</a>#}
+{#</header> #}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
+    <h1 style="margin-bottom:25px ;">About Conference</h1>
+    <div class="inner">
+        <p class="my-content">
+            Chapman University California, Howard University Washington and National Institute of Technology Warangal are
+            organizing its first Global Conference on Innovations in Management and Business during July 27th and 28th,
+            2021. The conference aims to bring together academia, researchers, and scholars to exchange information and
+            share experiences and research results about all aspects of specialized and interdisciplinary fields.
+        </p>
+
+        <div class="container mt-2">
+          <div class="row" style="margin:125px auto 50px">
+            <div class="col-md-4 col-sm-6 my-item">
+                <div class="my-card my-item-card my-card-block">
+                <img src="{% static 'images/chapman.png' %}"  style="width:300px;height:55px;">
+                {#                  <h5 class="my-card-title mt-3 mb-3">A chance to present</h5>#}
+                </div>
+            </div>
+                <div class="col-md-4 col-sm-6 my-item">
+                <div class="my-card my-item-card my-card-block">
+                <img src="{% static 'images/harward.png' %}" style="width:300px;height:75px;" />
+                {#                  <h5 class="my-card-title mt-3 mb-3">A chance to present</h5>#}
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 my-item">
+                <div class="my-card my-item-card my-card-block">
+                <img src="{% static 'images/nitw.png' %}" style="width:350px;height:65px;" />
+                {#                  <h5 class="my-card-title mt-3 mb-3">A chance to present</h5>#}
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

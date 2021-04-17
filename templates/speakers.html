@@ -1,33 +1,92 @@
 {% extends 'base.html' %}
 {% block title %}Speakers{% endblock title %}
 {% load static %}
+{% block scripts %}
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+{% endblock scripts %}
 {% block content %}
 {# 	<header>
   <a href="#" id="logo">Logo</a>
 </header> #}
 
 <section id="hero1" class="hero">
-  <div class="inner">
-    <div class="copy">
-    <h1>Speakers</h1>
-    <p></p>
-    </div>
+  <div class="inner-other">
   </div>
 </section>
 
-<section class="content">
-  <div class="inner">
-    <div class="copy">
-    <h1>Conference Themes and Topics</h1>
-    <p>The conference is seeking submissions related to the following conference topics: Management, Economics, Business, Finance. Other related tracks and topics will also be considered.
-
-	Submitted abstracts will be evaluated by the Scientific Committee. If abstract is accepted, author agrees to send full text paper, including results, tables, figures and references. All submissions should report original and previously unpublished research results no matter the type of research paper you are presenting. Full text papers (.docx and .doc) will be accepted by Electronic Submission Form. Manuscripts should meet the format set by the Conference committee and are subject to review.</p>
+<section class="content" style="text-align: center; margin: 0 auto">
+<h1 style="margin-bottom:50px ;">Keynote Speakers</h1>
+    <div class="card mb-3" style="max-width: 940px;margin: 0 auto;">
+      <div class="row no-gutters" >
+        <div class="col-md-4 custom-bg">
+          <img src="{% static 'images/profile_pic.png' %}" class="card-img my-card-img" alt="...">
+        </div>
+        <div class="col-md-8 custom-bg">
+          <div class="card-body">
+            <h5 class="card-title">Dr. ABC</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+           <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+                    <ul class="list-unstyled list-inline social text-center">
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-facebook fa-2x" style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-linkedin fa-2x" style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href="" target="_blank"><i class="fa fa-envelope fa-2x" style="color: #43cae8"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <div class="card mb-3" style="max-width: 940px;margin: 0 auto;">
+      <div class="row no-gutters" >
+        <div class="col-md-4 custom-bg">
+          <img src="{% static 'images/profile_pic.png' %}" class="card-img my-card-img" alt="...">
+        </div>
+        <div class="col-md-8 custom-bg">
+          <div class="card-body">
+            <h5 class="card-title">Dr. PQR</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+           <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+                    <ul class="list-unstyled list-inline social text-center">
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-facebook fa-2x" style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-linkedin fa-2x" style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href="" target="_blank"><i class="fa fa-envelope fa-2x" style="color: #43cae8"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-3" style="max-width: 940px;margin: 0 auto;">
+      <div class="row no-gutters" >
+        <div class="col-md-4 custom-bg">
+          <img src="{% static 'images/profile_pic.png' %}" class="card-img my-card-img" alt="...">
+        </div>
+        <div class="col-md-8 custom-bg">
+          <div class="card-body">
+            <h5 class="card-title">Dr. XYZ</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+           <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+                    <ul class="list-unstyled list-inline social text-center">
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-facebook fa-2x"style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href=""><i class="fa fa-linkedin fa-2x"style="color: #43cae8"></i></a></li>
+                        <li class="list-inline-item my-margin"><a href="" target="_blank"><i class="fa fa-envelope fa-2x" style="color: #43cae8"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 </section>
 
 
-<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
 
 {% endblock content %}

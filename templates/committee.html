@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}Committee{% endblock title %}
+{% load static %}
+{% block scripts %}
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+{% endblock scripts %}
+{% block content %}
+{#	<header>#}
+{#  <a href="#" id="logo">Logo</a>#}
+{#</header> #}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
+    <h1 style="margin-bottom:25px ;">Committee</h1>
+    <div class="row" style="margin-top: 2%;">
+        <div class="container mt-2">
+          <div class="row">
+            <div class="col-md-4 col-sm-6 my-item">
+                <a href="https://www.chapman.edu/business/index.aspx" target="_blank">
+                <div class="my-card my-item-card my-card-block">
+                    <img src="{% static 'images/arg_bs.jpg' %}" />
+                    <h5 class="my-card-title mt-3 mb-3">Argyros School of Business & Economics</h5>
+                    <p class="my-card-text">Chapman University, Orange, California, 92866</p>
+                    <img src="{% static 'images/chapman.png' %}" style="width:300px;height:55px;" />
+                </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-6 my-item">
+                <a href="https://www.hbs.edu/Pages/default.aspx" target="_blank">
+              <div class="my-card my-item-card my-card-block">
+                <img src="{% static 'images/harward_bs.jfif' %}" />
+                  <h5 class="my-card-title  mt-3 mb-3">Howard University School of Business</h5>
+                <p class="my-card-text">2600 6th St NW, Washington, D.C. 20059</p>
+                  <img src="{% static 'images/harward.png' %}" style="width:300px;height:75px;" />
+             </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-sm-6 my-item">
+                <a href="https://www.nitw.ac.in/department/sm/" target="_blank">
+                <div class="my-card my-item-card my-card-block">
+                <img src="{% static 'images/sm_bs.jfif' %}" />
+                  <h5 class="my-card-title  mt-3 mb-3">School of Management</h5>
+                <p class="my-card-text">National Institute of Technology Warangal</p>
+                    <img src="{% static 'images/nitw.png' %}" style="width:350px;height:65px;" />
+                </div>
+                </a>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}
