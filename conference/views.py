@@ -24,6 +24,12 @@ def keynote_speakers(request):
 def registration(request):
 	return render(request, 'register.html')
 
+def early_bird(request):
+	return render(request, 'early-bird.html')
+
+def non_early(request):
+	return render(request, 'non-early.html')
+
 def call_for_papers(request):
 	if(request.method=="POST"):
 		ppr = Paper.objects.create(paper_title=request.POST['paper_title'], submission_date=datetime.datetime.now())
@@ -52,3 +58,6 @@ def full_paper_format(request):
 
 def review_process(request):
 	return render(request, 'review_process.html')
+
+def contact_us(request):
+	return render(request, 'contact_us.html')
