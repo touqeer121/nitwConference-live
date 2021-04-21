@@ -31,6 +31,21 @@
 			}
 	});
 
+	var btns = $(".nav-item .nav-link");
+
+	for (var i = 0; i < btns.length; i++) {
+		console.log("btn"+i+"=>");
+		btns[i].addEventListener("click",function () {
+			var current = document
+				.getElementsByClassName("active");
+			console.log("called!!",event.target);
+			current[0].className = current[0]
+				.className.replace(" active", "");
+
+			this.className += " active";
+		});
+	}
+
 	//Switch light/dark
 
 	$("#switch").on('click', function () {
@@ -105,3 +120,27 @@ $(document).ready(function() {
 });
 
 //timeline Ended
+//SHRINK FONT WITH SCREEN
+const [viewportWidth,fontSizeRem,fontSizePx] = document.querySelectorAll("h1");
+
+function calculate(){
+  viewportWidth.innerText = `Viewport Width: ${window.innerWidth}px`;
+
+  fontSizeRem.innerText = `Font Size (rem): ${Number(window.getComputedStyle(viewportWidth).fontSize.slice(0, -2)) / 16}rem`;
+
+  fontSizePx.innerText = `Font Size (px): ${window.getComputedStyle(viewportWidth).fontSize}`;
+
+  if(window.innerWidth >= 840 || window.innerWidth <= 360){
+    fontSizePx.classList.add("red");
+    fontSizeRem.classList.add("red");
+  }else{
+    fontSizePx.classList.remove("red");
+    fontSizeRem.classList.remove("red");
+  }
+}
+
+window.addEventListener("resize", () => {
+  calculate();
+});
+
+calculate();

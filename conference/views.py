@@ -60,4 +60,20 @@ def review_process(request):
 	return render(request, 'review_process.html')
 
 def contact_us(request):
+	if request.method == 'POST':
+		print('Contact us message recieved.')
+		newMessage = ContactUsMessage()
+		newMessage.sender_name = request.POST['fullName']
+		newMessage.email = request.POST['email']
+		# newMessage.phone = request.POST['phone']
+		newMessage.subject = request.POST['subject']
+		newMessage.message = request.POST['message']
+		# superuser = CustomUser.objects.filter(is_superuser=True).first()
+		# superuser.notifications = superuser.notifications + 1
+		# superuser.noti_messages = superuser.noti_messages + '<li> New message has arrived in inbox </li>'
+		# superuser.save()
+		newMessage.save()
+		messages.add_message(request, messages.INFO, 'Your Message has been sent. We will email you back soon.')
+		return redirect('/contact_us')
+	# print('Contact us message ERROR.')
 	return render(request, 'contact_us.html')

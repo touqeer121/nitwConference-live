@@ -1,5 +1,5 @@
     {% extends 'base.html' %}
-{% block title %}Early-Bird Registration{% endblock title %}
+{% block title %}Non-Early Registration{% endblock title %}
 {% load static %}
 {% block content %}
 
@@ -9,7 +9,7 @@
 </section>
 
 <section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
-    <h1 style="margin-bottom:0 ;">Early-Bird Registration</h1>
+    <h1 style="margin-bottom:0 ;">Non-Early Registration</h1>
   <div class="inner">
     <div class="container" style="min-width:min-content;margin-bottom: 8%">
         {% for field in form %}
@@ -324,10 +324,10 @@
                             <label class="formText">Status</label><br>
                             <select class="my-input" id="status" name="status" required>
                               <option value="default" disabled="true" selected="true">Select...</option>
-                              <option value="Academicians">Academician (₹ 1600 / $ 40)</option>
-                              <option value="Doctoral Students">Doctoral Student (₹ 1000 / $ 30)</option>
-                              <option value="Industry Professionals">Industry Professional (₹ 2000 / $ 50)</option>
-                              <option value="Masters Students">Masters Student (₹ 500 / $ 15)</option>
+                              <option value="Academicians">Academician (₹ 2000 / $ 50)</option>
+                              <option value="Doctoral Students">Doctoral Student (₹ 1500 / $ 40)</option>
+                              <option value="Industry Professionals">Industry Professional (₹ 2500 / $ 60)</option>
+                              <option value="Masters Students">Masters Student (₹ 600 / $ 20)</option>
                               <option value="Listeners">Listener (₹ 600 / $ 20)</option>
                             </select>
                         </div>
@@ -351,17 +351,10 @@
     {#                            <label class="formText">Term of Agreement</label><br>#}
     {#                            <input style="width:5%; margin: auto" type="checkbox" name="keywords" id="keywords" required/>I accept the terms of the following Copyright Agreement, and on submitting the full text paper for possible publication to ICMEF conference; I confirm, acknowledge and agree expressly to the terms and conditions of this copyright agreement. This copyright agreement prevails and is binding to the contributing author(s).#}
     {#                    </div>#}
-                    <div class="form-group" >
+                    <div class="form-group">
                         <button class="my-input formButton"  type="submit">Register</button>
                     </div>
                 </form>
-                <!--
-                <div class="border-top pt-3">
-                    <small class="text-muted">
-                        Already Have An Account? <a class="ml-2" href="/login">Sign In</a>
-                    </small>
-                </div>
-              -->
             </formset>
             <br>
         </div>

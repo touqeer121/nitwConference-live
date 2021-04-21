@@ -1,8 +1,18 @@
 /* Footer */
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
-@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext');
-@import url("https://fonts.googleapis.com/css?family=Dosis");
-
+/*@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext');*/
+/*@import url("https://fonts.googleapis.com/css?family=Dosis");*/
+html,body
+{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow-x: hidden;
+}
+html{
+	font-family: 'Rajdhani', sans-serif;!important;
+}
 section {
     padding: 60px 0;
 }
@@ -129,7 +139,7 @@ body{
 }
 .navigation-wrap{
 	position: fixed;
-	width: 100%;
+	width: 100%; !important;
 	top: 0;
 	left: 0;
 	z-index: 1000;
@@ -242,6 +252,7 @@ body{
     position: relative;
 	width: 100%;
 	display: block;
+	overflow-x: hidden;
 }
 .full-height {
     height: 100vh;
@@ -631,27 +642,27 @@ html, body{
 
 header{
   z-index: 1;
-  position:fixed; 
-  width:100%; 
-  height:60px; 
+  position:fixed;
+  width:100%;
+  height:60px;
   background:rgba(0,0,0,0.1);
 }
 
 header a{
   color:white;
-  background:rgba(0,0,0,0.1); 
-  display:inline-block; 
-  padding:0px 30px; 
+  background:rgba(0,0,0,0.1);
+  display:inline-block;
+  padding:0px 30px;
   height:60px;
-  line-height:60px; 
+  line-height:60px;
   text-align:center;
   text-decoration:none;
-  text-transform:uppercase; 
-  letter-spacing:2px; 
+  text-transform:uppercase;
+  letter-spacing:2px;
   font-weight:700;
 }
 #hero1{
- background:url(http://www.pholaz.com/wp-content/uploads/2016/10/Premium-Seminar-Promotions.jpg);
+ background:url('/static/images/conf.jpg');
   background-size:cover;
   background-position:center center;
 	background-position-y: bottom;
@@ -663,18 +674,19 @@ header a{
   background-attachment:fixed;
 }
 .hero, .content{
-  text-align:center; 
+  text-align:center;
   position:relative;
   width: 100%;
 }
 
 .inner{
-  	min-height:300px;
+  	min-height:400px;
 	width: 80%;
 	margin: auto;
   	position: relative;
 	/*display: block;*/
 	/*overflow: auto;*/
+	/*background: red;*/
 }
 .my-inner{
   	min-height:300px;
@@ -707,11 +719,13 @@ header a{
 
 
 .copy{
-  position:absolute; 
-  top:50%;
-  height:10em;
-  margin-top:-5em;
+  position:absolute;
+  top:12%;
+  /*height:10em;*/
+  /*margin-top:-5em;*/
   width:100%;
+	padding: 1em 5%;
+	/*background: yellow;*/
 }
 
 .hero h1, .hero p{
@@ -724,14 +738,12 @@ header a{
 
 h1{
   margin:0px;
-  font-family: 'Roboto Slab', serif;
   font-weight:400;
   font-size:32px;
   padding:0px 20px;
 }
 
 p{
-  font-family: 'Noto Sans', sans-serif; 
   font-size:14px;
   padding:0px 20px;
 }
@@ -741,9 +753,11 @@ p{
 	/*background-color:red;*/
 	padding: .25em 1em;
 	width: 100%;
+	/*text-align: center;*/
 }
 .form-subgroup{
 	/*background-color:yellow;*/
+	padding: .25em 1em;
 	display: inline-block;
 	width: 100%;
 	text-align: left;
@@ -774,22 +788,23 @@ p{
 	background-color: #dee9ff;
 	border-radius: 25px ;
 	border: none;
-	width: 90%;
+	width: 100%;
 	min-height: 40px;
 	padding: 0px 10px;
 }
 .formButton{
 	position: relative;
-  	top: 0;
 	transition: all 0.5s ease;
-	width: 300px;
 	background-color: #43cae8; !important;
 	font-weight: bold; !important;
 	border-style: none; !important;
 	border-radius: 25px; !important;
 	font-size: 20px; !important;
-	padding: 5px;
+	padding: 5px 15px	;
 	color: #1f1f1f;
+	width: 60%;
+	min-width: 100px;
+	max-width: 400px;
 }
 .formButton:hover{
 	/*background-color: #51eaf8; !important;*/
@@ -1009,40 +1024,22 @@ img{
 }
 
 
-@media (max-width:767px){
-	.half2{
-		width: 100%;
-	}
-	.half{
-		width: 100%;
-	}
-	.one-third{
-		width: 100%;
-	}
-	.left, .right{
-		text-align: center;
-	}
-	.inner{
-		width: 90%;
-	}
-}
-
-@media (max-width:1252px){
-	.inner{
-		min-height:380px;
-	}
-	.copy{
-		top:40%;
-	}
-}
-@media (max-width:835px){
-	.inner{
-		min-height:440px;
-	}
-	.copy{
-		top:30%;
-	}
-}
+/*@media (max-width:1252px){*/
+/*	.inner{*/
+/*		min-height:380px;*/
+/*	}*/
+/*	.copy{*/
+/*		!*top:40%;*!*/
+/*	}*/
+/*}*/
+/*@media (max-width:835px){*/
+/*	.inner{*/
+/*		min-height:440px;*/
+/*	}*/
+/*	.copy{*/
+/*		!*top:30%;*!*/
+/*	}*/
+/*}*/
 
 
 /* Timeline start*/
@@ -1342,8 +1339,8 @@ img{
     margin-bottom: 10px;
     }
 	.my-card-img{
-		height: 400px !important;
-		width: 400px !important;
+		max-height: 400px !important;
+		max-width: 400px !important;
 	}
 	.left-A , .left-B, .left-C, .left-D{
 		margin-left: 10%;
@@ -1364,7 +1361,6 @@ img{
 	 text-align: center;
 }
  h1 {
-	 font-family: Dosis;
 	 color: #03415f;
 	 text-align: center;
 	 font-size: 3em;
@@ -1422,7 +1418,6 @@ img{
 	 background: #fff;
 }
  .timeline .event h2 {
-	 font-family: Dosis;
 	 position: relative;
 	 z-index: 1;
 }
@@ -1433,7 +1428,6 @@ img{
 	 top: 50px;
 	 left: calc(50% - 15px);
 	 font-size: 30px;
-	 font-family: "FontAwesome";
 	 color: #0684c2;
 	 opacity: 0.1;
 	 z-index: 0;
@@ -1517,4 +1511,65 @@ table{
 td{
 	text-align: left;
 	font-size: 20px;
+}
+/** {*/
+/*  background: #000 !important;*/
+/*  color: #0f0 !important;*/
+/*  outline: solid #f00 1px !important;*/
+/*!*}*!*/
+/*html{*/
+/*	padding: 0;*/
+/*	margin: 0;*/
+/*}*/
+
+#gc{
+	font-size: clamp(1.25rem,  0.1000rem + 4.0000vw, 2rem);
+	color: white;
+}
+
+#imb{
+	/*font-size: clamp(2.5rem, 0.1000rem + 4.0000vw, 5rem);*/
+	font-size: clamp(2rem, 1.5593rem + 2.7119vw, 4rem);
+}
+
+#date1, #date2{
+	font-size: clamp(1rem, 0.1000rem + 3.0000vw, 1.5rem);
+	/*font-size:24px; */
+	color: #43cae8;
+	font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+	/*font-weight: bold;*/
+	/*font-style: italic;*/
+}
+#mainButtons{
+	font-size:clamp(1rem, 0.1000rem + 3.0000vw, 1.5rem);
+	text-align: right;
+	margin-top: 3%;
+	display: inline-block;
+}
+
+@media (max-width:767px){
+	.half2{
+		width: 100%;
+	}
+	.half{
+		width: 100%;
+	}
+	.one-third{
+		width: 100%;
+	}
+	.left, .right{
+		text-align: center;
+	}
+	.inner{
+		/*width: 90%	;*/
+		/*min-height: 500px;*/
+	}
+	.copy{
+		top:10%;
+	}
+	#mainButtons{
+		text-align: center;
+		margin-top: 5%;
+		display: block;
+	}
 }
