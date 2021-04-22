@@ -101,7 +101,7 @@ body{
 	background-position: center;
 	background-repeat: repeat;
 	background-size: 7%;
-	background-color: #fff;
+	background-color: white;
 	overflow-x: hidden;
     transition: all 200ms linear;
 }
@@ -461,33 +461,7 @@ body.hero-anime #switch{
 	max-height: 999px;
     transform: translate3d(0, 0px, 0);
 }
-.dropdown-menu {
-	padding: 10px!important;
-	margin: 0;
-	font-size: 13px;
-	letter-spacing: 1px;
-	color: #212121;
-	background-color: #fcfaff;
-	border: none;
-	border-radius: 3px;
-	box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.15);
-    transition: all 200ms linear;
-}
-.dropdown-toggle::after {
-	display: none;
-}
 
-.dropdown-item {
-	padding: 3px 15px;
-	color: #212121;
-	border-radius: 2px;
-    transition: all 200ms linear;
-}
-.dropdown-item:hover,
-.dropdown-item:focus {
-	color: #fff;
-	background-color: rgba(129,103,169,.6);
-}
 
 body.dark{
 	color: #fff;
@@ -689,7 +663,7 @@ header a{
 	/*background: red;*/
 }
 .my-inner{
-  	min-height:300px;
+  	min-height:100px;
 	width: 80%;
 	margin: auto;
   	position: relative;
@@ -720,7 +694,7 @@ header a{
 
 .copy{
   position:absolute;
-  top:12%;
+  top:10%;
   /*height:10em;*/
   /*margin-top:-5em;*/
   width:100%;
@@ -1357,7 +1331,7 @@ img{
 }
  body {
 	 font-family: Rajdhani;
-	 margin: 1em 0;
+	 /*margin: 1em 0;*/
 	 text-align: center;
 }
  h1 {
@@ -1572,4 +1546,50 @@ td{
 		margin-top: 5%;
 		display: block;
 	}
+}
+.dropdown-menu {
+	padding: 10px!important;
+	margin: 0;
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #ffffff;
+	background-color: #1f1f1f;
+	border: none;
+	border-radius: 3px;
+	box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.15);
+    transition: all 0.25s linear;
+}
+.dropdown-toggle::after {
+	display: none;
+}
+
+.dropdown-item {
+	padding: 3px 15px;
+	color: #ffffff; !important;
+	border-radius: 0px;
+    transition: all 0.25s linear;
+	font-size: 16px;
+	border-bottom: 0px solid #1f1f1f;
+	padding-bottom: 10px;
+}
+.dropdown-item:hover{
+	color: #43cae8;
+	background-color: #1f1f1f;
+	border-bottom: 3px solid #43cae8;
+	padding-bottom: 2px;
+}
+.dropdown-item:focus{
+	color: #ffffff;
+	background: #1f1f1f;
+}
+
+.rotate {
+    -moz-transition: all .25s linear;
+    -webkit-transition: all .25s linear;
+    transition: all .25s linear;
+}
+.rotate.down {
+    -moz-transform:rotate(90deg);
+    -webkit-transform:rotate(90deg);
+    transform:rotate(90deg);
 }

@@ -6,18 +6,20 @@
     <title>GCIMB | {% block title %}
 
     {% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link rel = "icon" href = "{% static 'images/gcimb logo.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500&display=swap" rel="stylesheet">
-    <link rel = "icon" href = "{% static 'images/gcimb logo.png' %}">
     <script src="https://use.fontawesome.com/736e0c0335.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"></script>
     {% block scripts %}
     {% endblock scripts %}
 </head>
@@ -40,8 +42,13 @@
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/' %}active{% endif %}">
 									<a class="nav-link " href="/">Home</a>
 								</li>
-								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../cenference_information/" role="button" aria-haspopup="true" aria-expanded="false">Conference Information</a>
+								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
+                                    {% if request.path == '/about_conference/' or request.path == '/committee/' or request.path == '/deadlines/' or request.path == '/brochure/'%}
+                                        active
+                                    {% endif %}">
+                                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../cenference_information/"
+                                       role="button" aria-haspopup="true" aria-expanded="false" onclick='ci_dropdown()'>
+                                        Conference Information <div id="ci" class="fas fa-angle-right rotate"></div></a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="../about_conference">About Conference</a>
 										<a class="dropdown-item" href="../committee">Committee</a>
@@ -54,8 +61,13 @@
 									<a class="nav-link" href="../keynote_speakers/">Keynote Speakers</a>
 								</li>
 
-								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Author's Guidelines</a>
+								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
+                                    {% if request.path == '/call_for_papers/' or request.path == '/abstract_format/' or request.path == '/full_paper_format/' or request.path == '/review_process/'%}
+                                        active
+                                    {% endif %}">
+									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                       aria-haspopup="true" aria-expanded="false" onclick='ag_dropdown()'>
+                                        Author's Guidelines <div id="ag" class="fas fa-angle-right rotate"></div></a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="../call_for_papers">Call For Papers</a>
 										<a class="dropdown-item" href="../abstract_format">Abstract Format</a>

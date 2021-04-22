@@ -144,3 +144,17 @@ window.addEventListener("resize", () => {
 });
 
 calculate();
+
+$(document).ready(function() {
+    $('#ag').click(function() {
+    	console.log("HELLOWW")
+        $(this).toggleClass("down");
+    })
+});
+
+function ci_dropdown() {
+	arrow = $("#ci").toggleClass("down")
+}
+function ag_dropdown() {
+	arrow = $("#ag").toggleClass("down")
+}
