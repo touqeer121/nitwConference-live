@@ -1481,7 +1481,7 @@ img{
 table{
 	text-align: center;
 }
-td{
+th, td{
 	text-align: left;
 	font-size: 20px;
 }
@@ -1498,6 +1498,7 @@ td{
 #gc{
 	font-size: clamp(1.25rem,  0.1000rem + 4.0000vw, 2rem);
 	color: white;
+	padding: 0 20px;
 }
 
 #imb{

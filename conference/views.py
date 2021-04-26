@@ -53,7 +53,7 @@ def call_for_papers(request):
 	# messages.success(request, "TESTING")
 	return render(request, 'online_submission.html')
 
-def abstract_format(request):
+def abstract_submission(request):
 	return render(request, 'abstract_format.html')
 
 def publication_opportunities(request):
