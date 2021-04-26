@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Who Can Join{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    <div>
+        <h1 style="display:inline-block ;">Publication Opportunities</h1>
+        <img class="headIcon"  src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIC0yIDUxMiA1MTIiIHdpZHRoPSI1MTJwdCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNDg4IDI2OC43MjY1NjJoLTIyNHYtMjRjLS4wMjczNDQtMjIuMDc4MTI0LTE3LjkxNzk2OS0zOS45NzI2NTYtNDAtNDBoLTE4OGMtMTEuMDQ2ODc1IDAtMjAtOC45NTMxMjQtMjAtMjAgMC0xMS4wNDI5NjggOC45NTMxMjUtMjAgMjAtMjBoMjgyLjA2MjVjMjMuODY3MTg4LjA2NjQwNyA0Ni43NjU2MjUtOS40MjE4NzQgNjMuNTkzNzUtMjYuMzQzNzVsLTExLjMxMjUtMTEuMzEyNWMtMTMuODM1OTM4IDEzLjkxNDA2My0zMi42NjAxNTYgMjEuNzEwOTM4LTUyLjI4MTI1IDIxLjY1NjI1aC0yODIuMDYyNWMtMTkuODgyODEyIDAtMzYgMTYuMTIxMDk0LTM2IDM2IDAgMTkuODgyODEzIDE2LjExNzE4OCAzNiAzNiAzNmgxODhjMTMuMjUzOTA2IDAgMjQgMTAuNzQ2MDk0IDI0IDI0djI0aC0yMjRjLTEzLjI1MzkwNiAwLTI0IDEwLjc0NjA5NC0yNCAyNHYxOTJjMCAxMy4yNTc4MTMgMTAuNzQ2MDk0IDI0IDI0IDI0aDQ2NGMxMy4yNTM5MDYgMCAyNC0xMC43NDIxODcgMjQtMjR2LTE5MmMwLTEzLjI1MzkwNi0xMC43NDYwOTQtMjQtMjQtMjR6bTggMjE2YzAgNC40MTc5NjktMy41ODIwMzEgOC04IDhoLTQ2NGMtNC40MTc5NjkgMC04LTMuNTgyMDMxLTgtOHYtMTkyYzAtNC40MTc5NjggMy41ODIwMzEtOCA4LThoNDY0YzQuNDE3OTY5IDAgOCAzLjU4MjAzMiA4IDh6bTAgMCIvPjxwYXRoIGQ9Im00MTYgNDc2LjcyNjU2Mmg2NHYtMTEyaC02NHptMTYtOTZoMzJ2ODBoLTMyem0wIDAiLz48cGF0aCBkPSJtMzc2IDQyOC43MjY1NjJoLTI1NmMtMTMuMjUzOTA2IDAtMjQgMTAuNzQ2MDk0LTI0IDI0IDAgMTMuMjU3ODEzIDEwLjc0NjA5NCAyNCAyNCAyNGgyNTZjMTMuMjUzOTA2IDAgMjQtMTAuNzQyMTg3IDI0LTI0IDAtMTMuMjUzOTA2LTEwLjc0NjA5NC0yNC0yNC0yNHptMCAzMmgtMjU2Yy00LjQxNzk2OSAwLTgtMy41ODIwMzEtOC04IDAtNC40MTc5NjggMy41ODIwMzEtOCA4LThoMjU2YzQuNDE3OTY5IDAgOCAzLjU4MjAzMiA4IDggMCA0LjQxNzk2OS0zLjU4MjAzMSA4LTggOHptMCAwIi8+PHBhdGggZD0ibTMyIDQ3Ni43MjY1NjJoNDh2LTQ4aC00OHptMTYtMzJoMTZ2MTZoLTE2em0wIDAiLz48cGF0aCBkPSJtMzIgNDEyLjcyNjU2Mmg0OHYtNDhoLTQ4em0xNi0zMmgxNnYxNmgtMTZ6bTAgMCIvPjxwYXRoIGQ9Im0xNDQgMzY0LjcyNjU2MmgtNDh2NDhoNDh6bS0xNiAzMmgtMTZ2LTE2aDE2em0wIDAiLz48cGF0aCBkPSJtMjA4IDM2NC43MjY1NjJoLTQ4djQ4aDQ4em0tMTYgMzJoLTE2di0xNmgxNnptMCAwIi8+PHBhdGggZD0ibTI3MiAzNjQuNzI2NTYyaC00OHY0OGg0OHptLTE2IDMyaC0xNnYtMTZoMTZ6bTAgMCIvPjxwYXRoIGQ9Im0zMzYgMzY0LjcyNjU2MmgtNDh2NDhoNDh6bS0xNiAzMmgtMTZ2LTE2aDE2em0wIDAiLz48cGF0aCBkPSJtMzUyIDQxMi43MjY1NjJoNDh2LTQ4aC00OHptMTYtMzJoMTZ2MTZoLTE2em0wIDAiLz48cGF0aCBkPSJtMzIgMzQ4LjcyNjU2Mmg0OHYtNDhoLTQ4em0xNi0zMmgxNnYxNmgtMTZ6bTAgMCIvPjxwYXRoIGQ9Im0xNDQgMzAwLjcyNjU2MmgtNDh2NDhoNDh6bS0xNiAzMmgtMTZ2LTE2aDE2em0wIDAiLz48cGF0aCBkPSJtMjA4IDMwMC43MjY1NjJoLTQ4djQ4aDQ4em0tMTYgMzJoLTE2di0xNmgxNnptMCAwIi8+PHBhdGggZD0ibTI3MiAzMDAuNzI2NTYyaC00OHY0OGg0OHptLTE2IDMyaC0xNnYtMTZoMTZ6bTAgMCIvPjxwYXRoIGQ9Im0zMzYgMzAwLjcyNjU2MmgtNDh2NDhoNDh6bS0xNiAzMmgtMTZ2LTE2aDE2em0wIDAiLz48cGF0aCBkPSJtMzUyIDM0OC43MjY1NjJoMTI4di00OGgtMTI4em0xNi0zMmg5NnYxNmgtOTZ6bTAgMCIvPjxwYXRoIGQ9Im00OCAyMzYuNzI2NTYyaDgwdjE2aC04MHptMCAwIi8+PHBhdGggZD0ibTI4MCAyMjAuNzI2NTYyaDE2djMyaC0xNnptMCAwIi8+PHBhdGggZD0ibTE0NCAyMzYuNzI2NTYyaDQ4djE2aC00OHptMCAwIi8+PHBhdGggZD0ibTE2MCAxMTYuNzI2NTYyaDE2djE2aC0xNnptMCAwIi8+PHBhdGggZD0ibTIwOCAxMTYuNzI2NTYyaDgwdjE2aC04MHptMCAwIi8+PHBhdGggZD0ibTQzMi4xNjc5NjkgMjIwLjU5Mzc1IDc2LjcyNjU2Mi0yMjAuNTkzNzUtMjMwLjE5MTQwNiA3Ni43MjY1NjIgMTE1LjEwNTQ2OSAzOC40MDIzNDR6bS0uMzM1OTM4LTQ3LjczMDQ2OS0yMi41NzQyMTktNjIuMDc4MTI1IDY3LjcyNjU2My02Ny43MzA0Njh6bTM0LjU2NjQwNy0xNDEuODI0MjE5LTY4LjU1ODU5NCA2OC41MzUxNTctNjguNTQyOTY5LTIyLjg0NzY1N3ptMCAwIi8+PC9zdmc+" />
+    </div>
+    <div class="my-main-container">
+        <p class="my-content">
+            All the selected papers after necessary incorporations are made as per suggestions will be considered to be
+            published in a conference proceedings volume by reputed publishers. Select papers will also be considered
+            for review in some of the prestigious journals that would collaborate with the conference.
+        </p>
+        <br>
+        <p class="my-content">
+            <b>
+                Details of the journals:
+            </b>
+        </p>
+        <p class="my-content">
+            Will be announced soon.
+        </p>
+    </div>
+
+</section>
+
+
+<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+
+{% endblock content %}

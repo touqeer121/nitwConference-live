@@ -25,13 +25,20 @@
 </head>
 <body>
 
-<div class="navigation-wrap custom-bg-light start-header start-style">
+<div id="myNavbar" class="navigation-wrap custom-bg-light start-header start-style">
 		<div class="container">
 			<div class="row">
 				<div class="col-12">
 					<nav class="navbar navbar-expand-md navbar-dark">
                         <a class="navbar-brand" style="font-family: 'Rajdhani', sans-serif; font-size:32px;"
-                           href="/">G C <span style="color: #43cae8">I M B</span></a>
+                           href="/">
+                            <div style="display: inline-block">
+                                G C <span style="color: #43cae8">I M B</span>
+                            </div>
+                            <div style="display: inline-block; color: white!important;">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIC0xIDQ2Ni4xMDQgNDY2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0xOTQuMTA1NDY5IDQ0MC4zMTI1YzAgMTMuMjUzOTA2IDEwLjc0MjE4NyAyNCAyNCAyNGgzMmMxMy4yNTM5MDYgMCAyNC0xMC43NDYwOTQgMjQtMjR2LTQ4aC04MHptMCAwIiBmaWxsPSIjZWJlYmViIi8+PHBhdGggZD0ibTE1Ni40MDYyNSAzMDUuNTY2NDA2Yy02Ljk5NjA5NC00LjUwNzgxMi0xMy41OTM3NS05LjYxNzE4Ny0xOS43MTA5MzgtMTUuMjYxNzE4LTUuMjIyNjU2IDIwLjA4MjAzMS0yNC45NjA5MzcgMzIuODE2NDA2LTQ1LjQxMDE1NiAyOS4zMDA3ODEtMjAuNDUzMTI1LTMuNTE1NjI1LTM0LjgwNDY4Ny0yMi4xMDU0NjktMzMuMDI3MzQ0LTQyLjc4MTI1IDEuNzc3MzQ0LTIwLjY3NTc4MSAxOS4wOTM3NS0zNi41NDI5NjkgMzkuODQ3NjU3LTM2LjUxMTcxOSAxLjIyMjY1NiAwIDIuMzk4NDM3LjI1MzkwNiAzLjU2NjQwNi4zNTkzNzUtNy41ODIwMzEtMTcuODI0MjE5LTExLjQ5MjE4Ny0zNi45OTIxODctMTEuNDg4MjgxLTU2LjM1OTM3NWgtMTAuMTgzNTk0bC01LjUyNzM0NCAyNi4yOTI5NjljLS41NTA3ODEgMi42MjEwOTMtMi4zNzUgNC43OTI5NjktNC44NTkzNzUgNS43ODUxNTYtMi40ODgyODEuOTk2MDk0LTUuMzA0Njg3LjY3OTY4Ny03LjUwNzgxMi0uODM5ODQ0bC0yMi4xMDU0NjktMTUuMjM4MjgxLTI0IDI0IDE1LjE5OTIxOSAyMi4xMDE1NjJjMS41MTk1MzEgMi4yMDcwMzIgMS44MzU5MzcgNS4wMjM0MzguODM5ODQzIDcuNTA3ODEzLS45OTIxODcgMi40ODgyODEtMy4xNjQwNjIgNC4zMTI1LTUuNzgxMjUgNC44NTkzNzVsLTI2LjI1NzgxMiA1LjUzMTI1djMybDI2LjI4OTA2MiA1LjUyNzM0NGMyLjYxNzE4OC41NTA3ODEgNC43ODkwNjMgMi4zNzUgNS43ODUxNTcgNC44NTkzNzUuOTkyMTg3IDIuNDg0Mzc1LjY3NTc4MSA1LjMwNDY4Ny0uODQzNzUgNy41MDc4MTJsLTE1LjIzMDQ2OSAyMi4xMDU0NjkgMjQgMjQgMjIuMTA1NDY5LTE1LjIwMzEyNWMyLjIwMzEyNS0xLjUxOTUzMSA1LjAyMzQzNy0xLjgzOTg0NCA3LjUxMTcxOS0uODQzNzUgMi40ODgyODEuOTkyMTg3IDQuMzEyNSAzLjE2Nzk2OSA0Ljg2MzI4MSA1Ljc4OTA2M2w1LjUxOTUzMSAyNi4yNTc4MTJoMzJsNS41MTk1MzEtMjYuMjk2ODc1Yy41NTA3ODEtMi42MjUgMi4zNzUtNC43OTY4NzUgNC44NjMyODEtNS43ODkwNjMgMi40ODgyODItLjk5NjA5MyA1LjMwODU5NC0uNjc5Njg3IDcuNTExNzE5Ljg0Mzc1bDIyLjEwNTQ2OSAxNS4yNDIxODggMjUuMTEzMjgxLTI1LjExMzI4MWMtMi42MzI4MTItMTIuMjYxNzE5LTEwLjA5NzY1Ni0yMi45NDUzMTMtMjAuNzA3MDMxLTI5LjYzMjgxM3ptMCAwIiBmaWxsPSIjYzlkZmZmIi8+PHBhdGggZD0ibTM3OC4xMDU0NjkgMTg0LjMxMjVjLS4wMDc4MTMtNjkuMDQyOTY5LTQ5LjAxOTUzMS0xMjguMzY3MTg4LTExNi44MjAzMTMtMTQxLjM5ODQzOC02Ny44MDA3ODEtMTMuMDMxMjUtMTM1LjMxMjUgMjMuODkwNjI2LTE2MC45MTQwNjIgODguMDExNzE5LTI1LjYwMTU2MyA2NC4xMjEwOTQtMi4wOTM3NSAxMzcuMzkwNjI1IDU2LjAzNTE1NiAxNzQuNjQwNjI1IDEzLjMyMDMxMiA4LjI1NzgxMyAyMS41MDM5MDYgMjIuNzQ2MDk0IDIxLjY5OTIxOSAzOC40MTc5Njl2MzIuMzI4MTI1YzAgMTMuMjUzOTA2IDEwLjc0MjE4NyAyNCAyNCAyNGg2NGMxMy4yNTM5MDYgMCAyNC0xMC43NDYwOTQgMjQtMjR2LTMxLjY2NDA2MmMuMjAzMTI1LTE2LjA0Mjk2OSA4LjU1MDc4MS0zMC44Nzg5MDcgMjIuMTYwMTU2LTM5LjM3ODkwNyA0MS4wNzAzMTMtMjYuNTE1NjI1IDY1Ljg2NzE4Ny03Mi4wNzAzMTIgNjUuODM5ODQ0LTEyMC45NTcwMzF6bTAgMCIgZmlsbD0iI2ZmYjQxZiIvPjxwYXRoIGQ9Im00MjcuNjQ4NDM4IDk5LjY3OTY4OCAyNS4xNTIzNDMtMTguODYzMjgyLTI4LjgwMDc4MS0zOC40MDIzNDQtMjUuMTUyMzQ0IDE4Ljg2MzI4MmMtNS4xNzU3ODEgMy44Nzg5MDYtMTIuMTc5Njg3IDQuMjU3ODEyLTE3Ljc0NjA5NC45NjA5MzctNS41NjY0MDYtMy4yOTY4NzUtOC41OTc2NTYtOS42MjEwOTMtNy42ODc1LTE2LjAyMzQzN2w0LjQ0MTQwNy0zMS4xMTMyODItNDcuNTE5NTMxLTYuNzg5MDYyLTQuNDQxNDA3IDMxLjEwOTM3NWMtLjkxMDE1NiA2LjQxMDE1Ni01LjU5Mzc1IDExLjYzNjcxOS0xMS44NjMyODEgMTMuMjQyMTg3LTYuMjY5NTMxIDEuNjA5Mzc2LTEyLjg5MDYyNS0uNzE4NzUtMTYuNzczNDM4LTUuODk4NDM3bC0xOC44NTkzNzQtMjUuMTUyMzQ0LTM4LjM5ODQzOCAyOC44MDA3ODEgMTguODU1NDY5IDI1LjE1MjM0NGMzLjg3ODkwNiA1LjE3OTY4OCA0LjI1NzgxMiAxMi4xNzk2ODguOTYwOTM3IDE3Ljc0NjA5NHMtOS42MjEwOTQgOC41OTc2NTYtMTYuMDIzNDM3IDcuNjg3NWwtMzEuMTEzMjgxLTQuNDQxNDA2LTYuNzkyOTY5IDQ3LjUxOTUzMSAzMS4xMjEwOTMgNC40NDE0MDZjNi40MDYyNS45MTQwNjMgMTEuNjMyODEzIDUuNTk3NjU3IDEzLjIzODI4MiAxMS44NjcxODggMS42MDU0NjggNi4yNjk1MzEtLjcyMjY1NiAxMi44OTA2MjUtNS45MDIzNDQgMTYuNzczNDM3bC0yNS4xNDQ1MzEgMTguODYzMjgyIDI4LjgwMDc4MSAzOC4zOTg0MzcgMjUuMTQ0NTMxLTE4Ljg1NTQ2OWM1LjE3NTc4MS0zLjg4MjgxMiAxMi4xODM1OTQtNC4yNjU2MjUgMTcuNzUzOTA3LS45Njg3NSA1LjU2NjQwNiAzLjI5Njg3NSA4LjYwMTU2MiA5LjYyNSA3LjY4NzUgMTYuMDMxMjVsLTQuNDgwNDY5IDMxLjEwNTQ2OSA0Ny41MTk1MzEgNi43OTI5NjkgNC40ODA0NjktMzEuMTIxMDk0Yy45MTQwNjItNi40MDYyNSA1LjU5NzY1Ni0xMS42Mjg5MDYgMTEuODY3MTg3LTEzLjIzNDM3NSA2LjI2OTUzMi0xLjYwOTM3NSAxMi44OTA2MjUuNzIyNjU2IDE2Ljc2OTUzMiA1Ljg5ODQzN2wxOC44NjcxODcgMjUuMTQ0NTMyIDM4LjM5ODQzNy0yOC44MDA3ODItMTguODcxMDkzLTI1LjE0NDUzMWMtMy44ODI4MTMtNS4xNzU3ODEtNC4yNjU2MjUtMTIuMTgzNTkzLS45Njg3NS0xNy43NTM5MDYgMy4yOTY4NzUtNS41NjY0MDYgOS42MjUtOC42MDE1NjMgMTYuMDMxMjUtNy42ODM1OTRsMzEuMTEzMjgxIDQuNDQ1MzEzIDYuNzkyOTY5LTQ3LjUxOTUzMi0zMS4xMTMyODEtNC40NDUzMTJjLTYuNDAyMzQ0LS45MTc5NjktMTEuNjI1LTUuNTk3NjU2LTEzLjIzNDM3Ni0xMS44NjcxODgtMS42MDU0NjgtNi4yNjU2MjQuNzE4NzUtMTIuODgyODEyIDUuODkwNjI2LTE2Ljc2NTYyNHptLTkxLjY0ODQzOCA5NC43MzQzNzRjLTMwLjkyOTY4OCAwLTU2LTI1LjA3MDMxMi01Ni01NiAwLTMwLjkyNTc4MSAyNS4wNzAzMTItNTYgNTYtNTZzNTYgMjUuMDc0MjE5IDU2IDU2YzAgMzAuOTI5Njg4LTI1LjA3MDMxMiA1Ni01NiA1NnptMCAwIiBmaWxsPSIjMWNjOGViIi8+PHBhdGggZD0ibTE5NC4xMDU0NjkgNDE2LjMxMjVoODB2MTZoLTgwem0wIDAiIGZpbGw9IiM5ZTllOWUiLz48ZyBmaWxsPSIjZmEwIj48cGF0aCBkPSJtMjI2LjEwNTQ2OSAzNTIuMzEyNWgxNnYyNGgtMTZ6bTAgMCIvPjxwYXRoIGQ9Im0yNDIuMTA1NDY5IDMzNi4zMTI1aC0xNmMtLjAwNzgxMy0yMS4xNTIzNDQtMTMuMDUwNzgxLTQwLjExMzI4MS0zMi44MDA3ODEtNDcuNjgzNTk0LTM5LjM3MTA5NC0xNS4zOTQ1MzEtNjYuNzIyNjU3LTUxLjY0NDUzMS03MC43MTQ4NDQtOTMuNzMwNDY4LTMuOTkyMTg4LTQyLjA4NTkzOCAxNi4wNTA3ODEtODIuODMyMDMyIDUxLjgyNDIxOC0xMDUuMzU1NDY5bDguNDg4MjgyIDEzLjUzNTE1NmMtMzAuNjcxODc1IDE5LjMwMDc4MS00Ny44NjMyODIgNTQuMjMwNDY5LTQ0LjQ0MTQwNiA5MC4zMTI1IDMuNDE3OTY4IDM2LjA3ODEyNSAyNi44NjMyODEgNjcuMTU2MjUgNjAuNjE3MTg3IDgwLjM1MTU2MyAyNS45Mjk2ODcgOS45MTc5NjggNDMuMDQ2ODc1IDM0LjgwODU5MyA0My4wMjczNDQgNjIuNTcwMzEyem0wIDAiLz48cGF0aCBkPSJtMzk0LjEwNTQ2OSAyOTYuMzEyNWg0MGM0LjQxNzk2OSAwIDggMy41NzgxMjUgOCA4IDAgNC40MTc5NjktMy41ODIwMzEgOC04IDhoLTQwYy00LjQxNzk2OSAwLTgtMy41ODIwMzEtOC04IDAtNC40MjE4NzUgMy41ODIwMzEtOCA4LTh6bTAgMCIvPjxwYXRoIGQ9Im0zNzguMTA1NDY5IDM0NC4zMTY0MDZjMi44MjgxMjUtMy4zOTQ1MzEgNy44NzEwOTMtMy44NTU0NjggMTEuMjY1NjI1LTEuMDI3MzQ0bDM1LjcxMDkzNyAyOS43NTM5MDdjMy4zOTQ1MzEgMi44MjgxMjUgMy44NTU0NjkgNy44NzEwOTMgMS4wMjczNDQgMTEuMjY1NjI1LTIuODMyMDMxIDMuMzk0NTMxLTcuODc1IDMuODU1NDY4LTExLjI2OTUzMSAxLjAyNzM0NGwtMzUuNzEwOTM4LTI5Ljc1MzkwN2MtMy4zOTQ1MzEtMi44MjgxMjUtMy44NTE1NjItNy44NzEwOTMtMS4wMjM0MzctMTEuMjY1NjI1em0wIDAiLz48cGF0aCBkPSJtMzQ2LjEwNTQ2OSAzNjAuMzEyNWM0LjQxNzk2OSAwIDggMy41NzgxMjUgOCA4djQwYzAgNC40MTc5NjktMy41ODIwMzEgOC04IDhzLTgtMy41ODIwMzEtOC04di00MGMwLTQuNDIxODc1IDMuNTgyMDMxLTggOC04em0wIDAiLz48cGF0aCBkPSJtNy45Mjk2ODggMTM0LjYwMTU2MiA0OC40NzY1NjItMTIuMTA5Mzc0YzQuMjg5MDYyLTEuMDcwMzEzIDguNjI4OTA2IDEuNTM1MTU2IDkuNjk5MjE5IDUuODIwMzEyIDEuMDcwMzEyIDQuMjg1MTU2LTEuNTM1MTU3IDguNjI1LTUuODI0MjE5IDkuNjk1MzEybC00OC40NzY1NjIgMTIuMTA5Mzc2Yy00LjI4OTA2MyAxLjA3MDMxMi04LjYyODkwNy0xLjUzNTE1Ny05LjY5OTIxOS01LjgyMDMxMy0xLjA3MDMxMy00LjI4NTE1NiAxLjUzNTE1Ni04LjYyNSA1LjgyNDIxOS05LjY5NTMxM3ptMCAwIi8+PHBhdGggZD0ibTE4LjEwMTU2MiA0OC4zMTY0MDZjMi41NjY0MDctMy41OTM3NSA3LjU2MjUtNC40MjE4NzUgMTEuMTU2MjUtMS44NTU0NjhsNDIuOTc2NTYzIDMwLjY5OTIxOGMzLjU5NzY1NiAyLjU2NjQwNiA0LjQyOTY4NyA3LjU2MjUgMS44NjMyODEgMTEuMTU2MjVzLTcuNTYyNSA0LjQyNTc4Mi0xMS4xNTYyNSAxLjg1NTQ2OWwtNDIuOTc2NTYyLTMwLjY5OTIxOWMtMy41OTc2NTYtMi41NjY0MDYtNC40Mjk2ODgtNy41NjI1LTEuODYzMjgyLTExLjE1NjI1em0wIDAiLz48cGF0aCBkPSJtODkuNzUuMzA0Njg4YzQuMjgxMjUtMS4wOTM3NSA4LjYzNjcxOSAxLjQ4ODI4MSA5LjczMDQ2OSA1Ljc2OTUzMWwxMi4zOTg0MzcgNDguNDk2MDkzYzEuMDkzNzUgNC4yODEyNS0xLjQ4ODI4MSA4LjY0MDYyNi01Ljc2OTUzMSA5LjczNDM3NnMtOC42MzY3MTktMS40OTIxODgtOS43MzA0NjktNS43Njk1MzJsLTEyLjM5ODQzNy00OC40OTYwOTRjLTEuMDkzNzUtNC4yODEyNSAxLjQ4ODI4MS04LjY0MDYyNCA1Ljc2OTUzMS05LjczNDM3NHptMCAwIi8+PC9nPjwvc3ZnPg==" />
+                            </div>
+                        </a>
 
 						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 							<span class="navbar-toggler-icon"></span>
@@ -51,7 +58,8 @@
                                         Conference Information <div id="ci" class="fas fa-angle-right rotate"></div></a>
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="../about_conference">About Conference</a>
-										<a class="dropdown-item" href="../committee">Committee</a>
+                                        <a class="dropdown-item" href="../who-can-join">Who Can Join</a>
+										<a class="dropdown-item" href="../committee">Advisory Committee</a>
 										<a class="dropdown-item" href="../deadlines">Deadlines</a>
                                         <a class="dropdown-item" href="../brochure">Brochure</a>
 
@@ -62,7 +70,7 @@
 								</li>
 
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
-                                    {% if request.path == '/call_for_papers/' or request.path == '/abstract_format/' or request.path == '/full_paper_format/' or request.path == '/review_process/'%}
+                                    {% if request.path == '/call_for_papers/' or request.path == '/abstract_format/' or request.path == '/full_paper_format/' or request.path == '/evaluation_process/'%}
                                         active
                                     {% endif %}">
 									<a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
@@ -71,8 +79,8 @@
 									<div class="dropdown-menu">
 										<a class="dropdown-item" href="../call_for_papers">Call For Papers</a>
 										<a class="dropdown-item" href="../abstract_format">Abstract Format</a>
-										<a class="dropdown-item" href="../full_paper_format">Full Paper Format</a>
-                                        <a class="dropdown-item" href="../review_process">Review Process</a>
+                                        <a class="dropdown-item" href="../evaluation_process">Evaluation Process</a>
+										<a class="dropdown-item" href="../publication-opportunities">Publication Opportunities</a>
 									</div>
 								</li>
 								<li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/registration/' %}active{% endif %}">
@@ -97,11 +105,11 @@
 
     <!-- Footer -->
 	<section id="footer">
-		<div class="container" style="padding:0;  width: 100%;;        " >
+		<div class="footer-container" style="padding:0;  width: 100%;" >
 			<div class="row text-center" style="width: 100%; margin:0!important;">
-				<div class="col-xs-12 col-sm-4 col-md-5 left" >
-					<h5>About GCIMB</h5>
-                    <p style="color:white; text-align: left; font-family: 'Rajdhani', sans-serif; font-size: 16px">
+				<div class="col-xs-12 col-sm-5 col-md-5 left" >
+					<h5>About GCIMB </h5>
+                    <p class="left"     style="color:white; font-family: 'Rajdhani', sans-serif; font-size: 16px">
                         Chapman University California, Howard University Washington and National Institute of Technology
                         Warangal are organizing its first Global Conference on Innovations in Management and Business
                         during July 27th and 28th, 2021. The conference aims to bring together academia, researchers,
@@ -118,7 +126,7 @@
                         <li><i class="fa fa-phone"></i> Phone: +91 8978264848</li>
 					</ul>
 				</div>
-				<div class="col-xs-12 col-sm-4 col-md-3 left">
+				<div class="col-xs-12 col-sm-3 col-md-3 left">
 					<h5>Quick links</h5>
 					<ul class="list-unstyled quick-links" >
 						<li><a href=""><i class="fa fa-angle-double-right"></i>Home</a></li>
@@ -128,18 +136,6 @@
 					</ul>
 				</div>
 			</div>
-{#			<div class="row">#}
-{#				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">#}
-{#					<ul class="list-unstyled list-inline social text-center">#}
-{#						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-facebook"></i></a></li>#}
-{#						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-twitter"></i></a></li>#}
-{#						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-instagram"></i></a></li>#}
-{#						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-google-plus"></i></a></li>#}
-{#						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02" target="_blank"><i class="fa fa-envelope"></i></a></li>#}
-{#					</ul>#}
-{#				</div>#}
-{#				<hr>#}
-{#			</div>#}
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
 					<p class="h6">© 2021 Copyright GCIMB. All right Reserved.</p>

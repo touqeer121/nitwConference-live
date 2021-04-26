@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Added all required pages">
-      <change afterPath="$PROJECT_DIR$/templates/early-bird.html" afterDir="false" />
+    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Mobile UI 2nd update (all pages)">
+      <change afterPath="$PROJECT_DIR$/static/css/style2.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/evaluation_process.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/publication_opportunities.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/who_should_join.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conference/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/js/custom.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/about_conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about_conference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/abstract_format.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/abstract_format.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/committee.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/committee.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contact_us.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/deadlines.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/deadlines.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/online_submission.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/online_submission.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/review_process.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/review_process.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/speakers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/speakers.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,6 +71,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/templates" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
@@ -118,7 +126,8 @@
       <workItem from="1618358923476" duration="71000" />
       <workItem from="1618359003208" duration="9653000" />
       <workItem from="1618462131257" duration="76898000" />
-      <workItem from="1618668993300" duration="16133000" />
+      <workItem from="1618668993300" duration="83370000" />
+      <workItem from="1619369091322" duration="35774000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>
@@ -169,7 +178,28 @@
       <option name="project" value="LOCAL" />
       <updated>1618663903472</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Added registration page + updated timeline UI">
+      <created>1618859077111</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1618859077111</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Mobile UI 1st update">
+      <created>1619035716631</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1619035716631</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Mobile UI 2nd update (all pages)">
+      <created>1619125404349</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1619125404349</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -193,6 +223,9 @@
     <MESSAGE value="added paper submission" />
     <MESSAGE value="fixed home page UI" />
     <MESSAGE value="Added all required pages" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added all required pages" />
+    <MESSAGE value="Added registration page + updated timeline UI" />
+    <MESSAGE value="Mobile UI 1st update" />
+    <MESSAGE value="Mobile UI 2nd update (all pages)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Mobile UI 2nd update (all pages)" />
   </component>
 </project>

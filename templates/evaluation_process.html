@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Review Process{% endblock title %}
+{% block title %}Evaluation Process{% endblock title %}
 {% load static %}
 {% block scripts %}
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
@@ -13,12 +13,35 @@
 </section>
 
 <section class="content" style="text-align: center; margin: 0 auto">
-<h1 style="margin-bottom:25px ;">Review Process</h1>
-<div class=inner >
+    <div>
+        <h1 style="display:inline-block ;">Evaluation Process</h1>
+        <img style="display:inline-block ;margin:0.5% auto 2.5%; height:5em; width:5em" src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgd2lkdGg9IjUxMnB0IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0yMDIgNDUyYy0yLjYyODkwNiAwLTUuMjEwOTM4IDEuMDcwMzEyLTcuMDcwMzEyIDIuOTI5Njg4LTEuODU5Mzc2IDEuODU5Mzc0LTIuOTI5Njg4IDQuNDQxNDA2LTIuOTI5Njg4IDcuMDcwMzEyczEuMDcwMzEyIDUuMjEwOTM4IDIuOTI5Njg4IDcuMDcwMzEyYzEuODU5Mzc0IDEuODU5Mzc2IDQuNDQxNDA2IDIuOTI5Njg4IDcuMDcwMzEyIDIuOTI5Njg4czUuMjEwOTM4LTEuMDcwMzEyIDcuMDcwMzEyLTIuOTI5Njg4YzEuODU5Mzc2LTEuODU5Mzc0IDIuOTI5Njg4LTQuNDQxNDA2IDIuOTI5Njg4LTcuMDcwMzEycy0xLjA3MDMxMi01LjIxMDkzOC0yLjkyOTY4OC03LjA3MDMxMmMtMS44NTkzNzQtMS44NTkzNzYtNC40NDE0MDYtMi45Mjk2ODgtNy4wNzAzMTItMi45Mjk2ODh6bTAgMCIvPjxwYXRoIGQ9Im01MDEuMzI0MjE5IDEzNi4zMjAzMTJjLTE0LjIxMDkzOC0xNC4yMTA5MzctMzcuMzMyMDMxLTE0LjIxMDkzNy01MS41NDI5NjkgMGwtNDUuNzgxMjUgNDUuNzgxMjV2LTE0OC4xMDE1NjJjMC0xOC43NDYwOTQtMTUuMjUzOTA2LTM0LTM0LTM0aC0zMzZjLTE4Ljc0NjA5NCAwLTM0IDE1LjI1MzkwNi0zNCAzNHY0NDRjMCAxOC43NDYwOTQgMTUuMjUzOTA2IDM0IDM0IDM0aDMzNmMxOC43NDYwOTQgMCAzNC0xNS4yNTM5MDYgMzQtMzR2LTE5Mi44MDg1OTRsOTcuMzI0MjE5LTk3LjMyODEyNWMxNC4yMTA5MzctMTQuMjEwOTM3IDE0LjIxMDkzNy0zNy4zMzIwMzEgMC01MS41NDI5Njl6bS0xMTcuMzI0MjE5LTEwMi4zMjAzMTJ2MTY4LjEwMTU2MmwtMjAgMjB2LTE3Mi4xMDE1NjJjMC01LjUyMzQzOC00LjQ3NjU2Mi0xMC0xMC0xMGgtNjYuODMyMDMxdi0yMGg4Mi44MzIwMzFjNy43MTg3NSAwIDE0IDYuMjgxMjUgMTQgMTR6bS01NC42MDE1NjIgMjc0LjI0NjA5NCAxMy41LTMwLjMyODEyNSAxNi44MjgxMjQgMTYuODI4MTI1em0tNjIuMjMwNDY5LTI4OC4yNDYwOTR2NDAuNzVjMCA2LjIwMzEyNS01LjA0Njg3NSAxMS4yNS0xMS4yNSAxMS4yNWgtMTA3LjgzNTkzOGMtNi4yMDMxMjUgMC0xMS4yNS01LjA0Njg3NS0xMS4yNS0xMS4yNXYtNDAuNzV6bTEwMi44MzIwMzEgNDcyaC0zMzZjLTcuNzE4NzUgMC0xNC02LjI4MTI1LTE0LTE0di00NDRjMC03LjcxODc1IDYuMjgxMjUtMTQgMTQtMTRoODIuODMyMDMxdjIwaC02Ni44MzIwMzFjLTUuNTIzNDM4IDAtMTAgNC40NzY1NjItMTAgMTB2NDEyYzAgNS41MjM0MzggNC40NzY1NjIgMTAgMTAgMTBoMTEyYzUuNTIzNDM4IDAgMTAtNC40NzY1NjIgMTAtMTBzLTQuNDc2NTYyLTEwLTEwLTEwaC0xMDJ2LTM5Mmg1Ni44MzIwMzF2Ljc1YzAgMTcuMjMwNDY5IDE0LjAxOTUzMSAzMS4yNSAzMS4yNSAzMS4yNWgxMDcuODM1OTM4YzE3LjIzMDQ2OSAwIDMxLjI1LTE0LjAxOTUzMSAzMS4yNS0zMS4yNXYtLjc1aDU2LjgzMjAzMXYxODIuMTAxNTYybC0xMS4zOTA2MjUgMTEuMzg2NzE5Yy0uODYzMjgxLjg2NzE4OC0xLjU2MjUgMS44ODY3MTktMi4wNjI1IDMuMDAzOTA3bC0zMC4wMTU2MjUgNjcuNDE3OTY4Yy0xLjY4MzU5NCAzLjc4NTE1Ni0uODYzMjgxIDguMjEwOTM4IDIuMDYyNSAxMS4xNDA2MjUgMS45MTc5NjkgMS45MTQwNjMgNC40NzY1NjIgMi45Mjk2ODggNy4wNzQyMTkgMi45Mjk2ODggMS4zNzUgMCAyLjc1NzgxMi0uMjgxMjUgNC4wNjY0MDYtLjg2MzI4MWwzMC4yNjU2MjUtMTMuNDc2NTYzdjEyOC4zNTkzNzVoLTEwMmMtNS41MjM0MzggMC0xMCA0LjQ3NjU2Mi0xMCAxMHM0LjQ3NjU2MiAxMCAxMCAxMGgxMTJjNS41MTk1MzEgMCAxMC00LjQ3NjU2MiAxMC0xMHYtMTQ3LjI2NTYyNWwxNy4xNTIzNDQtNy42MzY3MTljMS4wNTQ2ODctLjQ2ODc1IDIuMDExNzE4LTEuMTIxMDk0IDIuODQ3NjU2LTEuOTIxODc1djE3Mi44MjQyMTljMCA3LjcxODc1LTYuMjgxMjUgMTQtMTQgMTR6bTc5LjkxMDE1Ni0yODEuMDA3ODEyLTcyLjgyNDIxOCA3Mi44MjgxMjQtMjMuMjYxNzE5LTIzLjI2MTcxOCA5MC4xNjc5NjktOTAuMTY3OTY5IDIzLjI2MTcxOCAyMy4yNjE3MTl6bTM3LjI3MzQzOC0zNy4yNjk1MzItNS43ODkwNjMgNS43ODUxNTYtMjMuMjU3ODEyLTIzLjI1NzgxMiA1Ljc4NTE1Ni01Ljc4NTE1NmM2LjQxNDA2My02LjQxNDA2MyAxNi44NDc2NTYtNi40MTQwNjMgMjMuMjYxNzE5IDAgNi40MTAxNTYgNi40MTAxNTYgNi40MTAxNTYgMTYuODQzNzUgMCAyMy4yNTc4MTJ6bTAgMCIvPjxwYXRoIGQ9Im0xNjIgMTIwaC02NGMtNS41MjM0MzggMC0xMCA0LjQ3NjU2Mi0xMCAxMHY2NGMwIDUuNTIzNDM4IDQuNDc2NTYyIDEwIDEwIDEwaDY0YzUuNTIzNDM4IDAgMTAtNC40NzY1NjIgMTAtMTB2LTY0YzAtNS41MjM0MzgtNC40NzY1NjItMTAtMTAtMTB6bS0xMCA2NGgtNDR2LTQ0aDQ0em0wIDAiLz48cGF0aCBkPSJtMTYyIDIzMGgtNjRjLTUuNTIzNDM4IDAtMTAgNC40NzY1NjItMTAgMTB2NjRjMCA1LjUyMzQzOCA0LjQ3NjU2MiAxMCAxMCAxMGg2NGM1LjUyMzQzOCAwIDEwLTQuNDc2NTYyIDEwLTEwdi02NGMwLTUuNTIzNDM4LTQuNDc2NTYyLTEwLTEwLTEwem0tMTAgNjRoLTQ0di00NGg0NHptMCAwIi8+PHBhdGggZD0ibTE2MiAzNDBoLTY0Yy01LjUyMzQzOCAwLTEwIDQuNDc2NTYyLTEwIDEwdjY0YzAgNS41MjM0MzggNC40NzY1NjIgMTAgMTAgMTBoNjRjNS41MjM0MzggMCAxMC00LjQ3NjU2MiAxMC0xMHYtNjRjMC01LjUyMzQzOC00LjQ3NjU2Mi0xMC0xMC0xMHptLTEwIDY0aC00NHYtNDRoNDR6bTAgMCIvPjxwYXRoIGQ9Im0yMzMuNTc4MTI1IDE5MS42NDQ1MzFjMS45NTMxMjUgMS45NTMxMjUgNC41MTE3MTkgMi45Mjk2ODggNy4wNzAzMTMgMi45Mjk2ODggMi41NTg1OTMgMCA1LjExNzE4Ny0uOTc2NTYzIDcuMDcwMzEyLTIuOTI5Njg4bDQ1LjE0ODQzOC00NS4xNDg0MzdjMy45MDIzNDMtMy45MDIzNDQgMy45MDIzNDMtMTAuMjM0Mzc1IDAtMTQuMTQwNjI1LTMuOTA2MjUtMy45MDYyNS0xMC4yMzgyODItMy45MDYyNS0xNC4xNDQ1MzIgMGwtMzguMDc0MjE4IDM4LjA3NDIxOS0xNS4xNzU3ODItMTUuMTc1NzgyYy0zLjkwNjI1LTMuOTA2MjUtMTAuMjM0Mzc1LTMuOTA2MjUtMTQuMTQ0NTMxIDAtMy45MDIzNDQgMy45MDYyNS0zLjkwMjM0NCAxMC4yMzgyODIgMCAxNC4xNDA2MjV6bTAgMCIvPjxwYXRoIGQ9Im0yMzMuNTc4MTI1IDMwMS42NDQ1MzFjMS44NzUgMS44NzUgNC40MTc5NjkgMi45Mjk2ODggNy4wNzAzMTMgMi45Mjk2ODggMi42NTIzNDMgMCA1LjE5NTMxMi0xLjA1NDY4OCA3LjA3MDMxMi0yLjkyOTY4OGw0NS4xNDg0MzgtNDUuMTQ0NTMxYzMuOTAyMzQzLTMuOTA2MjUgMy45MDIzNDMtMTAuMjM4MjgxIDAtMTQuMTQ0NTMxLTMuOTA2MjUtMy45MDIzNDQtMTAuMjM4MjgyLTMuOTAyMzQ0LTE0LjE0NDUzMiAwbC0zOC4wNzQyMTggMzguMDc4MTI1LTE1LjE3NTc4Mi0xNS4xNzU3ODJjLTMuOTA2MjUtMy45MDYyNS0xMC4yMzQzNzUtMy45MDYyNS0xNC4xNDQ1MzEgMC0zLjkwMjM0NCAzLjkwMjM0NC0zLjkwMjM0NCAxMC4yMzQzNzYgMCAxNC4xNDA2MjZ6bTAgMCIvPjxwYXRoIGQ9Im0yNTIuMDk3NjU2IDM5Ni4xNDQ1MzEgMTUuNTAzOTA2IDE1LjVjMS45NTMxMjYgMS45NTMxMjUgNC41MTE3MTkgMi45Mjk2ODggNy4wNzAzMTMgMi45Mjk2ODhzNS4xMTcxODctLjk3NjU2MyA3LjA3MDMxMy0yLjkyOTY4OGMzLjkwNjI1LTMuOTA2MjUgMy45MDYyNS0xMC4yMzgyODEgMC0xNC4xNDA2MjVsLTE1LjUtMTUuNTAzOTA2IDE1LjUtMTUuNTAzOTA2YzMuOTA2MjUtMy45MDIzNDQgMy45MDYyNS0xMC4yMzQzNzUgMC0xNC4xNDA2MjVzLTEwLjIzNDM3Ni0zLjkwNjI1LTE0LjE0MDYyNiAwbC0xNS41MDM5MDYgMTUuNS0xNS41LTE1LjVjLTMuOTA2MjUtMy45MDIzNDQtMTAuMjM0Mzc1LTMuOTA2MjUtMTQuMTQ0NTMxIDAtMy45MDIzNDQgMy45MDYyNS0zLjkwMjM0NCAxMC4yMzgyODEgMCAxNC4xNDA2MjVsMTUuNTAzOTA2IDE1LjUwMzkwNi0xNS41MDM5MDYgMTUuNTAzOTA2Yy0zLjkwMjM0NCAzLjkwMjM0NC0zLjkwMjM0NCAxMC4yMzQzNzUgMCAxNC4xNDA2MjUgMS45NTMxMjUgMS45NTMxMjUgNC41MTU2MjUgMi45Mjk2ODggNy4wNzQyMTkgMi45Mjk2ODhzNS4xMTcxODctLjk3NjU2MyA3LjA3MDMxMi0yLjkyOTY4OHptMCAwIi8+PC9zdmc+" />
+
+    </div>
+<div class="my-main-container">
+    <p class="my-content">
+        Submitted abstracts will be evaluated by our scientific committee. If the abstract is accepted, the contributor
+        will be reached over through an email and will be asked to submit the full text paper along with tables, figures
+        and references. All the details, guidelines for submitting the full paper will be shared over email only.
+    </p>
+    <br>
+    <p class="my-content">
+        Authors whose abstract is accepted have to make a presentation during the conference. Detailed guidelines of the
+        presentation will also be emailed from the organizing team.
+    </p>
+    <br>
+    <p class="my-content">
+        All submissions should report original and previously unpublished research results. All the papers received will
+        undergo a double blind peer review. Relevancy, structure, research method, language standard, innovativeness,
+        result presentation, format and many other factors will be considered during the evaluation process and the
+        following option will be picked.
+    </p>
+    <br>
     <p class="my-content">
      All manuscripts are subject to review and are expected to meet standards of academic excellence. Manuscripts will
     be reviewed by peer-reviewers, whose identities will remain anonymous to the authors.
     </p>
+    <br>
     <div class="my-content" style="margin: 25px auto">
         <div style="font-weight: bold; font-size: 20px;!important;">Based on the reviewer’s comments, the organizing committee will take one of the following decisions</div>
         <div style="color: #1f1f1f; font-size:24px;margin: 25px auto;">
@@ -50,7 +73,13 @@
                 </li>
             </ul>
         </div>
+    </div>
+    <p class="my-content">
+     Papers that are selected will stand a chance to be published in some of the prestigious journals that the
+        conference will collaborate with and will also be published in the conference proceedings
+    </p>
 </div>
+
 </section>
 
 

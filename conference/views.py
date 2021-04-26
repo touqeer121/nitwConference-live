@@ -9,6 +9,9 @@ def index(request):
 def about_conference(request):
 	return render(request, 'about_conference.html')
 
+def who_should_join(request):
+	return render(request, 'who_should_join.html')
+
 def committee(request):
 	return render(request, 'committee.html')
 
@@ -53,11 +56,11 @@ def call_for_papers(request):
 def abstract_format(request):
 	return render(request, 'abstract_format.html')
 
-def full_paper_format(request):
-	return render(request, 'full_paper_format.html')
+def publication_opportunities(request):
+	return render(request, 'publication_opportunities.html')
 
-def review_process(request):
-	return render(request, 'review_process.html')
+def evaluation_process(request):
+	return render(request, 'evaluation_process.html')
 
 def contact_us(request):
 	if request.method == 'POST':

@@ -1,4 +1,6 @@
+
 // NAV BAR
+
 (function($) { "use strict";
 
 	$(function() {
@@ -7,8 +9,10 @@
 			var scroll = $(window).scrollTop();
 
 			if (scroll >= 10) {
+				console.log("YESS")
 				header.removeClass('start-style').addClass("scroll-on");
 			} else {
+				console.log("NO")
 				header.removeClass("scroll-on").addClass('start-style');
 			}
 		});
@@ -59,7 +63,7 @@
 		}
 	});
 
-  })(jQuery); 
+  })(jQuery);
 
 // NAV BAR ENDED
 
@@ -120,30 +124,6 @@ $(document).ready(function() {
 });
 
 //timeline Ended
-//SHRINK FONT WITH SCREEN
-const [viewportWidth,fontSizeRem,fontSizePx] = document.querySelectorAll("h1");
-
-function calculate(){
-  viewportWidth.innerText = `Viewport Width: ${window.innerWidth}px`;
-
-  fontSizeRem.innerText = `Font Size (rem): ${Number(window.getComputedStyle(viewportWidth).fontSize.slice(0, -2)) / 16}rem`;
-
-  fontSizePx.innerText = `Font Size (px): ${window.getComputedStyle(viewportWidth).fontSize}`;
-
-  if(window.innerWidth >= 840 || window.innerWidth <= 360){
-    fontSizePx.classList.add("red");
-    fontSizeRem.classList.add("red");
-  }else{
-    fontSizePx.classList.remove("red");
-    fontSizeRem.classList.remove("red");
-  }
-}
-
-window.addEventListener("resize", () => {
-  calculate();
-});
-
-calculate();
 
 $(document).ready(function() {
     $('#ag').click(function() {
