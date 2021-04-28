@@ -1,5 +1,7 @@
 from django.urls import path, include
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('test_upload/', views.test_upload, name='test_upload'),
@@ -18,4 +20,4 @@ urlpatterns = [
     path('publication-opportunities/', views.publication_opportunities, name='publication_opportunities'),
     path('evaluation_process/', views.evaluation_process, name='evaluation_process'),
     path('contact_us/', views.contact_us, name='contact_us'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
