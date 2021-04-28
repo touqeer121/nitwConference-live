@@ -47,11 +47,11 @@
              </ol>
         </p>
         <br>
-        <p class="my-content">
+{#        <p class="my-content">#}
 {#            <b>#}
-                The abstracts can be submitted <a href="../submit-abstarct ">here</a> electronically.
+{#                The abstracts can be submitted <a href="../submit-abstarct ">here</a> electronically.#}
 {#            </b>#}
-        </p>
+{#        </p>#}
         <br>
         <p class="my-content">
             <b>
@@ -64,11 +64,40 @@
             <b>
             Contributions not adhering to the above guidelines will not be evaluated for further stages. Hence you are
             requested to kindly follow the guidelines.
-                </b>
+            </b>
         </p>
+        <br>
+        <p class="my-content">
+            <a class="formButton" style="display: inline-block" href="../test_upload">Go to Submission</a>
+        </p>
+
+        <script type="text/javascript">var submitted=false;</script>
+         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted)  {window.location='/';}"></iframe>
+        <form method="POST" enctype="multipart/form-data"
+              target="hidden_iframe" onsubmit="submitted=true;"
+              action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSc7kPiM7uhSxkUbGkzakSQvkXLa3R9FF48LHxY06zo5RcmlPQ/formResponse">
+            {% csrf_token %}
+            <div class="form-group">
+                    <div class="form-subgroup one-third">
+                        <label class="formText">First Name</label><br>
+                        <input class="my-input" type="text" name="entry.640487953" id="fname" required/>
+                    </div>
+                    <div class="form-subgroup one-third">
+                        <label class="formText">Last Name</label><br>
+                        <input class="my-input" type="text" name="entry.668807554" id="lname" required/>
+                    </div>
+            </div>
+            <div class="form-group">
+                <input class="my-input formButton" type="submit" value="Send" />
+            </div>
+        </form>
+{#        <div class="col-sm-12 col-sm-offset-3">#}
+{#            <div id="uploadForm" class="well well-lg">#}
+{#                #}
+{#                <br>#}
+{#            </div>#}
+{#        </div>#}
     </div>
 </section>
-
-
 
 {% endblock content %}

@@ -2,6 +2,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
+    path('test_upload/', views.test_upload, name='test_upload'),
     path('', views.index, name='index'),
     path('about_conference/', views.about_conference, name='about_conference'),
     path('who-can-join/', views.who_should_join, name='who_should_join'),

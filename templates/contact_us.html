@@ -39,38 +39,36 @@
         </div>
         <div class="col-sm-12 col-sm-offset-3">
         <div id="uploadForm" class="well well-lg">
-            <formset>
-                <form method="POST" enctype="multipart/form-data" action="../contact_us/">
-                    {% csrf_token %}
-                    <div class="form-group">
-                        <div class="form-subgroup half ">
-                            <label class="formText">Name</label><br>
-                            <input class="my-input" type="text" name="fullName" id="fullName" required/>
-                        </div>
-                        <div class="form-subgroup half">
-                            <label class="formText">Email</label><br>
-                            <input class="my-input" type="email" name="email" id="email" required/>
-                        </div>
+            <form method="POST" enctype="multipart/form-data" action="../contact_us/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="form-subgroup half ">
+                        <label class="formText">Name</label><br>
+                        <input class="my-input" type="text" name="fullName" id="fullName" required/>
                     </div>
-                    <div class="form-group left" >
-                        <div class="form-subgroup " >
-                        <label class="formText">Subject</label><br>
-                        <input class="my-input" type="text" name="subject" id="subject" required/>
-                        </div>
+                    <div class="form-subgroup half">
+                        <label class="formText">Email</label><br>
+                        <input class="my-input" type="email" name="email" id="email" required/>
                     </div>
+                </div>
+                <div class="form-group left" >
+                    <div class="form-subgroup " >
+                    <label class="formText">Subject</label><br>
+                    <input class="my-input" type="text" name="subject" id="subject" required/>
+                    </div>
+                </div>
 
-                     <div class="form-group">
-                         <div class="form-subgroup ">
-                        <label class="formText">Message</label><br>
-                         <textarea class="my-input" name="message" id="message" rows="10" cols="" required></textarea>
-                         </div>
-                    </div>
+                 <div class="form-group">
+                     <div class="form-subgroup ">
+                    <label class="formText">Message</label><br>
+                     <textarea class="my-input" name="message" id="message" rows="10" cols="" required></textarea>
+                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <button class="my-input formButton"  type="submit">Send</button>
-                    </div>
-                </form>
-            </formset>
+                <div class="form-group">
+                    <button class="my-input formButton"  type="submit">Send</button>
+                </div>
+            </form>
             <br>
         </div>
     </div>
