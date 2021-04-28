@@ -2,7 +2,28 @@ import datetime
 from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
+import json
+import requests
 
+def test_pload(request):
+	headers = {
+		"Authorization": "Bearer ya29.a0AfH6SMDE18bB4m_ios9jiTJCqZEale8QNeA-JdxL82cQwdxKaLbqS-8YxudmBOLYThO4Z-KWXfgmJK8kKw2GPfU2SI0bwCNTfKXYjmc-5-whSOGGkSMtnmCoJGl99edouMOIN3VidXaxJCzR24Cm3Lxl4NWQ"}
+	para = {
+		"name": "2nd",
+	}
+	files = {
+		'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
+		'file': open("./cat.jpg", "rb")
+	}
+	r = requests.post(
+		"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
+		headers=headers,
+		files=files
+	)
+	print(r.text)
+
+
+	return render(request, 'home.html')
 def index(request):
     return render(request, 'home.html')
 

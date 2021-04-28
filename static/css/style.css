@@ -154,6 +154,7 @@ body{
 	line-height: normal;
 	/*overflow-x: hidden;*/
 	/*overflow-y: ;*/
+	text-align: left;
 }
 .navbar-brand img{
 	height: 28px;
@@ -1718,6 +1719,14 @@ th, td{
 		background-color: transparent;
 		box-shadow: none;
 		transition: all 200ms linear;
+	}
+}
+@media (max-width:640px){
+	.copy{
+		top: 25%;
+	}
+	.inner{
+		min-height: 29em;
 	}
 }
 
