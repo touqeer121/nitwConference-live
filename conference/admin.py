@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Paper)
 admin.site.register(ContactUsMessage)
+admin.site.register(file)

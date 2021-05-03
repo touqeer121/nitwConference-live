@@ -6,6 +6,14 @@ import os
 import json
 import requests
 
+from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, \
+	GoogleDriveFilePermission
+
+permission = GoogleDriveFilePermission(
+	GoogleDrivePermissionRole.READER,
+	GoogleDrivePermissionType.USER,
+)
+
 def test_upload(request):
 	headers = {
 		"Authorization": "Bearer ya29.a0AfH6SMDE18bB4m_ios9jiTJCqZEale8QNeA-JdxL82cQwdxKaLbqS-8YxudmBOLYThO4Z-KWXfgmJK8kKw2GPfU2SI0bwCNTfKXYjmc-5-whSOGGkSMtnmCoJGl99edouMOIN3VidXaxJCzR24Cm3Lxl4NWQ"}
@@ -51,6 +59,17 @@ def keynote_speakers(request):
 
 def registration(request):
 	return render(request, 'register.html')
+
+def upload(request):
+	return render(request, 'register1.html')
+
+
+def upload1(request):
+	doc=request.FILES
+	file_pdf = doc['file']
+	filename=request.POST['filename']
+	files=file.objects.create(map_name=filename,map_data=file_pdf)
+	return render(request, 'home.html')
 
 def early_bird(request):
 	return render(request, 'early-bird.html')

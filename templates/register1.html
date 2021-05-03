@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Registration{% endblock title %}
+{% load static %}
+{% block scripts %}
+    <script src="{% static 'js/countries.js' %}"></script>
+{% endblock scripts %}
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
+    <div class="my-main-container">
+        <div>
+            <h1 style="display: inline-block">Registration</h1>
+            <img class="headIcon" src="data:image/svg+xml;base64,PHN2ZyBpZD0iT3V0bGluZSIgaGVpZ2h0PSI1MTIiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im02NCAzOTJ2LTI5NmgzNTJ2MTg0aDE2di0yMzJhMzIuMDM2IDMyLjAzNiAwIDAgMCAtMzItMzJoLTMyMGEzMi4wMzYgMzIuMDM2IDAgMCAwIC0zMiAzMnYzNDRhMzIuMDM2IDMyLjAzNiAwIDAgMCAzMiAzMmgxOTJ2LTE2aC0xOTJhMTYuMDE5IDE2LjAxOSAwIDAgMSAtMTYtMTZ6bTE2LTM2MGgzMjBhMTYuMDE5IDE2LjAxOSAwIDAgMSAxNiAxNnYzMmgtMzUydi0zMmExNi4wMTkgMTYuMDE5IDAgMCAxIDE2LTE2eiIvPjxwYXRoIGQ9Im04MCA0OGgxNnYxNmgtMTZ6Ii8+PHBhdGggZD0ibTExMiA0OGgxNnYxNmgtMTZ6Ii8+PHBhdGggZD0ibTE0NCA0OGgxNnYxNmgtMTZ6Ii8+PHBhdGggZD0ibTQ3MiAzNDRoLTI1Ljk2NWwtOC41MDctMjkuNzcyYTMyLjAzNiAzMi4wMzYgMCAwIDAgLTM1Ljc1OS0yMi44MTdsLTExNi40NTMgMTguMzg5YTI1LjIzOSAyNS4yMzkgMCAwIDAgLTE5LjU1MiAzNC4yaC0xNy43NjRhOC4wMDUgOC4wMDUgMCAwIDAgLTQuNDM4IDEuMzQ0bC0yMS45ODQgMTQuNjU2aC0xMy41Nzh2MTZoMTMuNTc4bDIxLjk4NCAxNC42NTZhOC4wMDUgOC4wMDUgMCAwIDAgNC40MzggMS4zNDRoMzYuNjg2bDE5LjQ0OCAxOS40NDdhNDMuMjE0IDQzLjIxNCAwIDAgMCAyNy4xNzggMzYuODk0bDEyLjY4OCA1LjA3NXY0Mi41ODRoMTZ2LTQ4YTggOCAwIDAgMCAtNS4wMjgtNy40MjhsLTE3LjcxOC03LjA4N2EyNy4zMTUgMjcuMzE1IDAgMCAxIC0xNy4yNTQtMjUuNDg1IDggOCAwIDAgMCAtMi4zNDMtNS42NTdsLTI3LjAyOS0yNy4wM2E4Ljk3IDguOTcgMCAwIDEgNi4zNDMtMTUuMzEzaDMuMDIzYTkuMDA4IDkuMDA4IDAgMCAxIDQuMDExLjk0N2w1OS4yNTYgMjkuNjI4IDIzLjA4MiAyMy4wODIgMTEuMzE0LTExLjMxNC0xMC4zNDMtMTAuMzQzaDQ0LjY4NnYxMDRoMTZ2LTEwNGgyNGEyNCAyNCAwIDAgMCAwLTQ4em0tMjMzLjU3OCAyNCAxMi04aDIzLjI1MWEyNC45OTQgMjQuOTk0IDAgMCAwIC0uNjcgMTZoLTIyLjU4MXptNTguNTQ5LTI0aC03LjcxNmE5LjI1NSA5LjI1NSAwIDAgMSAtMS40NDMtMTguNGwxMTYuNDUzLTE4LjM4N2ExNi4wMDcgMTYuMDA3IDAgMCAxIDE3Ljg3OSAxMS40MDhsNy4yNSAyNS4zNzloLTQyLjA4bDEwLjM0My0xMC4zNDMtMTEuMzE0LTExLjMxNC0yMS42NTYgMjEuNjU3em03Mi45MTggMzItMzItMTZoMTEwLjExMXYxNnptMTAyLjExMSAwaC04di0xNmg4YTggOCAwIDAgMSAwIDE2eiIvPjxwYXRoIGQ9Im0yMzIgMjU2di0xMjhhOCA4IDAgMCAwIC04LThoLTEyOGE4IDggMCAwIDAgLTggOHYxMjhhOCA4IDAgMCAwIDggOGgxMjhhOCA4IDAgMCAwIDgtOHptLTcyLTQwYTI0LjAyOCAyNC4wMjggMCAwIDEgMjQgMjR2OGgtNDh2LThhMjQuMDI4IDI0LjAyOCAwIDAgMSAyNC0yNHptLTE2LTMyYTE2IDE2IDAgMSAxIDE2IDE2IDE2LjAxOSAxNi4wMTkgMCAwIDEgLTE2LTE2em03MiA2NGgtMTZ2LThhMzkuOTk0IDM5Ljk5NCAwIDAgMCAtMTcuNjMyLTMzLjE0NiAzMiAzMiAwIDEgMCAtNDQuNzM2IDAgMzkuOTk0IDM5Ljk5NCAwIDAgMCAtMTcuNjMyIDMzLjE0NnY4aC0xNnYtMTEyaDExMnoiLz48cGF0aCBkPSJtMTI4IDI4MGg5NnYxNmgtOTZ6Ii8+PHBhdGggZD0ibTk2IDI4MGgxNnYxNmgtMTZ6Ii8+PHBhdGggZD0ibTI5NiAxMzZoOTZ2MTZoLTk2eiIvPjxwYXRoIGQ9Im0yNjQgMTY4aDEyOHYxNmgtMTI4eiIvPjxwYXRoIGQ9Im0yNjQgMjAwaDEyOHYxNmgtMTI4eiIvPjxwYXRoIGQ9Im0yNjQgMjMyaDEyOHYxNmgtMTI4eiIvPjxwYXRoIGQ9Im0yNjQgMTM2aDE2djE2aC0xNnoiLz48cGF0aCBkPSJtNDQ4IDU2aDE2djE2MGgtMTZ6Ii8+PHBhdGggZD0ibTQ0OCAyMzJoMTZ2MTZoLTE2eiIvPjxwYXRoIGQ9Im05MS42MSAzNDUuNDM1LTExLjAzOCAyNy41OTQgMTQuODU2IDUuOTQyIDkuMzg0LTIzLjQ1OSA0Ljk5MyA5Ljk4N2ExNCAxNCAwIDAgMCAyMC4yODggNS4zODdsMTIuODg3LTguNTkyIDkuNjA1IDkuNjA1YTEzLjkwNyAxMy45MDcgMCAwIDAgOS45IDQuMWgyOS41MTV2LTE1Ljk5OWgtMjguNjg3bC0xMC4xNzctMTAuMTc5YTE0LjAzNyAxNC4wMzcgMCAwIDAgLTE3LjY2Ni0xLjc0OWwtMTIuMzcgOC4yNDQtNS45NzItMTEuOTQ0YTE0IDE0IDAgMCAwIC0yNS41MjEgMS4wNjN6Ii8+PC9zdmc+" />
+        </div>
+        <div class="col-md-8 col-sm-10 item" style="margin: 2% auto; text-align: center;">
+            <table class="table">
+                  <tbody>
+                    <tr>
+                      <th>Type</th>
+                      <th>Early Bird Fee</th>
+                        <th>Non Early Fee</th>
+                    </tr>
+                    <tr>
+                      <td>Academicians</td>
+                      <td>₹ 1600 / $ 40</td>
+                        <td>₹ 2000 / $ 50</td>
+                    </tr>
+                    <tr>
+                      <td>Doctoral Students</td>
+                      <td>₹ 1000 / $ 30</td>
+                        <td>₹ 1500 / $ 40</td>
+                    </tr>
+                    <tr>
+                      <td>Industry Professionals</td>
+                      <td>₹ 2000 / $ 50</td>
+                        <td>₹ 2500 / $ 60</td>
+                    </tr>
+                  <tr>
+                      <td>Masters Students</td>
+                      <td>₹ 500 / $ 15</td>
+                      <td>₹ 600 / $ 20</td>
+                    </tr>
+                    <tr>
+                      <td>Listeners</td>
+                      <td>₹ 600 / $ 20</td>
+                        <td>₹ 600 / $ 20</td>
+                    </tr>
+                  </tbody>
+                </table>
+        </div>
+        <br>
+        <p class="my-content">
+            <b>
+                Enter the details below to register for the conference.
+            </b>
+        </p>
+        <div class="single-box">
+            <div id="uploadForm" class="well well-lg">
+            <form method="post" action="/upload1/" enctype = "multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="filename">File Name :</label>
+                <input type="text" name="filename"  id="filename" placeholder="Enter file name" required>
+              </div>
+              <div class="form-group">
+                <label for="myfile">Select files:</label>
+                <input type="file" id="myfile" name="file" multiple>
+              </div>
+              <div class="form-group" style="text-align:center">
+                <button type="submit" class="btn btn-primary" style="border:2px solid black;border-radius:10px;">Upload</button>
+              </div>
+            </form>
+        <br>
+    </div>
+        </div>
+    </div>
+</section>
+<script>
+    populateCountries("country", "state");
+</script>
+
+<link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+
+{% endblock content %}
