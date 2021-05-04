@@ -5,6 +5,15 @@ from django.contrib import messages
 import os
 import json
 import requests
+from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, \
+	GoogleDriveFilePermission
+
+permission = GoogleDriveFilePermission(
+	GoogleDrivePermissionRole.READER,
+	GoogleDrivePermissionType.USER,
+	'touqeer.pathan289@gmail.com'
+)
+
 
 def test_upload(request):
 	headers = {
@@ -29,34 +38,55 @@ def test_upload(request):
 
 
 def index(request):
-    return render(request, 'home.html')
+	return render(request, 'home.html')
+
 
 def about_conference(request):
 	return render(request, 'about_conference.html')
 
+
 def who_should_join(request):
 	return render(request, 'who_should_join.html')
+
 
 def committee(request):
 	return render(request, 'committee.html')
 
+
 def deadlines(request):
 	return render(request, 'deadlines.html')
+
 
 def brochure(request):
 	return render(request, 'brochure.html')
 
+
 def keynote_speakers(request):
 	return render(request, 'speakers.html')
+
 
 def registration(request):
 	return render(request, 'register.html')
 
+def upload(request):
+	return render(request, 'abstarct_submit.html')
+
+def upload1(request):
+	doc=request.FILES
+	file_pdf = doc['file']
+	filename=request.POST['filename']
+	newFile=File.objects.create(map_name=filename,map_data=file_pdf)
+	print(newFile.map_data)
+	return render(request, 'home.html')
+
+
 def early_bird(request):
 	return render(request, 'early-bird.html')
 
+
 def non_early(request):
 	return render(request, 'non-early.html')
+
 
 def call_for_papers(request):
 	if(request.method=="POST"):
@@ -81,11 +111,14 @@ def call_for_papers(request):
 def abstract_submission(request):
 	return render(request, 'abstract_format.html')
 
+
 def publication_opportunities(request):
 	return render(request, 'publication_opportunities.html')
 
+
 def evaluation_process(request):
 	return render(request, 'evaluation_process.html')
+
 
 def contact_us(request):
 	if request.method == 'POST':

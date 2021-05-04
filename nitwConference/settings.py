@@ -25,7 +25,8 @@ SECRET_KEY = 'uodf1o(fdj5gvde)vwc!xobv7$iio0mhpb=%141_l@bicp0_iu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['touqeer-myapp.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org', 'www.gcimb.org']
+ALLOWED_HOSTS = ['touqeer-myapp.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
+                 'localhost', 'www.gcimb.org']
 
 
 # Application definition
@@ -38,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'conference',
-
+    'gdstorage',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,6 @@ STATICFILES_DIRS = (
 STRIPE_PUBLIC_KEY = "pk_test_51Ii4ZHSBwVuEeUmRoV8QEXJXQYc2jfCBLraTDj89HHkD8ozf0A1p6P7aCvVIW4fpKU9QBhWcW2eVjRS2b9x0htLh00SgPXQwtz"
 STRIPE_SECRET_KEY = "sk_test_51Ii4ZHSBwVuEeUmRR3NV1nnLE2aFVS8c239Igm3ru7EmdwVCk4tnbLCredDVstknUBw1LNj0h3Oke7OxklfdLU9Z00wfeHBFPh"
 STRIPE_WEBHOOK_SECRET = ""
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE=os.path.join(BASE_DIR,'credentials.json')
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '/abc' # OPTIONAL

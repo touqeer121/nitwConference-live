@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="upload paper">
+    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="upload paper to drive">
+      <change afterPath="$PROJECT_DIR$/templates/abstarct_submit.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/conference/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nitwConference/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/nitwConference/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/abstract_format.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/abstract_format.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -109,7 +117,8 @@
       <workItem from="1618359003208" duration="9653000" />
       <workItem from="1618462131257" duration="76898000" />
       <workItem from="1618668993300" duration="83370000" />
-      <workItem from="1619369091322" duration="60185000" />
+      <workItem from="1619369091322" duration="64039000" />
+      <workItem from="1619876046619" duration="18832000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>
@@ -209,7 +218,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619644130034</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="upload paper to drive">
+      <created>1619646020561</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1619646020561</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +255,7 @@
     <MESSAGE value="Added Publication opportunities + Evaluation process + Updated UI theme + Fixed Reponsive UI" />
     <MESSAGE value="Made required write up amendments" />
     <MESSAGE value="upload paper" />
-    <option name="LAST_COMMIT_MESSAGE" value="upload paper" />
+    <MESSAGE value="upload paper to drive" />
+    <option name="LAST_COMMIT_MESSAGE" value="upload paper to drive" />
   </component>
 </project>
