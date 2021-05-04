@@ -3,7 +3,7 @@ from django.core.validators import FileExtensionValidator, RegexValidator
 from gdstorage.storage import GoogleDriveStorage
 gd_storage = GoogleDriveStorage()
 
-class Paper(models.Model) :
+class Abstract(models.Model) :
 	prefix = models.CharField(max_length=20)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
@@ -14,12 +14,14 @@ class Paper(models.Model) :
 							 blank=True)
 
 	paper_title = models.CharField(max_length=300)
-	abstract = models.TextField(max_length=500)
-	keywords = models.CharField(max_length=500)
+	# abstract = models.TextField(max_length=500)
+	# keywords = models.CharField(max_length=500)
 
-	paper_pdf = models.FileField(upload_to='',
-								 validators=[FileExtensionValidator(["pdf"])],
-								 null=True, blank=True, default=None)
+	abstract_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["pdf", "doc", "docx"])], storage=gd_storage)
+	# paper_pdf = models.FileField(upload_to='',
+	# 							 validators=[FileExtensionValidator(["pdf"])],
+	# 							 null=True, blank=True, default=None)
 
 	submission_date = models.DateTimeField()
 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -136,3 +137,11 @@ STRIPE_WEBHOOK_SECRET = ""
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE=os.path.join(BASE_DIR,'credentials.json')
 GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '/abc' # OPTIONAL
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtpout.secureserver.net'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587

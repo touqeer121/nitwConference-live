@@ -7,36 +7,17 @@ import json
 import requests
 from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, GoogleDrivePermissionRole, \
 	GoogleDriveFilePermission
+from django.core.mail import send_mail
+from django.conf import settings
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
 	GoogleDrivePermissionType.USER,
 	'touqeer.pathan289@gmail.com'
 )
-
-
-def test_upload(request):
-	headers = {
-		"Authorization": "Bearer ya29.a0AfH6SMDE18bB4m_ios9jiTJCqZEale8QNeA-JdxL82cQwdxKaLbqS-8YxudmBOLYThO4Z-KWXfgmJK8kKw2GPfU2SI0bwCNTfKXYjmc-5-whSOGGkSMtnmCoJGl99edouMOIN3VidXaxJCzR24Cm3Lxl4NWQ"}
-	para = {
-		"name": "from_live",
-	}
-	files = {
-		'data': ('metadata', json.dumps(para), 'application/json; charset=UTF-8'),
-		'file': open("./cat.jpg", "rb")
-	}
-	r = requests.post(
-		"https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart",
-		headers=headers,
-		files=files
-	)
-	print(r.text)
-
-	print("HEY  ",os.getcwd())
-	return render(request, 'home.html')
-
-
-
 def index(request):
 	return render(request, 'home.html')
 
@@ -68,17 +49,43 @@ def keynote_speakers(request):
 def registration(request):
 	return render(request, 'register.html')
 
-def upload(request):
-	return render(request, 'abstarct_submit.html')
+def abstract_submission(request):
+	if (request.method == "POST"):
+		doc=request.FILES
+		file_pdf = doc['pdf']
+		ppr = Abstract.objects.create(paper_title=request.POST['title'], submission_date=datetime.datetime.now(),
+									  abstract_pdf=file_pdf)
+		ppr.prefix = request.POST['prefix']
+		ppr.first_name = request.POST['fname']
+		ppr.last_name = request.POST['lname']
+		ppr.institution = request.POST['institution']
+		ppr.country = request.POST['country']
+		ppr.email = request.POST['email']
+		ppr.phone = request.POST['phone']
+		ppr.paper_pdf = request.FILES['pdf']
+		ppr.save()
 
-def upload1(request):
-	doc=request.FILES
-	file_pdf = doc['file']
-	filename=request.POST['filename']
-	newFile=File.objects.create(map_name=filename,map_data=file_pdf)
-	print(newFile.map_data)
-	return render(request, 'home.html')
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		msg['To'] = request.POST['email']
+		msg['Subject'] = 'Abstract submission acknowledgement'
+		message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+				  'Hope you are safe and doing well.\n\n' + \
+				  'We\'ve received your abstract. We will get back to you soon.\n\n\n' + \
+				  'Best Regards,\n\n' + \
+				  'Global Conference of Innovations in Management and Business'
+		msg.attach(MIMEText(message))
 
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+		messages.success(request, "You've successfully submitted the abstract.")
+		return redirect('/abstract-submission')
+	return render(request, 'abstract_submission.html')
 
 def early_bird(request):
 	return render(request, 'early-bird.html')
@@ -89,27 +96,11 @@ def non_early(request):
 
 
 def call_for_papers(request):
-	if(request.method=="POST"):
-		ppr = Paper.objects.create(paper_title=request.POST['paper_title'], submission_date=datetime.datetime.now())
-		ppr.prefix = request.POST['prefix']
-		ppr.first_name = request.POST['fname']
-		ppr.last_name = request.POST['lname']
-		ppr.institution = request.POST['institution']
-		ppr.country = request.POST['country']
-		ppr.email = request.POST['email']
-		ppr.phone = request.POST['phone']
-		ppr.paper_pdf = request.POST['paper_title']
-		ppr.abstract = request.POST['abstract']
-		ppr.keywords = request.POST['keywords']
-		ppr.save()
-		messages.success(request, "You've successfully submitted the paper.")
-		return redirect('/call_for_papers')
-	print("GET method")
-	# messages.success(request, "TESTING")
 	return render(request, 'online_submission.html')
 
-def abstract_submission(request):
-	return render(request, 'abstract_format.html')
+
+def abstract_submission_guidelines(request):
+	return render(request, 'abstract_submission_guidelines.html')
 
 
 def publication_opportunities(request):
@@ -122,19 +113,23 @@ def evaluation_process(request):
 
 def contact_us(request):
 	if request.method == 'POST':
-		print('Contact us message recieved.')
-		newMessage = ContactUsMessage()
-		newMessage.sender_name = request.POST['fullName']
-		newMessage.email = request.POST['email']
-		# newMessage.phone = request.POST['phone']
-		newMessage.subject = request.POST['subject']
-		newMessage.message = request.POST['message']
-		# superuser = CustomUser.objects.filter(is_superuser=True).first()
-		# superuser.notifications = superuser.notifications + 1
-		# superuser.noti_messages = superuser.noti_messages + '<li> New message has arrived in inbox </li>'
-		# superuser.save()
-		newMessage.save()
-		messages.add_message(request, messages.INFO, 'Your Message has been sent. We will email you back soon.')
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = 'info@gcimb.org'
+		msg['To'] = request.POST['email']
+		msg['Subject'] = request.POST['subject']
+		message = request.POST['message']
+		msg.attach(MIMEText(message))
+
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login('info@gcimb.org', 'info123@gcimb')
+
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+		mailserver.quit()
+		messages.success(request, "Message Sent successfully. We'll get back to you soon.")
 		return redirect('/contact_us')
-	# print('Contact us message ERROR.')
+	messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')

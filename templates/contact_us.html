@@ -20,18 +20,18 @@
 
 <section id="hero1" class="hero">
   <div class="inner-other">
-    {% if messages %}
-        {% for mes in messages %}
-            <div class="alert alert-success message_container">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>{{ mes }}</strong>
-            </div>
-        {% endfor %}
-    {% endif %}
   </div>
 </section>
 
 <section class="content" >
+    {% if messages %}
+        {% for mes in messages %}
+            <div class="alert alert-success message_container">
+                <a href="#" class="close" data-dismiss="success" aria-label="close">&times;</a>
+                <strong>{{ mes }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
     <div class="my-main-container">
         <div>
             <h1 style="display:inline-block ;">Contact Us</h1>
