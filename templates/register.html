@@ -65,6 +65,17 @@
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="form-subgroup half">
+                        <label class="formText">Type</label><br>
+                        <select class="my-input" id="status" name="status" required>
+                          <option value="" disabled selected>Select...</option>
+                          <option value="Academicians">Academician (₹ 1600 / $ 40)</option>
+                          <option value="Doctoral Students">Doctoral Student (₹ 1000 / $ 30)</option>
+                          <option value="Industry Professionals">Industry Professional (₹ 2000 / $ 50)</option>
+                          <option value="Masters Students">Masters Student (₹ 500 / $ 15)</option>
+                          <option value="Listeners">Listener (₹ 600 / $ 20)</option>
+                        </select>
+                    </div>
+                    <div class="form-subgroup half">
                             <label class="formText">Prefix</label><br>
                             <select class="my-input" id="prefix" name="prefix" required>
                                 <option value="default" disabled="true" selected="true">Select...</option>
@@ -74,17 +85,6 @@
                                 <option value="Mr.">Mr.</option>
                             </select>
                         </div>
-                    <div class="form-subgroup half">
-                        <label class="formText">Type</label><br>
-                        <select class="my-input" id="status" name="status" required>
-                          <option value="default" disabled="true" selected="true">Select...</option>
-                          <option value="Academicians">Academician (₹ 1600 / $ 40)</option>
-                          <option value="Doctoral Students">Doctoral Student (₹ 1000 / $ 30)</option>
-                          <option value="Industry Professionals">Industry Professional (₹ 2000 / $ 50)</option>
-                          <option value="Masters Students">Masters Student (₹ 500 / $ 15)</option>
-                          <option value="Listeners">Listener (₹ 600 / $ 20)</option>
-                        </select>
-                    </div>
                 </div>
                 <div class="form-group">
                         <div class="form-subgroup half">
