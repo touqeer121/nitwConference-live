@@ -131,5 +131,5 @@ def contact_us(request):
 		mailserver.quit()
 		messages.success(request, "Message Sent successfully. We'll get back to you soon.")
 		return redirect('/contact_us')
-	messages.success(request, "testing bro")
+	# messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')
