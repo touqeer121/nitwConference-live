@@ -807,7 +807,8 @@ img{
 .profile-card-text{
   /*height:80px;*/
 	font-size: 18px;
-	text-align: left;
+	text-align: justify;
+  	text-justify: inter-word;
 	padding: 2% ;
 }
 
@@ -901,9 +902,11 @@ img{
 	font-size: 18px;
 	/*height:80px;*/
 	margin: 0; !important;
-	text-align: left;
+	text-align: justify;
+	text-justify: inter-word;
 }
 .my-card-title{
+	text-align: center;
 	font-weight: bold;
 	margin: 1% auto;
 }
@@ -935,7 +938,8 @@ img{
 	color: black;
 	font-size: 20px;!important;
 	font-family: 'Rajdhani', sans-serif;!important;
-	text-align: left;
+	text-align: justify;
+  	text-justify: inter-word;
 	width: 100%;
 }
 
@@ -1216,6 +1220,13 @@ img{
 	padding: 10px;
 	margin: 3% auto;
 }
+.mini-card-img{
+	height: 175px;
+	width: 175px;
+	border-radius: 50%;
+	padding: 10px;
+	margin: 3% auto;
+}
 .card-title{
 	font-size: 20px;
 	font-weight: bold;
@@ -1356,17 +1367,17 @@ img{
  .timeline-wrapper {
 	 position: relative;
 }
- .timeline-wrapper::after {
-	 content: "";
-	 position: absolute;
-	 height: 10px;
-	 transition: 0.75s ease-out;
-	 background: #67cafa;
-	 width: 0px;
-	 z-index: 0 !important;
-	 left: 0;
-	 bottom: 0px;
-}
+/* .timeline-wrapper::after {*/
+/*	 content: "";*/
+/*	 position: absolute;*/
+/*	 height: 10px;*/
+/*	 transition: 0.75s ease-out;*/
+/*	 background: #67cafa;*/
+/*	 width: 0px;*/
+/*	 z-index: 0 !important;*/
+/*	 left: 0;*/
+/*	 bottom: 0px;*/
+/*}*/
  .timeline {
 	 display: flex;
 	 transition: all 0.3s;

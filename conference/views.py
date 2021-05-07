@@ -33,8 +33,11 @@ def who_should_join(request):
 def committee(request):
 	return render(request, 'committee.html')
 
+def preconference_workshop(request):
+	return render(request, 'preconference_workshop.html')
 
-def deadlines(request):
+
+def important_dates(request):
 	return render(request, 'deadlines.html')
 
 
@@ -71,10 +74,13 @@ def abstract_submission(request):
 		msg['To'] = request.POST['email']
 		msg['Subject'] = 'Abstract submission acknowledgement'
 		message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-				  'Hope you are safe and doing well.\n\n' + \
-				  'We\'ve received your abstract. We will get back to you soon.\n\n\n' + \
-				  'Best Regards,\n\n' + \
-				  'Global Conference of Innovations in Management and Business'
+				  'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
+				  'Your abstract Id. will be GCIMB121001. Please make a note of it and quote the same in future communications.\n\n' + \
+				  'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
+				  'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+				  'Best Regards,\n' + \
+				  'Organizing Team,\n' + \
+				  'Global Conference on Innovations in Management and Business'
 		msg.attach(MIMEText(message))
 
 		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
