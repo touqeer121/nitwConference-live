@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="keynote speakers updated">
-      <change afterPath="$PROJECT_DIR$/templates/preconference_workshop.html" afterDir="false" />
+    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Added Advisory Committee">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conference/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/conference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/images/profile_pic.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/images/profile_pic.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/about_conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about_conference.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/committee.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/committee.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/deadlines.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/deadlines.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/speakers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/speakers.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,7 +114,7 @@
       <workItem from="1619369091322" duration="64039000" />
       <workItem from="1619876046619" duration="44709000" />
       <workItem from="1620326204289" duration="7048000" />
-      <workItem from="1620335283844" duration="26601000" />
+      <workItem from="1620335283844" duration="35522000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>
@@ -264,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620391311565</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Added Advisory Committee">
+      <created>1620409933289</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1620409933289</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,6 +298,7 @@
     <MESSAGE value="email acknowledgement for contact us + abstract submission" />
     <MESSAGE value="website update #1" />
     <MESSAGE value="keynote speakers updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="keynote speakers updated" />
+    <MESSAGE value="Added Advisory Committee" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Advisory Committee" />
   </component>
 </project>
