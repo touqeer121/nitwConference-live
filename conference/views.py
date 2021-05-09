@@ -102,7 +102,7 @@ def non_early(request):
 
 
 def call_for_papers(request):
-	return render(request, 'online_submission.html')
+	return render(request, 'call_for_papers.html')
 
 
 def abstract_submission_guidelines(request):
