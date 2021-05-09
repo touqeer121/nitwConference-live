@@ -909,6 +909,7 @@ img{
 	text-align: center;
 	font-weight: bold;
 	margin: 1% auto;
+	color: black;
 }
 .my-card::before, .my-card::after {
   position: absolute;
@@ -972,6 +973,18 @@ img{
 	display: inline-block;
 }
 
+.my-row-2{
+	text-align: left;
+	background-color: #eef3ff;
+	border-radius: 0px 50px 50px 0px ;
+	min-width: min-content;
+	display: inline-block;
+	padding: 20px 30px;
+	border-left: 5px solid #43cae8;
+}
+.my-list-itme{
+	margin: 3% auto;
+}
 .alt-row{
 	text-align: right;
 }

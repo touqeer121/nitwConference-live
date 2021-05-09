@@ -10,6 +10,7 @@ urlpatterns = [
     path('about_conference/', views.about_conference, name='about_conference'),
     path('who-can-join/', views.who_should_join, name='who_should_join'),
     path('committee/', views.committee, name='committee'),
+    path('track-chairs/', views.track_chairs, name='track_chairs'),
     path('preconference-workshop/', views.preconference_workshop, name='preconference_workshop'),
     path('important-dates/', views.important_dates, name='important_dates'),
     path('brochure/', views.brochure, name='brochure'),

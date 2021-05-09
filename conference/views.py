@@ -33,6 +33,10 @@ def who_should_join(request):
 def committee(request):
 	return render(request, 'committee.html')
 
+
+def track_chairs(request):
+	return render(request, 'track_chairs.html')
+
 def preconference_workshop(request):
 	return render(request, 'preconference_workshop.html')
 
