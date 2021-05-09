@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Updated Keynote Speakers and added track chairs">
+    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="added dario">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/committee.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/committee.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/about_conference.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/about_conference.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/call_for_papers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/call_for_papers.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +113,7 @@
       <workItem from="1619369091322" duration="64039000" />
       <workItem from="1619876046619" duration="44709000" />
       <workItem from="1620326204289" duration="7048000" />
-      <workItem from="1620335283844" duration="44846000" />
+      <workItem from="1620335283844" duration="50874000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>
@@ -282,7 +283,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620548518111</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="added dario">
+      <created>1620549812570</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1620549812570</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,6 +329,7 @@
     <MESSAGE value="Added profiles" />
     <MESSAGE value="Profiles Update #1" />
     <MESSAGE value="Updated Keynote Speakers and added track chairs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated Keynote Speakers and added track chairs" />
+    <MESSAGE value="added dario" />
+    <option name="LAST_COMMIT_MESSAGE" value="added dario" />
   </component>
 </project>
