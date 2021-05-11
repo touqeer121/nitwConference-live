@@ -730,11 +730,12 @@ p{
 	font-size: 20px; !important;
 	padding: 5px 15px	;
 	margin: 2% auto;
-	color: #1f1f1f;
+	color: white;
 	/*width: 60%;*/
-	min-width: 100px;
-	max-width: 400px;
-	overflow-wrap: normal;
+	min-width: 200px;
+	max-width: min-content;
+	text-align: center;
+	/*overflow-wrap: normal;*/
 }
 .homeButton{
 	min-width: 200px;
@@ -744,10 +745,11 @@ p{
 .formButton:hover{
 	/*background-color: #51eaf8; !important;*/
 	top: -5px;
-	color: #1f1f1f;
+	color: white;
 	box-shadow: 0px 5px 18px #5ffdfd;
 	cursor: pointer;
 	text-decoration: none;
+	transition: all 0.5s ease;
 }
 .formButton:active{
 	background-color: #43cae8; !important;

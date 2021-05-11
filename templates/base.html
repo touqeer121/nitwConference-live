@@ -50,14 +50,14 @@
                                 <a class="nav-link " href="/">Home</a>
                             </li>
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
-                                {% if request.path == '/about_conference/' or request.path == '/committee/' or request.path == '/important-dates/' or request.path == '/brochure/'%}
+                                {% if request.path == '/about-conference/' or request.path == '/track-chairs/' or request.path == '/committee/' or request.path == '/who-can-join/' or request.path == '/important-dates/' or request.path == '/brochure/'%}
                                     active
                                 {% endif %}">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../cenference_information/"
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="../cenference-information/"
                                    role="button" aria-haspopup="true" aria-expanded="false" onclick='ci_dropdown()'>
                                     Conference Information <div id="ci" class="fas fa-angle-right rotate"></div></a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="../about_conference">About Conference</a>
+                                    <a class="dropdown-item" href="../about-conference">About Conference</a>
                                     <a class="dropdown-item" href="../track-chairs">Track Chairs</a>
                                     <a class="dropdown-item" href="../committee">Advisory Committee</a>
                                     <a class="dropdown-item" href="../who-can-join">Who Can Join</a>
@@ -66,8 +66,8 @@
 
                                 </div>
                             </li>
-                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/keynote_speakers/' %}active{% endif %}">
-                                <a class="nav-link" href="../keynote_speakers/">Keynote Speakers</a>
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/keynote-speakers/' %}active{% endif %}">
+                                <a class="nav-link" href="../keynote-speakers/">Keynote Speakers</a>
                             </li>
 
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/abstract-submission/' %}active{% endif %}">
@@ -75,24 +75,24 @@
                             </li>
 
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
-                                {% if request.path == '/call_for_papers/' or request.path == '/abstract-submission-guidelines/' or request.path == '/evaluation_process/' or request.path == '/publication-opportunities/'%}
+                                {% if request.path == '/call_for_papers/' or request.path == '/abstract-submission-guidelines/' or request.path == '/evaluation-process/' or request.path == '/publication-opportunities/'%}
                                     active
                                 {% endif %}">
                                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
                                    aria-haspopup="true" aria-expanded="false" onclick='ag_dropdown()'>
                                     Author's Guidelines <div id="ag" class="fas fa-angle-right rotate"></div></a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="../call_for_papers">Call For Papers</a>
+                                    <a class="dropdown-item" href="../call-for-papers">Call For Papers</a>
                                     <a class="dropdown-item" href="../abstract-submission-guidelines">Abstract Submission</a>
-                                    <a class="dropdown-item" href="../evaluation_process">Evaluation Process</a>
+                                    <a class="dropdown-item" href="../evaluation-process">Evaluation Process</a>
                                     <a class="dropdown-item" href="../publication-opportunities">Publication Opportunities</a>
                                 </div>
                             </li>
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/registration/' %}active{% endif %}">
                                 <a class="nav-link" href="../registration/">Registration</a>
                             </li>
-                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/contact_us/' %}active{% endif %}">
-                                <a class="nav-link" href="../contact_us/">Contact Us</a>
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/contact-us/' %}active{% endif %}">
+                                <a class="nav-link" href="../contact-us/">Contact Us</a>
                             </li>
                         </ul>
                     </div>
@@ -133,7 +133,7 @@
 					<h5>Quick links</h5>
 					<ul class="list-unstyled quick-links" >
 						<li><a href="/"><i class="fa fa-angle-double-right"></i>Home</a></li>
-						<li><a href="../keynote_speakers"><i class="fa fa-angle-double-right"></i>Keynote Speakers</a></li>
+						<li><a href="../keynote-speakers"><i class="fa fa-angle-double-right"></i>Keynote Speakers</a></li>
 						<li><a href="../preconference-workshop"><i class="fa fa-angle-double-right"></i>Preconference Workshop</a></li>
 						<li><a href="../abstract-submission"><i class="fa fa-angle-double-right"></i>Submit Abstract</a></li>
 						<li><a href="../registration"><i class="fa fa-angle-double-right"></i>Register</a></li>
