@@ -62,6 +62,7 @@ def abstract_submission(request):
 		file_pdf = doc['pdf']
 		ppr = Abstract.objects.create(paper_title=request.POST['title'], submission_date=datetime.datetime.now(),
 									  abstract_pdf=file_pdf)
+		ppr.track = request.POST['track']
 		ppr.prefix = request.POST['prefix']
 		ppr.first_name = request.POST['fname']
 		ppr.last_name = request.POST['lname']

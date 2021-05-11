@@ -4,6 +4,7 @@ from gdstorage.storage import GoogleDriveStorage
 gd_storage = GoogleDriveStorage()
 
 class Abstract(models.Model) :
+	track = models.CharField(max_length=500)
 	prefix = models.CharField(max_length=20)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
@@ -14,19 +15,16 @@ class Abstract(models.Model) :
 							 blank=True)
 
 	paper_title = models.CharField(max_length=300)
-	# abstract = models.TextField(max_length=500)
-	# keywords = models.CharField(max_length=500)
 
 	abstract_pdf = models.FileField(upload_to='maps',
 								validators=[FileExtensionValidator(["pdf", "doc", "docx"])], storage=gd_storage)
-	# paper_pdf = models.FileField(upload_to='',
-	# 							 validators=[FileExtensionValidator(["pdf"])],
-	# 							 null=True, blank=True, default=None)
+
 
 	submission_date = models.DateTimeField()
 
 	def __str__(self):
 		return self.paper_title + "(" + str(self.id) + ")"
+
 
 
 class File(models.Model):

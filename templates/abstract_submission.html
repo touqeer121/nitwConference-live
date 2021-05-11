@@ -45,15 +45,34 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <div class="form-subgroup half">
-                                <label class="formText">Prefix</label><br>
-                                <select class="my-input" id="prefix" name="prefix" required>
-                                    <option value="" disabled selected>Select...</option>
-                                    <option value="Dr.">Dr.</option>
-                                    <option value="Mrs.">Mrs.</option>
-                                    <option value="Ms.">Ms.</option>
-                                    <option value="Mr.">Mr.</option>
-                                </select>
-                            </div>
+                            <label class="formText">Track</label><br>
+                            <select class="my-input" id="track" name="track" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="ba">Business Analytics</option>
+                                <option value="cm">Crisis Management</option>
+                                <option value="dtis">Digital Transformation and Information Systems</option>
+                                <option value="eit">Economics and International Trade</option>
+                                <option value="ei">Entrepreneurship and Innovation</option>
+                                <option value="efi">Financial Management and Investment</option>
+                                <option value="gm">General Management</option>
+                                <option value="eit">Economics and International Trade</option>
+                                <option value="hrml">Human Resource Management and Leadership</option>
+                                <option value="mmci">Marketing Management and Customer Insights</option>
+                                <option value="oscm">Operations and Supply Chain Management</option>
+                                <option value="pcmr">Pluralism—Cultural, Moral and Religious</option>
+                                <option value="smcg">Strategic Management and Corporate Governance</option>
+                            </select>
+                        </div>
+                        <div class="form-subgroup half">
+                            <label class="formText">Prefix</label><br>
+                            <select class="my-input" id="prefix" name="prefix" required>
+                                <option value="" disabled selected>Select...</option>
+                                <option value="Dr.">Dr.</option>
+                                <option value="Mrs.">Mrs.</option>
+                                <option value="Ms.">Ms.</option>
+                                <option value="Mr.">Mr.</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                             <div class="form-subgroup half">
