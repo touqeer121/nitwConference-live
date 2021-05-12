@@ -811,9 +811,11 @@ img{
 	font-size: 18px;
 	text-align: justify;
   	text-justify: inter-word;
-	padding: 2% ;
+	padding: 15px 5px;
 }
-
+.card{
+	height: auto;
+}
 .card::before, .card::after {
   position: absolute;
   top: 0;
