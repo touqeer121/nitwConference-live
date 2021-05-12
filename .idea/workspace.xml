@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="Updated ublication opportunities + Added new committee members">
+    <list default="true" id="2ef85243-8a8b-4c51-9143-3a504779e5de" name="Default Changelist" comment="contact us page updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contact_us.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contact_us.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conference/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/conference/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/abstract_submission.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/abstract_submission.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/track_chairs.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/track_chairs.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +117,7 @@
       <workItem from="1619369091322" duration="64039000" />
       <workItem from="1619876046619" duration="44709000" />
       <workItem from="1620326204289" duration="7048000" />
-      <workItem from="1620335283844" duration="73550000" />
+      <workItem from="1620335283844" duration="78202000" />
     </task>
     <task id="LOCAL-00001" summary="Home Page created">
       <created>1618049276537</created>
@@ -331,7 +336,14 @@
       <option name="project" value="LOCAL" />
       <updated>1620748097722</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="contact us page updated">
+      <created>1620748372049</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1620748372049</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -350,7 +362,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Static files directory" />
     <MESSAGE value="added paper submission" />
     <MESSAGE value="fixed home page UI" />
     <MESSAGE value="Added all required pages" />
@@ -375,6 +386,7 @@
     <MESSAGE value="Updated Logos and profiles" />
     <MESSAGE value="Added patrons" />
     <MESSAGE value="Updated ublication opportunities + Added new committee members" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated ublication opportunities + Added new committee members" />
+    <MESSAGE value="contact us page updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="contact us page updated" />
   </component>
 </project>

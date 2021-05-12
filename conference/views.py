@@ -60,8 +60,16 @@ def abstract_submission(request):
 	if (request.method == "POST"):
 		doc=request.FILES
 		file_pdf = doc['pdf']
-		ppr = Abstract.objects.create(paper_title=request.POST['title'], submission_date=datetime.datetime.now(),
-									  abstract_pdf=file_pdf)
+
+		cnt = Paper_Count.objects.get()
+		year = datetime.datetime.now().year
+		yy = str(year)
+		p1 = yy[2:]
+		p2 = str(cnt.paper_count).zfill(4)
+		cnt.paper_count = cnt.paper_count + 1
+		cnt.save()
+		absID = "GCIMB" + p1 + p2
+		ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
 		ppr.track = request.POST['track']
 		ppr.prefix = request.POST['prefix']
 		ppr.first_name = request.POST['fname']
@@ -70,6 +78,8 @@ def abstract_submission(request):
 		ppr.country = request.POST['country']
 		ppr.email = request.POST['email']
 		ppr.phone = request.POST['phone']
+		ppr.paper_title = request.POST['title'],
+		print("TITLE iS: ", request.POST['title'])
 		ppr.paper_pdf = request.FILES['pdf']
 		ppr.save()
 
@@ -78,9 +88,10 @@ def abstract_submission(request):
 		msg['From'] = settings.EMAIL_HOST_USER
 		msg['To'] = request.POST['email']
 		msg['Subject'] = 'Abstract submission acknowledgement'
+
 		message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
 				  'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
-				  'Your abstract Id. will be GCIMB121001. Please make a note of it and quote the same in future communications.\n\n' + \
+				  'Your abstract ID will be ' + absID +'. Please make a note of it and quote the same in future communications.\n\n' + \
 				  'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
 				  'Many thanks for considering to submit your work to GCIMB.\n\n'+\
 				  'Best Regards,\n' + \
