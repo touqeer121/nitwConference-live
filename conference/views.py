@@ -21,10 +21,11 @@ permission = GoogleDriveFilePermission(
 def index(request):
 	return render(request, 'home.html')
 
-
 def about_conference(request):
 	return render(request, 'about_conference.html')
 
+def organizing_team(request):
+	return render(request, 'organizing_team.html')
 
 def who_should_join(request):
 	return render(request, 'who_should_join.html')

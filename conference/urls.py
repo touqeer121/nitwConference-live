@@ -8,6 +8,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('abstract-submission/', views.abstract_submission, name='abstract_submission'),
     path('about-conference/', views.about_conference, name='about_conference'),
+    path('organizing-team/', views.organizing_team, name='organizing_team'),
     path('who-can-join/', views.who_should_join, name='who_should_join'),
     path('committee/', views.committee, name='committee'),
     path('track-chairs/', views.track_chairs, name='track_chairs'),
