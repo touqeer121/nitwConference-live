@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django.contrib import messages
 import os
@@ -57,6 +57,33 @@ def keynote_speakers(request):
 def registration(request):
 	return render(request, 'register.html')
 
+def forward_submission_info(absID):
+	ppr = get_object_or_404(Abstract, abs_id=absID)
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	recipients = ['info@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	msg['To'] = ", ".join(recipients)
+	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
+
+	# 'Track : '+ ppr.track + '\n' +\
+	message = 'A new abtract has been submitted \n\n' + 'Abstarct Details : \n' + \
+			'Abstract ID : '+ str(absID) + '\n' + \
+			'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
+			'Title : '+ str(ppr.paper_title) + '\n' + \
+			'Abstract Link : '+ str(ppr.abstract_pdf.url) + '\n' + \
+			'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
+			'Institute : '+ str(ppr.institution) + '\n' + \
+			'Email : '+ str(ppr.email) + '\n' + \
+			'Phone : '+ str(ppr.phone) + '\n' + \
+			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+	msg.attach(MIMEText(message))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+	# mailserver.starttls()
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], recipients, msg.as_string())
+
 def abstract_submission(request):
 	if (request.method == "POST"):
 		doc=request.FILES
@@ -77,11 +104,11 @@ def abstract_submission(request):
 		ppr.last_name = request.POST['lname']
 		ppr.institution = request.POST['institution']
 		ppr.country = request.POST['country']
+		ppr.state = request.POST['state']
 		ppr.email = request.POST['email']
 		ppr.phone = request.POST['phone']
-		ppr.paper_title = request.POST['title'],
-		print("TITLE iS: ", request.POST['title'])
-		ppr.paper_pdf = request.FILES['pdf']
+		ppr.paper_title = request.POST['title']
+		# print("TITLE iS: ", request.POST['title'])
 		ppr.save()
 
 		msg = MIMEMultipart()
@@ -107,6 +134,8 @@ def abstract_submission(request):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 		messages.success(request, "You've successfully submitted the abstract.")
+		forward_submission_info(absID)
+
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
 
