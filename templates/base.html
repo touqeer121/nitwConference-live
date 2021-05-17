@@ -46,6 +46,14 @@
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto py-4 py-md-0">
+                            {% if request.user.is_authenticated %}
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/' %}active{% endif %}">
+                                <a class="nav-link " href="{% url 'export_abstracts_sheet' %}">
+                                    <!-- <i class="fas fa-file-download"></i> -->
+                                    <img style="height: 30px; width: 30px;" src="data:image/svg+xml;base64,PHN2ZyBpZD0iRmlsZV9tYW5hZ2VtZW50IiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDY0IDY0IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGRhdGEtbmFtZT0iRmlsZSBtYW5hZ2VtZW50Ij48cGF0aCBkPSJtNjEgMTR2MzZoLTEydjExaC0zM3YtOS4xN2w1IDQuMTd2LTlsMTkgNHYtMjBsLTE5IDR2LTlsLTUgNC4xN3YtMjcuMTdoNDV6IiBmaWxsPSIjNzhiOWViIi8+PGcgZmlsbD0iIzAwNmRmMCI+PHBhdGggZD0ibTYxIDJoLTQ1YTEgMSAwIDAgMCAtMSAxdjI2LjdsLTEyLjY0IDEwLjUzYTEgMSAwIDAgMCAwIDEuNTRsMTIuNjQgMTAuNTN2OC43YTEgMSAwIDAgMCAxIDFoMzNhMS4wMTQgMS4wMTQgMCAwIDAgLjY4LS4yNmwxMi0xMWExLjAyOSAxLjAyOSAwIDAgMCAuMzItLjc0di00N2ExIDEgMCAwIDAgLTEtMXptLTU2LjQ0IDM5IDE1LjQ0LTEyLjg3djYuODdhMS4wMjIgMS4wMjIgMCAwIDAgLjM3Ljc4IDEuMDA3IDEuMDA3IDAgMCAwIC44NC4ybDE3Ljc5LTMuNzV2MTcuNTRsLTE3Ljc5LTMuNzVhMS4wMDcgMS4wMDcgMCAwIDAgLS44NC4yIDEuMDIyIDEuMDIyIDAgMCAwIC0uMzcuNzh2Ni44N3ptNDUuNDQgMTcuNzN2LTcuNzNoOC40M3ptMTAtOS43M2gtMTFhMSAxIDAgMCAwIC0xIDF2MTBoLTMxdi02LjAzbDMuMzYgMi44YTEgMSAwIDAgMCAuNjQuMjMgMS4wMjMgMS4wMjMgMCAwIDAgLjQyLS4wOSAxIDEgMCAwIDAgLjU4LS45MXYtNy43N2wxNy43OSAzLjc1YTEuMDA3IDEuMDA3IDAgMCAwIC44NC0uMiAxLjAyMiAxLjAyMiAwIDAgMCAuMzctLjc4di0yMGExLjAyMiAxLjAyMiAwIDAgMCAtLjM3LS43OCAxLjAwNyAxLjAwNyAwIDAgMCAtLjg0LS4ybC0xNy43OSAzLjc1di03Ljc3YTEgMSAwIDAgMCAtMS42NC0uNzdsLTMuMzYgMi44di0yNC4wM2g0M3oiLz48cGF0aCBkPSJtMjEgNmg0djJoLTR6Ii8+PHBhdGggZD0ibTI3IDZoMjB2MmgtMjB6Ii8+PHBhdGggZD0ibTIxIDExaDh2MmgtOHoiLz48cGF0aCBkPSJtMzEgMTFoMjZ2MmgtMjZ6Ii8+PHBhdGggZD0ibTIxIDE2aDI2djJoLTI2eiIvPjxwYXRoIGQ9Im0yMSAyMWg0djJoLTR6Ii8+PHBhdGggZD0ibTI3IDIxaDIydjJoLTIyeiIvPjxwYXRoIGQ9Im00OSAxNmg4djJoLTh6Ii8+PHBhdGggZD0ibTQ5IDZoOHYyaC04eiIvPjwvZz48L3N2Zz4=" />
+                                </a>
+                            </li>
+                            {% endif %}
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/' %}active{% endif %}">
                                 <a class="nav-link " href="/">Home</a>
                             </li>

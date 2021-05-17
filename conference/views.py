@@ -12,12 +12,19 @@ from django.conf import settings
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import xlrd
+import xlwt
+from xlutils.copy import copy
+from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
 	GoogleDrivePermissionType.USER,
 	'touqeer.pathan289@gmail.com'
 )
+
+
 def index(request):
 	return render(request, 'home.html')
 
@@ -56,6 +63,31 @@ def keynote_speakers(request):
 
 def registration(request):
 	return render(request, 'register.html')
+
+def update_sheet(absID):
+	# response = HttpResponse(content_type='application/ms-excel')
+	# response['Content-Disposition'] = 'attachment; filename="Abtracts.xls"'
+	rb = xlrd.open_workbook('Abtracts.xls',formatting_info=True)
+	r_sheet = rb.sheet_by_index(0) 
+	r = r_sheet.nrows
+	wb = copy(rb) 
+	sheet = wb.get_sheet(0) 
+
+	ppr = get_object_or_404(Abstract, abs_id=absID)
+	sheet.write(r,0,absID)
+	sheet.write(r,1,ppr.paper_title)
+	sheet.write(r,2,ppr.track)
+	sheet.write(r,3,ppr.prefix)
+	sheet.write(r,4,ppr.first_name)
+	sheet.write(r,5,ppr.last_name)
+	sheet.write(r,6,ppr.country)
+	sheet.write(r,7,ppr.state)
+	sheet.write(r,8,ppr.institution)
+	sheet.write(r,9,ppr.email)
+	sheet.write(r,10,ppr.phone)
+	sheet.write(r,11,str(ppr.abstract_pdf.url)[:-16])
+	sheet.write(r,12,str(ppr.submission_date).split()[0])
+	wb.save('Abstracts.xls')
 
 def forward_submission_info(absID):
 	ppr = get_object_or_404(Abstract, abs_id=absID)
@@ -111,6 +143,7 @@ def abstract_submission(request):
 		# print("TITLE iS: ", request.POST['title'])
 		ppr.save()
 
+	
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
@@ -134,8 +167,8 @@ def abstract_submission(request):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 		messages.success(request, "You've successfully submitted the abstract.")
+		update_sheet(absID)
 		forward_submission_info(absID)
-
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
 
@@ -185,3 +218,43 @@ def contact_us(request):
 		return redirect('/contact_us')
 	# messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')
+
+
+def export_abstracts_sheet(request):
+	response = HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="Abtracts.xls"'
+	wb = xlwt.Workbook(encoding='utf-8')
+	ws = wb.add_sheet('Abtracts')
+	
+	# Sheet header, first row
+	row_num = 0
+	
+	font_style = xlwt.XFStyle()
+	font_style.font.bold = True
+	columns = ['Abtract ID', 'Title', 'Track', 'Prefix', 'First Name', 'Last Name', 'Country', 'State', \
+			'Institute', 'Email', 'Phone', 'Abstract File', 'Submission Date']		
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+	
+	# Sheet body, remaining rows
+	font_style = xlwt.XFStyle()
+	
+	rows = Abstract.objects.all().values_list('abs_id', 'paper_title', 'track', 'prefix', 'first_name', 'last_name', 'country', 'state',\
+			 'institution', 'email', 'phone', 'abstract_pdf', 'submission_date' )
+
+	counter = 0
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			if col_num==12:
+				dt = str(row[col_num]).split()[0]
+				ws.write(row_num, col_num, dt, font_style)
+			elif col_num==11:
+				ppr = get_object_or_404(Abstract, abs_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:16], font_style)
+			else:
+				ws.write(row_num, col_num, row[col_num], font_style)
+		counter += 1
+	wb.save(response)
+	return response

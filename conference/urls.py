@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     # path('callback/', views.callback, name='callback'),
     path('', views.index, name='index'),
+    path('update_sheet/', views.update_sheet, name='update_sheet'),
     path('abstract-submission/', views.abstract_submission, name='abstract_submission'),
     path('about-conference/', views.about_conference, name='about_conference'),
     path('organizing-team/', views.organizing_team, name='organizing_team'),
@@ -24,4 +25,5 @@ urlpatterns = [
     path('publication-opportunities/', views.publication_opportunities, name='publication_opportunities'),
     path('evaluation-process/', views.evaluation_process, name='evaluation_process'),
     path('contact-us/', views.contact_us, name='contact_us'),
+    path('export/xls/', views.export_abstracts_sheet, name='export_abstracts_sheet'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
