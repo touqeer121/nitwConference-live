@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'uodf1o(fdj5gvde)vwc!xobv7$iio0mhpb=%141_l@bicp0_iu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = ['touqeer-myapp.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
                  'localhost', 'www.gcimb.org']
@@ -144,4 +144,5 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtpout.secureserver.net'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+PROJECT_PATH = config('PROJECT_PATH')
 EMAIL_PORT = 587
