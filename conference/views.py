@@ -12,11 +12,15 @@ from django.conf import settings
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
 import xlrd
 import xlwt
 from xlutils.copy import copy
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.staticfiles.storage import staticfiles_storage
+from nitwConference.settings import STATIC_URL
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -66,13 +70,18 @@ def registration(request):
 
 def update_sheet(absID):
 	# response = HttpResponse(content_type='application/ms-excel')
-	# response['Content-Disposition'] = 'attachment; filename="Abtracts.xls"'
-	rb = xlrd.open_workbook('Abtracts.xls',formatting_info=True)
+	# response['Content-Disposition'] = 'attachment; filename="Abstracts.xls"'
+	rb = xlrd.open_workbook(settings.PROJECT_PATH+'Abstracts.xls',formatting_info=True)
 	r_sheet = rb.sheet_by_index(0) 
 	r = r_sheet.nrows
 	wb = copy(rb) 
 	sheet = wb.get_sheet(0) 
 
+	# file = File.objects.all()
+	# if file is None:
+	# 	file = File.objects.create()
+	# else
+	# 	file = file[0]
 	ppr = get_object_or_404(Abstract, abs_id=absID)
 	sheet.write(r,0,absID)
 	sheet.write(r,1,ppr.paper_title)
@@ -89,32 +98,37 @@ def update_sheet(absID):
 	sheet.write(r,12,str(ppr.submission_date).split()[0])
 	wb.save('Abstracts.xls')
 
+	print("SHEET UPDATED\n")
+
 def forward_submission_info(absID):
 	ppr = get_object_or_404(Abstract, abs_id=absID)
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
 	recipients = ['info@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
 	# 'Track : '+ ppr.track + '\n' +\
-	message = 'A new abtract has been submitted \n\n' + 'Abstarct Details : \n' + \
+	message = 'A new abtract has been submitted \n\n' + 'Abstract Details : \n' + \
 			'Abstract ID : '+ str(absID) + '\n' + \
 			'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
 			'Title : '+ str(ppr.paper_title) + '\n' + \
-			'Abstract Link : '+ str(ppr.abstract_pdf.url) + '\n' + \
+			'Abstract Link : '+ str(ppr.abstract_pdf.url)[:-16] + '\n' + \
 			'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
 			'Institute : '+ str(ppr.institution) + '\n' + \
 			'Email : '+ str(ppr.email) + '\n' + \
 			'Phone : '+ str(ppr.phone) + '\n' + \
 			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+
 	msg.attach(MIMEText(message))
 	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 	# mailserver.starttls()
 	mailserver.ehlo()
 	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], recipients, msg.as_string())
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	print("INFO MAIL SENT\n")
 
 def abstract_submission(request):
 	if (request.method == "POST"):
@@ -142,7 +156,6 @@ def abstract_submission(request):
 		ppr.paper_title = request.POST['title']
 		# print("TITLE iS: ", request.POST['title'])
 		ppr.save()
-
 	
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
@@ -166,9 +179,10 @@ def abstract_submission(request):
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
-		messages.success(request, "You've successfully submitted the abstract.")
 		update_sheet(absID)
 		forward_submission_info(absID)
+		messages.success(request, "You've successfully submitted the abstract.")
+		print("EVRYTHING DONE\n")
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
 
@@ -222,16 +236,16 @@ def contact_us(request):
 
 def export_abstracts_sheet(request):
 	response = HttpResponse(content_type='application/ms-excel')
-	response['Content-Disposition'] = 'attachment; filename="Abtracts.xls"'
+	response['Content-Disposition'] = 'attachment; filename="Abstracts.xls"'
 	wb = xlwt.Workbook(encoding='utf-8')
-	ws = wb.add_sheet('Abtracts')
+	ws = wb.add_sheet('Abstracts')
 	
 	# Sheet header, first row
 	row_num = 0
 	
 	font_style = xlwt.XFStyle()
 	font_style.font.bold = True
-	columns = ['Abtract ID', 'Title', 'Track', 'Prefix', 'First Name', 'Last Name', 'Country', 'State', \
+	columns = ['Abstract ID', 'Title', 'Track', 'Prefix', 'First Name', 'Last Name', 'Country', 'State', \
 			'Institute', 'Email', 'Phone', 'Abstract File', 'Submission Date']		
 	for col_num in range(len(columns)):
 		ws.write(row_num, col_num, columns[col_num], font_style)
