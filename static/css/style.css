@@ -1086,7 +1086,8 @@ img{
 .r-text{
 	text-align: center;
 	display: inline-block;
-	width: 450px;
+	width: 500px;
+	font-size: 18px !important;
 }
 .td-icon{
 	transition: .5s all ease;
