@@ -105,8 +105,8 @@ def forward_submission_info(absID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['info@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
+	# recipients = ['info@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
@@ -130,47 +130,64 @@ def forward_submission_info(absID):
 	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 	print("INFO MAIL SENT\n")
 
+def is_duplicate_entry(request):
+	oldEntry = Abstract.objects.filter(paper_title=request.POST['title'], first_name=request.POST['fname'], last_name=\
+	request.POST['lname'], institution= request.POST['institution'])
+	return (len(oldEntry)> 0)
+
 def abstract_submission(request):
 	if (request.method == "POST"):
-		doc=request.FILES
-		file_pdf = doc['pdf']
-
-		cnt = Paper_Count.objects.get()
-		year = datetime.datetime.now().year
-		yy = str(year)
-		p1 = yy[2:]
-		p2 = str(cnt.paper_count).zfill(4)
-		cnt.paper_count = cnt.paper_count + 1
-		cnt.save()
-		absID = "GCIMB" + p1 + p2
-		ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
-		ppr.track = request.POST['track']
-		ppr.prefix = request.POST['prefix']
-		ppr.first_name = request.POST['fname']
-		ppr.last_name = request.POST['lname']
-		ppr.institution = request.POST['institution']
-		ppr.country = request.POST['country']
-		ppr.state = request.POST['state']
-		ppr.email = request.POST['email']
-		ppr.phone = request.POST['phone']
-		ppr.paper_title = request.POST['title']
-		# print("TITLE iS: ", request.POST['title'])
-		ppr.save()
+		duplicate = is_duplicate_entry(request)
+		if not duplicate:
+			doc=request.FILES
+			file_pdf = doc['pdf']
+			cnt = Paper_Count.objects.get()
+			year = datetime.datetime.now().year
+			yy = str(year)
+			p1 = yy[2:]
+			p2 = str(cnt.paper_count).zfill(4)
+			cnt.paper_count = cnt.paper_count + 1
+			cnt.save()
+			absID = "GCIMB" + p1 + p2
+			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
+			ppr.track = request.POST['track']
+			ppr.prefix = request.POST['prefix']
+			ppr.first_name = request.POST['fname']
+			ppr.last_name = request.POST['lname']
+			ppr.institution = request.POST['institution']
+			ppr.country = request.POST['country']
+			ppr.state = request.POST['state']
+			ppr.email = request.POST['email']
+			ppr.phone = request.POST['phone']
+			ppr.paper_title = request.POST['title']
+			# print("TITLE iS: ", request.POST['title'])
+			ppr.save()
 	
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
 		msg['To'] = request.POST['email']
-		msg['Subject'] = 'Abstract submission acknowledgement'
 
-		message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-				  'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
-				  'Your abstract ID will be ' + absID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-				  'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
-				  'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-				  'Best Regards,\n' + \
-				  'Organizing Team,\n' + \
-				  'Global Conference on Innovations in Management and Business'
+		if not duplicate:
+			msg['Subject'] = 'Abstract submission acknowledgement'
+			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+					'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
+					'Your abstract ID will be ' + absID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+					'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
+					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+					'Best Regards,\n' + \
+					'Organizing Team,\n' + \
+					'Global Conference on Innovations in Management and Business'
+		else:
+			msg['Subject'] = 'Abstract already submitted'
+			abs_id = get_object_or_404(Abstract, paper_title=request.POST['title']).abs_id
+			if abs_id is None:
+				message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" is already ' + \
+				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			else:	
+				message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" (Abstract ID : ' + str(abs_id) + ') is already ' + \
+				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+		
 		msg.attach(MIMEText(message))
 
 		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -179,9 +196,12 @@ def abstract_submission(request):
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
-		update_sheet(absID)
-		forward_submission_info(absID)
-		messages.success(request, "You've successfully submitted the abstract.")
+		if not duplicate:
+			update_sheet(absID)
+			forward_submission_info(absID)
+			messages.success(request, "You've successfully submitted the abstract.")
+		else:
+			messages.success(request, "You've already submitted an abstract with this title.")
 		print("EVRYTHING DONE\n")
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
