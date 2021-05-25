@@ -105,8 +105,8 @@ def forward_submission_info(absID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	# recipients = ['info@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	recipients = ['touqeer.pathan289@gmail.com']
+	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
