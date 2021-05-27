@@ -16,11 +16,27 @@
     <h1 style="margin-bottom:25px ;">Brochure</h1>
     <div class="my-main-container" >
         <p class="my-content" style="text-align:center; margin:0 auto;">
-            <a class="formButton homeButton" style="display: inline-block" href="{% static 'files/gcimb_brochure.pdf' %}">
-                Download Here
-            </a>
+            <b style="font-size: 20px;">Brochure 1 :</b>
             <iframe src="{% static 'files/gcimb_brochure.pdf' %}#zoom=FitW" style="text-align:center; margin:0 auto; width: 100%;height: 100%; 
             min-height: 720px; border: none;"></iframe>
+            <a class="formButton brochureButton" style="display: inline-block" href="{% static 'files/gcimb_brochure.pdf' %}">
+                Download Brochure 1
+            </a>
+            <hr class="separator" style="margin: 4% auto; width: 40%;">
+            <b style="font-size: 20px;">Brochure 2 :</b>
+            <iframe src="{% static 'files/gcimb_brochure_2.pdf' %}#zoom=FitW" style="text-align:center; margin:0 auto; width: 100%;height: 100%; 
+            min-height: 720px; border: none;"></iframe>
+            <a class="formButton brochureButton" style="display: inline-block" href="{% static 'files/gcimb_brochure_2.pdf' %}">
+                Download Brochure 2
+            </a>  
+            <hr class="separator" style="margin: 4% auto; width: 40%;">
+            <b style="font-size: 20px;">Poster : </b>
+            <div >
+                <img style = "height: 100%; width: 100%;"src="{% static 'images/gcimb-poster.jpeg' %}" alt="Kenote Speakers Poster">
+            </div>
+            <a download="gcimb-poster.jpeg" title="GCIMB Poster" class="formButton brochureButton" style="display: inline-block" href="{% static 'images/keynote.jpeg' %}">
+                Download Poster
+            </a> 
         </p>
     </div>
 </section>

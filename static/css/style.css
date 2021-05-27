@@ -724,11 +724,11 @@ p{
 .formButton{
 	position: relative;
 	transition: all 0.5s ease;
-	background-color: #43cae8; !important;
+	background-color: #43cae8 !important;
 	/*font-weight: bold; !important;*/
-	border-style: none; !important;
-	border-radius: 25px; !important;
-	font-size: 20px; !important;
+	border-style: none !important;
+	border-radius: 25px !important;
+	font-size: 20px !important;
 	padding: 5px 15px	;
 	margin: 2% auto;
 	color: white;
@@ -740,6 +740,11 @@ p{
 }
 .homeButton{
 	min-width: 200px;
+	width: 15%;
+	margin: 1% 5%;
+}
+.brochureButton{
+	min-width: 210px;
 	width: 15%;
 	margin: 1% 5%;
 }
@@ -1087,6 +1092,18 @@ img{
 	text-align: center;
 	display: inline-block;
 	width: 500px;
+	font-size: 18px !important;
+}
+.r-text-2{
+	text-align: left;
+	display: inline-block;
+	width: 500px;
+	font-size: 18px !important;
+}
+.r-text-3{
+	text-align: left;
+	display: inline-block;
+	width: 720px;
 	font-size: 18px !important;
 }
 .td-icon{
