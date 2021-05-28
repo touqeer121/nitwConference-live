@@ -733,21 +733,21 @@ p{
 	margin: 2% auto;
 	color: white;
 	/*width: 60%;*/
-	min-width: 200px;
-	max-width: min-content;
+	/* min-width: 200px;
+	max-width: min-content; */
 	text-align: center;
 	/*overflow-wrap: normal;*/
+}
+.nonlinkButton{
+	width: auto;
+	min-width: 200px;
 }
 .homeButton{
 	min-width: 200px;
 	width: 15%;
 	margin: 1% 5%;
 }
-.brochureButton{
-	min-width: 210px;
-	width: 15%;
-	margin: 1% 5%;
-}
+
 .formButton:hover{
 	/*background-color: #51eaf8; !important;*/
 	top: -5px;
@@ -760,7 +760,11 @@ p{
 .formButton:active{
 	background-color: #43cae8; !important;
 }
-
+.brochureButton{
+	/* min-width: 210px; */
+	width: auto;
+	margin: 1% 5%;
+}
 /*message*/
 .message_container{
     border-style: solid;
