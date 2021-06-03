@@ -17,10 +17,12 @@ from email import encoders
 import xlrd
 import xlwt
 from xlutils.copy import copy
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
 from nitwConference.settings import STATIC_URL
+import stripe
+from django.views.decorators.csrf import csrf_exempt
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -28,6 +30,57 @@ permission = GoogleDriveFilePermission(
 	'touqeer.pathan289@gmail.com'
 )
 
+def registration_payment(request):
+	return render(request, 'registration_payment.html')
+
+@csrf_exempt
+def stripe_config(request):
+    if request.method == 'GET':
+        stripe_config = {'publicKey': settings.STRIPE_PUBLIC_KEY}
+        return JsonResponse(stripe_config, safe=False)
+
+@csrf_exempt
+def create_checkout_session(request):
+    if request.method == 'GET':
+        domain_url = 'http://localhost:8000/'
+        stripe.api_key = settings.STRIPE_SECRET_KEY
+        try:
+            print('TRY START')
+            # Create new Checkout Session for the order
+            # Other optional params include:
+            # [billing_address_collection] - to display billing address details on the page
+            # [customer] - if you have an existing Stripe Customer ID
+            # [payment_intent_data] - capture the payment later
+            # [customer_email] - prefill the email input in the form
+            # For full details see https://stripe.com/docs/api/checkout/sessions/create
+
+            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
+            checkout_session = stripe.checkout.Session.create(
+                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+                cancel_url=domain_url + 'cancelled/',
+                payment_method_types=['alipay'],
+                mode='payment',
+                line_items=[
+                    {
+                        'name': 'GCIMB Conference Regular Registration',
+                        'quantity': 1,
+                        'currency': 'inr',
+                        'amount': '55',
+                    }
+                ]
+            )
+            print('TRY END')
+            return JsonResponse({'sessionId': checkout_session.id})
+        except Exception as e:
+            print('ECXPETION')
+            return JsonResponse({'error': str(e)})
+
+			
+def success(request):
+	return render(request, 'registration_success.html')
+
+def cancelled(request):
+	return render(request, 'registration_cancelled.html')
 
 def index(request):
 	return render(request, 'home.html')
@@ -97,7 +150,6 @@ def update_sheet(absID):
 	sheet.write(r,11,str(ppr.abstract_pdf.url)[:-16])
 	sheet.write(r,12,str(ppr.submission_date).split()[0])
 	wb.save('Abstracts.xls')
-
 	print("SHEET UPDATED\n")
 
 def forward_submission_info(absID):
@@ -266,7 +318,7 @@ def export_abstracts_sheet(request):
 	font_style = xlwt.XFStyle()
 	font_style.font.bold = True
 	columns = ['Abstract ID', 'Title', 'Track', 'Prefix', 'First Name', 'Last Name', 'Country', 'State', \
-			'Institute', 'Email', 'Phone', 'Abstract File', 'Submission Date']		
+			'Institute', 'Email', 'Phone', 'File Name', 'File Link', 'Submission Date']		
 	for col_num in range(len(columns)):
 		ws.write(row_num, col_num, columns[col_num], font_style)
 	
@@ -280,13 +332,17 @@ def export_abstracts_sheet(request):
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			if col_num==12:
+			if col_num==13:
 				dt = str(row[col_num]).split()[0]
 				ws.write(row_num, col_num, dt, font_style)
 			elif col_num==11:
 				ppr = get_object_or_404(Abstract, abs_id=row[0])
 				if ppr:
-					ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:16], font_style)
+					ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
+			elif col_num==12:
+				ppr = get_object_or_404(Abstract, abs_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
 			else:
 				ws.write(row_num, col_num, row[col_num], font_style)
 		counter += 1
