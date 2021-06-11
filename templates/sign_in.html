@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %} | Sign In{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    {% if messages %}
+        {% for mes in messages %}
+            <div class="alert alert-success message_container">
+                <a href="#" class="close" data-dismiss="success" aria-label="close">&times;</a>
+                <strong>{{ mes }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div>
+        <h1 style="display:inline-block ;">Sign In</h1>
+        <img class="headIcon" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNTEyIDUxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMjsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPGc+DQoJPGc+DQoJCTxnPg0KCQkJPHBhdGggZD0iTTEzMS41LDQ3Mkg2MC42OTNjLTguNTM4LDAtMTMuNjg5LTQuNzY1LTE1Ljk5OS03LjYwNmMtMy45ODgtNC45MDYtNS41MzMtMTEuMjktNC4yMzYtMTcuNTE5DQoJCQkJYzIwLjc2OS05OS43NjEsMTA4LjgwOS0xNzIuNjE2LDIxMC40NDUtMTc0Ljk4YzEuNjkzLDAuMDYzLDMuMzksMC4xMDUsNS4wOTcsMC4xMDVjMS43MjIsMCwzLjQzNC0wLjA0Myw1LjE0Mi0wLjEwNw0KCQkJCWMyNC44NTMsMC41NjcsNDkuMTI5LDUuMjQsNzIuMjM2LDEzLjkxN2MxMC4zNCwzLjg4NSwyMS44NzEtMS4zNTIsMjUuNzU0LTExLjY5M2MzLjg4My0xMC4zNC0xLjM1Mi0yMS44NzEtMTEuNjkzLTI1Ljc1NA0KCQkJCWMtMy4zMTEtMS4yNDQtNi42NDUtMi40MDgtOS45OTUtMy41MTJDMzcwLjU0NSwyMjAuMDIxLDM5MiwxODAuNDY5LDM5MiwxMzZDMzkyLDYxLjAxLDMzMC45OTEsMCwyNTYsMA0KCQkJCWMtNzQuOTkxLDAtMTM2LDYxLjAxLTEzNiwxMzZjMCw0NC41MDksMjEuNDkyLDg0LjA5Miw1NC42NDMsMTA4LjkxOGMtMzAuMzcxLDkuOTk4LTU4Ljg3MSwyNS41NDYtODMuODEzLDQ2LjA2Mg0KCQkJCWMtNDUuNzMyLDM3LjYxNy03Ny41MjksOTAuMDg2LTg5LjUzMiwxNDcuNzQzYy0zLjc2MiwxOC4wNjYsMC43NDQsMzYuNjIyLDEyLjM2Myw1MC45MDhDMjUuMjIxLDUwMy44NDcsNDIuMzY0LDUxMiw2MC42OTMsNTEyDQoJCQkJSDEzMS41YzExLjA0NiwwLDIwLTguOTU0LDIwLTIwQzE1MS41LDQ4MC45NTQsMTQyLjU0Niw0NzIsMTMxLjUsNDcyeiBNMTYwLDEzNmMwLTUyLjkzNSw0My4wNjUtOTYsOTYtOTZzOTYsNDMuMDY1LDk2LDk2DQoJCQkJYzAsNTEuMzY3LTQwLjU1NCw5My40MzgtOTEuMzI2LDk1Ljg4NWMtMS41NTctMC4wMjgtMy4xMTQtMC4wNTItNC42NzQtMC4wNTJjLTEuNTY0LDAtMy4xMjcsMC4wMjMtNC42ODksMC4wNTENCgkJCQlDMjAwLjU0NiwyMjkuNDMsMTYwLDE4Ny4zNjIsMTYwLDEzNnoiLz4NCgkJCTxwYXRoIGQ9Ik00OTYuNjg5LDM0NC42MDdjLTguNTYxLTE5LjE1LTI3Ljg0NS0zMS41NTgtNDkuMTc2LTMxLjYwN2gtNjIuMzcyYy0wLjA0NSwwLTAuMDg3LDAtMC4xMzMsMA0KCQkJCWMtMjIuNSwwLTQyLjEzLDEzLjI2LTUwLjAyOSwzMy44MDdjLTEuMDUxLDIuNzM0LTIuMzM2LDYuMTc4LTMuNjc3LDEwLjE5M0gyMDAuMzU2Yy01LjQwNywwLTEwLjU4MywyLjE4OS0xNC4zNSw2LjA2OA0KCQkJCWwtMzQuMzU2LDM1LjM4OGMtNy41NjcsNy43OTQtNy41MjksMjAuMjAzLDAuMDg1LDI3Ljk1bDM1LDM1LjYxMmMzLjc2LDMuODI2LDguOSw1Ljk4MSwxNC4yNjQsNS45ODFoNjVjMTEuMDQ2LDAsMjAtOC45NTQsMjAtMjANCgkJCQljMC0xMS4wNDYtOC45NTQtMjAtMjAtMjBoLTU2LjYxNGwtMTUuNDI4LTE1LjY5OEwyMDguODE0LDM5N2gxMzcuNDkxYzkuMjE0LDAsMTcuMjM1LTYuMjk1LDE5LjQyNi0xNS4yNDQNCgkJCQljMS42MTgtNi42MDcsMy42NDgtMTIuOTU5LDYuNTg0LTIwLjU5NmMxLjkzNi01LjAzNiw2Ljc5OC04LjE2LDEyLjc0MS04LjE2YzAuMDEzLDAsMC4wMjYsMCwwLjAzOSwwaDYyLjM3MQ0KCQkJCWM1LjY1NiwwLjAxMywxMC41MjQsMy4wNTMsMTIuNzA1LDcuOTMyYzUuMzY5LDEyLjAxMiwxMS43OCwzMC42MDgsMTEuODI4LDUwLjk4NmMwLjA0OCwyMC41MjktNi4zNTYsMzkuNTUxLTExLjczOSw1MS44OTQNCgkJCQljLTIuMTcsNC45NzgtNy4wNzksOC4xODgtMTIuNTYsOC4xODhjLTAuMDExLDAtMC4wMjIsMC0wLjAzMywwaC02My4xMjVjLTUuNTMzLTAuMDEzLTEwLjcxNi0zLjU3My0xMi44OTYtOC44NTgNCgkJCQljLTIuMzM5LTUuNjcxLTQuMzY2LTEyLjE0Ni02LjE5Ny0xOS43OTdjLTIuNTcxLTEwLjc0Mi0xMy4zNjctMTcuMzY2LTI0LjEwNS0xNC43OTZjLTEwLjc0MywyLjU3MS0xNy4zNjcsMTMuMzY0LTE0Ljc5NiwyNC4xMDYNCgkJCQljMi4zMjEsOS42OTksNC45NzgsMTguMTE4LDguMTIxLDI1LjczOGM4LjM5OSwyMC4zNjQsMjcuOTM5LDMzLjU1NSw0OS44MjcsMzMuNjA2aDYzLjEyNWMwLjA0MywwLDAuMDgzLDAsMC4xMjYsMA0KCQkJCWMyMS4zNTEtMC4wMDEsNDAuNjQ3LTEyLjYzLDQ5LjE4LTMyLjIwMWM2LjkxMi0xNS44NTEsMTUuMTM3LTQwLjUxMSwxNS4wNzItNjcuOTc1DQoJCQkJQzUxMS45MzUsMzg0LjQzNCw1MDMuNjM4LDM2MC4xNTMsNDk2LjY4OSwzNDQuNjA3eiIvPg0KCQkJPGNpcmNsZSBjeD0iNDMxIiBjeT0iNDEyIiByPSIyMCIvPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPC9zdmc+DQo=" />
+    </div>
+    <div class="my-main-container">
+        <p class="my-content">
+            <b>
+                For G.C.I.M.B. team only.
+            </b>
+        </p>
+    </div>
+    <div class="my-main-container">
+        <div class="single-box">
+            <div id="uploadForm" class="well well-lg">
+            <form method="POST" enctype="multipart/form-data" action="../sign-in/">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="form-subgroup half">
+                        <label class="formText">Username</label><br>
+                        <input class="my-input" type="text" name="username" id="username" required/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-subgroup half">
+                        <label class="formText">Password</label><br>
+                        <input class="my-input" type="password" name="password" id="password" required/>
+                    </div>
+                </div>
+                <div class="form-group" >
+                    <button class="my-input formButton nonlinkButton"  type="submit">Sign In</button>
+                </div>
+            </form>
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock content %}

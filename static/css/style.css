@@ -722,8 +722,14 @@ p{
 	min-height: 40px;
 	padding: 0px 10px;
 }
-
-
+.step-card{
+	border-radius: 50px; 
+	background-color:#dce0eb;
+	padding: 20px; 
+	margin:15px auto; 
+	width: 320px;
+	font-size: 20px;
+}
 .formButton{
 	position: relative;
 	transition: all 0.5s ease;
@@ -753,7 +759,7 @@ p{
 
 .formButton:hover{
 	/*background-color: #51eaf8; !important;*/
-	top: -5px;
+	transform: scale(1.05);
 	color: white;
 	box-shadow: 0px 5px 18px #5ffdfd;
 	cursor: pointer;
@@ -761,13 +767,24 @@ p{
 	transition: all 0.5s ease;
 }
 .formButton:active{
-	background-color: #43cae8; !important;
+	background-color: #43cae8 !important;
+	transform: scale(1.0);
 }
 .brochureButton{
 	/* min-width: 210px; */
 	width: auto;
 	margin: 1% 5%;
 }
+.leftFixedButton{
+	position: fixed;
+	left: 20px;
+	;
+}
+.rightFixedButton{
+	position: fixed;
+	right: 20px;
+}
+
 /*message*/
 .message_container{
     border-style: solid;
@@ -1621,14 +1638,7 @@ img{
 	width: 49%;
 	text-align: right;
 }
-table{
-	text-align: center;
-}
-th, td{
-	text-align: left;
-	font-size: 20px;
-	min-width: 150px;
-}
+
 
 /** {*/
 /*  background: #000 !important;*/
@@ -1785,11 +1795,16 @@ th, td{
 
 .headIcon{
 	display:inline-block ;
-	margin:0.5% auto 2.5%;
 	height:4em;
 	width:4em;
 }
-
+.btnIcon{
+	display:inline-block;
+	margin: 8px auto;
+	height:2em;
+	width:2em;
+	transition: all 0.3s ease;	
+}
 th{
 	background-color: #dce0eb;
 }
@@ -1812,6 +1827,78 @@ th{
 	text-decoration: underline !important;
 	/* color: #43cae8; */
 }
+.hideme
+{
+    opacity:0;
+}
+.animate-text
+{
+    letter-spacing: 3px;
+}
+#editors{
+	display: none;
+}
+table{
+	text-align: center;
+}
+th, td{
+	border-right: 1px solid #dce0eb;
+	/* text-align: left; */
+	font-size: 20px;
+	min-width: 150px;
+}
+.display-table{
+	margin : 0 auto;
+	text-align: center;
+}
+.display-table th,td{
+	padding: 5px;
+	/* width: auto; */
+	text-align: center;
+}
+/* .display-table tr {
+	background-color: #d5e9ff;
+} */
+.display-table tr:nth-child(odd) {
+	background-color: #f0f0f0;
+}
+
+.actionButton{
+	/* position: relative; */
+	transition: all 0.3s ease;
+	/* background-color: #43cae8 !important; */
+	margin: 2% auto;
+}
+
+
+.actionButton:hover{
+	/*background-color: #51eaf8; !important;*/
+	/* top: -5px; */
+	transform: scale(1.5) !important;
+	/* box-shadow: 0px 5px 18px #5ffdfd; */
+	cursor: pointer;
+	text-decoration: none;
+	transition: all 0.3s ease;	
+}
+.actionButton:active{
+	/* background-color: rgba(0, 0, 0, 0.25) */
+}
+.actionButton:hover .btnIcon{
+	transform: scale(1.1);
+}
+.actionButton:active .btnIcon{
+	transform: scale(1);
+	background-color: rgba(0, 0, 0, 0.25)
+}
+#scroll-container {
+	 overflow: scroll; 
+	 width: auto;
+}
+#scroll-content {
+	/* white-space: nowrap; */
+}
+
+
 
 @media (max-width:1280px){
 	.inner{

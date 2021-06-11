@@ -1,6 +1,8 @@
 import datetime
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
+from accounts.models import *
+from django.db.models import Q
 from django.contrib import messages
 import os
 import json
@@ -23,6 +25,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from nitwConference.settings import STATIC_URL
 import stripe
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -83,6 +86,12 @@ def cancelled(request):
 	return render(request, 'registration_cancelled.html')
 
 def index(request):
+	if request.user.is_authenticated: 
+		if 'count' in request.session:
+			request.session['count'] = request.session['count'] + 1
+			print("COUNT = ", request.session['count'])
+		else:
+			print("NO COUNT")
 	return render(request, 'home.html')
 
 def about_conference(request):
@@ -182,10 +191,28 @@ def forward_submission_info(absID):
 	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 	print("INFO MAIL SENT\n")
 
+
 def is_duplicate_entry(request):
 	oldEntry = Abstract.objects.filter(paper_title=request.POST['title'], first_name=request.POST['fname'], last_name=\
 	request.POST['lname'], institution= request.POST['institution'])
 	return (len(oldEntry)> 0)
+
+def assign_track_chair(request):
+	abstracts = Abstract.objects.all()
+	for abs in abstracts:
+		tracks = TrackChairProfile.objects.filter(track=abs.track)
+		if len(tracks) > 0 :
+			print("SINGLE TRACK CHAIR FOUND")
+			abs.track_A = tracks[0].user.username
+		else:
+			print("NO TRACK CHAIR FOUND")
+		if len(tracks) > 1 :
+			print("TWO TRACK CHAIRS FOUND")
+			abs.track_B = tracks[1].user.username
+		if abs.track == 'Strategic Management and Corporate Governance':
+			abs.track_B = 'mahesh'
+
+		abs.save()
 
 def abstract_submission(request):
 	if (request.method == "POST"):
@@ -212,7 +239,15 @@ def abstract_submission(request):
 			ppr.email = request.POST['email']
 			ppr.phone = request.POST['phone']
 			ppr.paper_title = request.POST['title']
-			# print("TITLE iS: ", request.POST['title'])
+			tracks = TrackChairProfile.objects.filter(track=ppr.track)
+			if len(tracks) > 0 :
+				ppr.track_A = tracks[0].user.username
+			else:
+				print("NO TRACK CHAIR FOUND")
+			if len(tracks) > 1 :
+				ppr.track_B = tracks[1].user.username
+			if ppr.track == 'Strategic Management and Corporate Governance':
+				ppr.track_B = 'mahesh'
 			ppr.save()
 	
 		msg = MIMEMultipart()
@@ -305,8 +340,12 @@ def contact_us(request):
 	# messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')
 
+def digital_transformation_and_information_systems(request):
+	return render(request, 'digital_transformation_and_information_systems.html')
 
+@login_required(login_url='/sign-in/')
 def export_abstracts_sheet(request):
+	assign_track_chair(request)
 	response = HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="Abstracts.xls"'
 	wb = xlwt.Workbook(encoding='utf-8')
@@ -348,3 +387,135 @@ def export_abstracts_sheet(request):
 		counter += 1
 	wb.save(response)
 	return response
+
+@csrf_exempt
+@login_required(login_url='/sign-in/')
+def remark_abstracts(request):
+	context = {}
+	if(request.user.username=='gcimb'):
+		context['abstracts'] = Abstract.objects.all()
+		context['track'] = ''
+		return render(request, 'all_abstracts.html', context)
+	curUser = request.user
+	curUser = get_object_or_404(TrackChairProfile, user=curUser)
+	print("USER " , curUser)
+
+	if(request.user.username=='mahesh'):
+		track2 = 'Strategic Management and Corporate Governance'
+	else:
+		track2 = 'NA' 
+	context['abstracts'] = Abstract.objects.filter(Q(track=curUser.track) | Q(track=track2)) 
+	context['track'] = curUser.track
+	context['track2'] = track2
+	return render(request, 'all_abstracts.html', context)
+	
+@login_required(login_url='/sign-in/')
+def approve_abstract(request, abstractid):
+	cd = get_object_or_404(Abstract, pk=abstractid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.is_finally_approved:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract approved.")
+			cd.is_finally_rejected = False
+			cd.is_finally_approved = True
+		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_A:
+		if cd.is_approved_by_A:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract approved.")
+			cd.is_rejected_by_A = False
+			cd.is_approved_by_A = True
+		cd.remark_A = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_B:
+		if cd.is_approved_by_B:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract approved.")
+			cd.is_rejected_by_B = False
+			cd.is_approved_by_B = True
+		cd.remark_B = str(remark).strip()
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("A | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required(login_url='/sign-in/')
+def reject_abstract(request, abstractid):
+	cd = get_object_or_404(Abstract, pk=abstractid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.is_finally_rejected:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract rejected.")
+			cd.is_finally_rejected = True
+			cd.is_finally_approved = False
+		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_A:
+		if cd.is_rejected_by_A:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract rejected.")
+			cd.is_rejected_by_A = True
+			cd.is_approved_by_A = False
+		cd.remark_A = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_B:
+		if cd.is_rejected_by_B:
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract rejected.")
+			cd.is_rejected_by_B = True
+			cd.is_approved_by_B = False
+		cd.remark_B = str(remark).strip()
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("R | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required(login_url='/sign-in/')
+def remove_remark(request, abstractid):
+	cd = get_object_or_404(Abstract, pk=abstractid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if not cd.is_finally_approved and not cd.is_finally_rejected:
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.is_finally_approved = cd.is_finally_rejected = False
+		cd.remark = ''
+		cd.save()
+	elif uname == cd.track_A:
+		if not cd.is_approved_by_A and not cd.is_rejected_by_A:
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.is_approved_by_A = cd.is_rejected_by_A = False
+		cd.remark_A = ''
+		cd.save()
+	elif uname == cd.track_B:
+		if not cd.is_approved_by_B and not cd.is_rejected_by_B:
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.is_approved_by_B = cd.is_rejected_by_B = False
+		cd.remark_B = ''
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("R | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))
