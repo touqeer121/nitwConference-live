@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import django_heroku
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -147,3 +148,5 @@ EMAIL_HOST_USER = "submissions@gcimb.org"
 EMAIL_HOST_PASSWORD = "submissions123@gcimb"
 PROJECT_PATH = ""
 EMAIL_PORT = 587
+
+django_heroku.settings(locals())
