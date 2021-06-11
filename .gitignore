@@ -1,0 +1,12 @@
+Abstracts.xls
+conference/migrations/
+accounts/migrations/
+conference/models_tmp.py
+db.sqlite3
+static/files/Abstracts.xls
+static/files/gcimb_brochure_old.pdf
+static/images/pre1.jpg
+static/images/pre2.jpg
+templates/registration_cancelled.html
+templates/registration_payment.html
+templates/registration_success.html
