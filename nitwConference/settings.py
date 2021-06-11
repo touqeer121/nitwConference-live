@@ -26,7 +26,7 @@ SECRET_KEY = 'uodf1o(fdj5gvde)vwc!xobv7$iio0mhpb=%141_l@bicp0_iu'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gcimb.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
+ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
                  'localhost', 'www.gcimb.org']
 
 
