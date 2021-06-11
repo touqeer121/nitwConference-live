@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'uodf1o(fdj5gvde)vwc!xobv7$iio0mhpb=%141_l@bicp0_iu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG')
+DEBUG = True
 
-ALLOWED_HOSTS = ['touqeer-myapp.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
+ALLOWED_HOSTS = ['gcimb.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
                  'localhost', 'www.gcimb.org']
 
 
@@ -84,9 +84,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'gcimb',
         'USER': 'postgres',
-        'PASSWORD': 'F@rh33nDV',
+        'PASSWORD': 'django123',
         'HOST': '127.0.0.1',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 
@@ -147,7 +147,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-PROJECT_PATH = config('PROJECT_PATH')
+EMAIL_HOST_USER = "submissions@gcimb.org"
+EMAIL_HOST_PASSWORD = "submissions123@gcimb"
+PROJECT_PATH = ""
 EMAIL_PORT = 587
