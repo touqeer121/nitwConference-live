@@ -5,9 +5,11 @@ certifi==2020.12.5
 chardet==4.0.0
 cssselect==1.1.0
 cssutils==2.2.0
+dj-database-url==0.5.0
 Django==3.2
 django-appconf==1.0.4
 django-googledrive-storage==1.5.2
+django-heroku==0.3.1
 email-to==0.1.0
 google-api-core==1.26.3
 google-api-python-client==2.3.0
