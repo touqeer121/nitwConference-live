@@ -1,4 +1,5 @@
 Abstracts.xls
+__pychahce__/
 conference/migrations/
 accounts/migrations/
 conference/models_tmp.py
