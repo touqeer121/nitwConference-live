@@ -24,7 +24,7 @@ class Abstract(models.Model) :
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	institution = models.CharField(max_length=500)
 	email = models.EmailField()
-	phone = models.CharField(max_length=15,
+	phone = models.CharField(max_length=20,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
