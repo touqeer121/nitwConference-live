@@ -11,24 +11,24 @@ class Abstract(models.Model) :
 	last_name = models.CharField(max_length=100)
 	is_finally_approved = models.BooleanField(blank=True, default=False)
 	is_finally_rejected = models.BooleanField(blank=True, default=False)
-	remark = models.CharField(max_length=500, blank=True, default='')
+	remark = models.CharField(max_length=5000, blank=True, default='')
 	is_approved_by_A = models.BooleanField(blank=True, default=False)
 	is_rejected_by_A = models.BooleanField(blank=True, default=False)
 	is_approved_by_B = models.BooleanField(blank=True, default=False)
 	is_rejected_by_B = models.BooleanField(blank=True, default=False)
-	remark_A = models.CharField(max_length=500, blank=True, default='')
-	remark_B = models.CharField(max_length=500, blank=True, default='')
-	track_A = models.CharField(max_length=500, blank=True, null=True, default='A')
-	track_B = models.CharField(max_length=500, blank=True, null=True, default='admin')
-	country = models.CharField(max_length=500, blank=True, null=True, default='undefined')
+	remark_A = models.CharField(max_length=5000, blank=True, default='')
+	remark_B = models.CharField(max_length=5000, blank=True, default='')
+	track_A = models.CharField(max_length=5000, blank=True, null=True, default='A')
+	track_B = models.CharField(max_length=5000, blank=True, null=True, default='admin')
+	country = models.CharField(max_length=5000, blank=True, null=True, default='undefined')
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
-	institution = models.CharField(max_length=500)
+	institution = models.CharField(max_length=1000)
 	email = models.EmailField()
 	phone = models.CharField(max_length=20,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
-	paper_title = models.CharField(max_length=400)
+	paper_title = models.CharField(max_length=500)
 
 	abstract_pdf = models.FileField(upload_to='maps',
 								validators=[FileExtensionValidator(["pdf", "doc", "docx"])], storage=gd_storage)
