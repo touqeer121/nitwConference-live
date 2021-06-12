@@ -22,7 +22,7 @@ class Abstract(models.Model) :
 	track_B = models.CharField(max_length=500, blank=True, null=True, default='admin')
 	country = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
-	institution = models.CharField(max_length=50)
+	institution = models.CharField(max_length=500)
 	email = models.EmailField()
 	phone = models.CharField(max_length=15,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
