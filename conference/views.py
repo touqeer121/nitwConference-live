@@ -26,6 +26,7 @@ from nitwConference.settings import STATIC_URL
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.db import connection
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -92,7 +93,10 @@ def index(request):
 			print("COUNT = ", request.session['count'])
 		else:
 			print("NO COUNT")
-	return render(request, 'home.html')
+	context = {}
+	context['db_name']  = connection.vendor
+	print ("DATABASE : ",connection.vendor)
+	return render(request, 'home.html', context)
 
 def about_conference(request):
 	return render(request, 'about_conference.html')
