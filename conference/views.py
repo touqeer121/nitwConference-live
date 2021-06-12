@@ -93,10 +93,9 @@ def index(request):
 			print("COUNT = ", request.session['count'])
 		else:
 			print("NO COUNT")
-	context = {}
-	context['db_name']  = connection.vendor
+			
 	print ("DATABASE : ",connection.vendor)
-	return render(request, 'home.html', context)
+	return render(request, 'home.html')
 
 def about_conference(request):
 	return render(request, 'about_conference.html')
