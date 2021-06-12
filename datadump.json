@@ -2464,8 +2464,8 @@
     "model": "sessions.session",
     "pk": "gftg0glbkydsrzhyp30ykeqcr2iiz3ao",
     "fields": {
-    "session_data": ".eJxVjEEOwiAQRe_C2pAOAh26dN8zEIYpUjWQlHZlvLtt0oVu_3v_vYUP25r91qbFzywGAeLyu1GIz6kcgB-h3KuMtazLTPJQ5EmbHCtPr9vp_gVyaHl_EwRKDNEphSYpDojUWwt9og6YO21IW2VVUogarO1NBADXoTYYmd0ejXUrqxiuny8UXDoc:1lrdv4:u-K4zim6NDzm5HUEXYBIdXUnMNotaHReKeAIIAyIK0I",
-    "expire_date": "2021-06-25T09:57:42.227Z"
+    "session_data": ".eJxVjDsOwyAQBe9CHSEW8Vlcps8ZEMua4CQCyZ8qyt1jSy6S9s28eYuYtrXGbRnnOLEYBIjL70YpP8d2AH6kdu8y97bOE8lDkSdd5K3z-Lqe7l-gpqXub4JEhSEHrdEWzQmRvHPgCylgVsaScdrpohENOOdtBoCg0FjMzGGP5r61VQzm8wUUXjod:1lsAN2:4Bpvx3NJYkzD3pLYTOa01yiBHSvHBE2V2fgb0P2HW4M",
+    "expire_date": "2021-06-26T20:36:44.902Z"
     }
     },
     {
@@ -6517,10 +6517,39 @@
     }
     },
     {
+    "model": "conference.abstract",
+    "pk": "GCIMB210136",
+    "fields": {
+    "track": "Crisis Management",
+    "prefix": "Dr.",
+    "first_name": "Sharon",
+    "last_name": "Segrest",
+    "is_finally_approved": false,
+    "is_finally_rejected": false,
+    "remark": "",
+    "is_approved_by_A": false,
+    "is_rejected_by_A": false,
+    "is_approved_by_B": false,
+    "is_rejected_by_B": false,
+    "remark_A": "",
+    "remark_B": "",
+    "track_A": "amy",
+    "track_B": "cristina",
+    "country": "USA",
+    "state": "Florida",
+    "institution": "University of South Florida",
+    "email": "ssegrest@usf.edu",
+    "phone": "1-727-519-8535 (001)",
+    "paper_title": "The Efficacy of Bootcamps in the Refugee Crisis",
+    "abstract_pdf": "GCIMB_conference_refugee_2021_1.docx",
+    "submission_date": "2021-06-12T20:50:07.056Z"
+    }
+    },
+    {
     "model": "conference.paper_count",
     "pk": 1,
     "fields": {
-    "paper_count": 136
+    "paper_count": 137
     }
     },
     {
