@@ -284,7 +284,7 @@ def abstract_submission(request):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 		if not duplicate:
-			update_sheet(absID)
+			# update_sheet(absID)
 			forward_submission_info(absID)
 			messages.success(request, "You've successfully submitted the abstract.")
 		else:
