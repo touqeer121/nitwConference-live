@@ -396,7 +396,7 @@ def export_abstracts_sheet(request):
 def remark_abstracts(request):
 	context = {}
 	if(request.user.username=='gcimb'):
-		context['abstracts'] = Abstract.objects.all()
+		context['abstracts'] = Abstract.objects.all().order_by('abs_id')
 		context['track'] = ''
 		return render(request, 'all_abstracts.html', context)
 	curUser = request.user
@@ -407,7 +407,7 @@ def remark_abstracts(request):
 		track2 = 'Strategic Management and Corporate Governance'
 	else:
 		track2 = 'NA' 
-	context['abstracts'] = Abstract.objects.filter(Q(track=curUser.track) | Q(track=track2)) 
+	context['abstracts'] = Abstract.objects.filter(Q(track=curUser.track) | Q(track=track2)).order_by('abs_id') 
 	context['track'] = curUser.track
 	context['track2'] = track2
 	return render(request, 'all_abstracts.html', context)

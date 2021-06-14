@@ -1840,7 +1840,6 @@ table{
 	text-align: center;
 }
 th, td{
-	border-right: 1px solid #dce0eb;
 	/* text-align: left; */
 	font-size: 20px;
 	min-width: 150px;
@@ -1853,6 +1852,7 @@ th, td{
 	padding: 5px;
 	/* width: auto; */
 	text-align: center;
+	border-right: 1px solid #dce0eb;
 }
 /* .display-table tr {
 	background-color: #d5e9ff;
