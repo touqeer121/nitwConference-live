@@ -3,6 +3,43 @@
 {% load static %}
 {% block scripts %}
     <script src="{% static 'js/countries.js' %}"></script>
+
+    <script>
+      var _validFileExtensions = [".pdf", ".png", ".jpg", ".jpeg"];
+      function Validate(oForm) {
+          var arrInputs = oForm.getElementsByTagName("input");
+          for (var i = 0; i < arrInputs.length; i++) {
+              var oInput = arrInputs[i];
+              if (oInput.type == "file") {
+                  var sFileName = oInput.value;
+                  if (sFileName.length > 0) {
+                      var blnValid = false;
+                      for (var j = 0; j < _validFileExtensions.length; j++) {
+                          var sCurExtension = _validFileExtensions[j];
+                          if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                              blnValid = true;
+                              break;
+                          }
+                      }
+                      if (!blnValid) {
+                          alert("The file " + sFileName + " is invalid, allowed file extensions are: " + _validFileExtensions.join(", "));
+                          return false;
+                      }
+                  }
+              }
+          }
+
+          return true;
+      }
+  </script>
+  <script>
+    $(document).ready(function () {
+        // messages timeout for 10 sec
+        setTimeout(function () {
+            $('.message_container').fadeOut('slow');
+        }, 10000);
+    });
+  </script>
 {% endblock scripts %}
 {% block content %}
 
@@ -12,6 +49,14 @@
 </section>
 
 <section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
+    {% if messages %}
+      {% for mes in messages %}
+          <div class="alert alert-success message_container">
+              <a href="#" class="close" data-dismiss="success" aria-label="close">&times;</a>
+              <strong>{{ mes }}</strong>
+          </div>
+      {% endfor %}
+    {% endif %}
     <div class="my-main-container">
         <div>
             <h1 style="display: inline-block">Registration</h1>
@@ -348,30 +393,49 @@
         </p>
         <div class="single-box">
             <div id="uploadForm" class="well well-lg">
-            <form method="POST" enctype="multipart/form-data" action="../call_for_papers/">
+            <form method="POST" enctype="multipart/form-data" action="../registration/">
                 {% csrf_token %}
                 <div class="form-group">
                     <div class="form-subgroup half">
-                        <label class="formText">Type</label><br>
-                        <select class="my-input" id="status" name="status" required>
-                          <option value="" disabled selected>Select...</option>
-                          <option value="Academicians">Academician (INR 1600 / 40)</option>
-                          <option value="Doctoral Students">Doctoral Student (INR 1000 / 30)</option>
-                          <option value="Industry Professionals">Industry Professional (INR 2000 / 50)</option>
-                          <option value="Masters Students">Masters Student (INR 500 / 15)</option>
-                          <option value="Listeners">Listener (INR 600 / 20)</option>
-                        </select>
+                      <label class="formText">Registration Type</label><br>
+                      <select class="my-input" id="registration_type" name="registration_type" required>
+                        <option value="" disabled selected>Select...</option>
+                        <option value="1">Early bird (Conference)</option>
+                        <option value="2">Early bird (Conference+Workshop)</option>
+                        <!-- <option value="3">Regular (Conference)</option>
+                        <option value="4">Regular (Conference+Workshop)</option> -->
+                        <option value="5">Regular (Workshop)</option>
+                      </select>
+                  </div>
+                  <div class="form-subgroup half">
+                      <label class="formText">Type</label><br>
+                      <select class="my-input" id="author_type" name="author_type" required>
+                        <option value="" disabled selected>Select...</option>
+                        <option value="1">Academician</option>
+                        <option value="2">Doctoral Student</option>
+                        <option value="3">Industry Professional</option>
+                        <option value="4">Masters Student</option>
+                        <option value="5">Listener</option>
+                      </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+
+                    <div class="form-subgroup half">
+                      <label class="formText">Abstract ID</label><br>
+                      <input class="my-input" type="text" name="abs_id" id="abs_id" required/>
                     </div>
                     <div class="form-subgroup half">
-                            <label class="formText">Prefix</label><br>
-                            <select class="my-input" id="prefix" name="prefix" required>
-                                <option value="default" disabled="true" selected="true">Select...</option>
-                                <option value="Dr.">Dr.</option>
-                                <option value="Mrs.">Mrs.</option>
-                                <option value="Ms.">Ms.</option>
-                                <option value="Mr.">Mr.</option>
-                            </select>
-                        </div>
+                        <label class="formText">Prefix</label><br>
+                        <select class="my-input" id="prefix" name="prefix" required>
+                            <option value="default" disabled="true" selected="true">Select...</option>
+                            <option value="Dr.">Dr.</option>
+                            <option value="Mrs.">Mrs.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Mr.">Mr.</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="form-group">
                         <div class="form-subgroup half">
@@ -409,10 +473,33 @@
                         <input class="my-input" type="text" name="phone" id="phone" required/>
                     </div>
                     <div class="form-subgroup half">
-                        <label class="formText">Abstract ID</label><br>
-                        <input class="my-input" type="text" name="abstract_id" id="abstract_id" required/>
-                    </div>
+                      <label class="formText">Payment method chosen</label><br>
+                      <select class="my-input" id="payment_method" name="payment_method" required>
+                        <option value="default" disabled="true" selected="true">Select...</option>
+                        <option value="Bank">Bank</option>
+                        <option value="Google Pay">Google Pay</option>
+                        <option value="Paytm">Paytm</option>
+                    </select>
+                  </div>
                 </div>
+
+                <div class="form-group">
+                  <div class="form-subgroup half">
+                      <label class="formText">Transaction/Reference ID</label><br>
+                      <input class="my-input" type="text" name="trans_id" id="trans_id" required/>
+                  </div>                  
+                </div>
+                <div class="form-group">
+                  <div class="form-subgroup">
+                    <label class="formText" for="id_proof">
+                      Upload ID Proof (.pdf, .png, .jpg or .jpeg file) :
+                      <i class="fa fa-info-circle" aria-hidden="true" data-toggle="tooltip" \
+                      title="Organization ID to verify the type you are registering for."></i>
+                    </label><br>
+                    <input type="file" id="id_proof" name="id_proof" required>
+                  </div>
+                </div>
+
                 <div class="form-group" >
                     <button class="my-input formButton nonlinkButton"  type="submit">Register</button>
                 </div>

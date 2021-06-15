@@ -2,6 +2,8 @@
 @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 /*@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext');*/
 /*@import url("https://fonts.googleapis.com/css?family=Dosis");*/
+@import url(https://fonts.googleapis.com/css?family=Cantarell:400,400italic,700italic,700);
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
 html,body
 {
     width: 100%;
@@ -1896,8 +1898,67 @@ th, td{
 	/* white-space: nowrap; */
 }
 
-
-
+/* Modal styles */
+/* .modal {
+	opacity: 0;
+	position: absolute;
+	width: 100%;
+	height: 0;
+	top: 0;
+	left: 0;
+	overflow: hidden;
+	background: rgba(0, 0, 0, 0.8);
+	transition: opacity linear 0.2s;
+  }
+  .modal:target {
+	height: 100%;
+	opacity: 1;
+  }
+  .modal__content {
+	position: relative;
+	background: #fff;
+	padding: 20px;
+	width: 60%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 200;
+  }
+  .modal__content__close {
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	width: 20px;
+	line-height: 20px;
+	border-radius: 20px;
+	text-align: center;
+	padding: 5px;
+	background: #2980b9;
+	color: #fff;
+  }
+  .modal__close::before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 1;
+  }
+   */
+#modal-table{
+	text-align: left;
+	margin: 0 auto;
+}
+#modal-table  td, #modal-table  tr, #modal-table  th{
+	text-align: left;
+}
+#modal-table tr:nth-child(even){
+	background-color: white;
+}
+#modal-table tr:nth-child(odd) {
+	background-color: #f0f0f0;
+}
 @media (max-width:1280px){
 	.inner{
 		min-height: 33em;

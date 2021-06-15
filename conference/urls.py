@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('update_sheet/', views.update_sheet, name='update_sheet'),
     path('remark-abstracts/', views.remark_abstracts, name='remark_abstracts'),
+    path('registration-approval/', views.registration_approval, name='registration_approval'),
     path('abstract-submission/', views.abstract_submission, name='abstract_submission'),
     path('about-conference/', views.about_conference, name='about_conference'),
     path('organizing-team/', views.organizing_team, name='organizing_team'),
@@ -35,7 +36,17 @@ urlpatterns = [
     path('evaluation-process/', views.evaluation_process, name='evaluation_process'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('export/xls/', views.export_abstracts_sheet, name='export_abstracts_sheet'),
+
     url('approveabstract/(?P<abstractid>\w+)', views.approve_abstract, name='approve_abstract'),
     url('rejectabstract/(?P<abstractid>\w+)', views.reject_abstract, name='reject_abstract'),
     url('removeremarks/(?P<abstractid>\w+)', views.remove_remark, name='remove_remark'),
+
+    url('approveid/(?P<registrationid>\w+)', views.approve_id, name='approve_id'),
+    url('rejectid/(?P<registrationid>\w+)', views.reject_id, name='reject_id'),
+    url('resetdecisionforid/(?P<registrationid>\w+)', views.reset_decision_for_id, name='reset_decision_for_id'),
+
+    url('approvepayment/(?P<registrationid>\w+)', views.approve_payment, name='approve_payment'),
+    url('rejectpayment/(?P<registrationid>\w+)', views.reject_payment, name='reject_payment'),
+    url('resetdecisionforpayment/(?P<registrationid>\w+)', views.reset_decision_for_payment, name='reset_decision_for_payment'),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

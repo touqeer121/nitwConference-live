@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} | Submission{% endblock title %}
+{% block title %} | Paper Submission{% endblock title %}
 {% load static %}
 {% block scripts %}
     <script src="{% static 'js/countries.js' %}"></script>
@@ -58,13 +58,13 @@
     {% endif %}
     <div class="my-main-container">
         <div>
-            <h1 style="display: inline-block">Abstract Submission</h1>
+            <h1 style="display: inline-block">Paper Submission</h1>
             <img class="headIcon" src="data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FwYV8xIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIHdpZHRoPSI1MTIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGc+PHBhdGggZD0ibTE0MC4wNjQgNDY4aC02MS40MTNjLTE3Ljg1OCAwLTMyLjM4Ny0xNC41NzktMzIuMzg3LTMyLjV2LTE4NC44NzRjMC00LjE0My0zLjM1OC03LjUtNy41LTcuNXMtNy41IDMuMzU3LTcuNSA3LjV2MTg0Ljg3NGMwIDI2LjE5MSAyMS4yNTggNDcuNSA0Ny4zODcgNDcuNWg2MS40MTNjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNXMtMy4zNTgtNy41LTcuNS03LjV6Ii8+PHBhdGggZD0ibTk1Ljc1OCAxNTcuNDgxaDEyMy42MTFjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNXMtMy4zNTgtNy41LTcuNS03LjVoLTEyMy42MTFjLTQuMTQyIDAtNy41IDMuMzU3LTcuNSA3LjVzMy4zNTggNy41IDcuNSA3LjV6Ii8+PHBhdGggZD0ibTk1Ljc1OCAzMjIuNTIyYy00LjE0MiAwLTcuNSAzLjM1Ny03LjUgNy41czMuMzU4IDcuNSA3LjUgNy41aDE3My42MTFjNC4xNDIgMCA3LjUtMy4zNTcgNy41LTcuNXMtMy4zNTgtNy41LTcuNS03LjV6Ii8+PHBhdGggZD0ibTkzLjc2IDIxNy40OTVoMjIzLjgzN2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNWgtMjIzLjgzN2MtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNXoiLz48cGF0aCBkPSJtOTMuNzYgMjc3LjUwOWgyMjMuODc0YzQuMTQyIDAgNy41LTMuMzU3IDcuNS03LjVzLTMuMzU4LTcuNS03LjUtNy41aC0yMjMuODc0Yy00LjE0MiAwLTcuNSAzLjM1Ny03LjUgNy41czMuMzU4IDcuNSA3LjUgNy41eiIvPjxwYXRoIGQ9Im00ODAuNjg1IDQwMy43NDljLS40MDctOC40OTktNC4xMTktMTYuNzk3LTEwLjE1Ni0yMi43MzhsLTcwLjI2NS02OS44NTd2LTE1OS42MDVjMC05Ljk5Ny0zLjg3OS0xOS40MDEtMTAuOTIzLTI2LjQ4MWwtMTEzLjQ4My0xMTQuMDQ4Yy02Ljk2OS03LjAwMy0xNi42MjUtMTEuMDItMjYuNDkzLTExLjAyaC0xNzAuNzE0Yy0yNi4xMjkgMC00Ny4zODcgMjEuMzA5LTQ3LjM4NyA0Ny41MDF2MTY4LjEyNWMwIDQuMTQzIDMuMzU4IDcuNSA3LjUgNy41czcuNS0zLjM1NyA3LjUtNy41di0xNjguMTI1YzAtMTcuOTIxIDE0LjUyOS0zMi41MDEgMzIuMzg3LTMyLjUwMWgxNzAuNzE0YzEuNzA4IDAgMy4zODEuMjExIDUuMDA2LjU4MnY0Mi4yMDJjMCA0LjE0MyAzLjM1OCA3LjUgNy41IDcuNXM3LjUtMy4zNTcgNy41LTcuNXYtMzIuMDE3bDEwNS4zMjcgMTA1Ljg1MmgtODUuODA0Yy0xMC43NjUgMC0xOS41MjMtOC43OTctMTkuNTIzLTE5LjYwOXYtMTkuMjI2YzAtNC4xNDMtMy4zNTgtNy41LTcuNS03LjVzLTcuNSAzLjM1Ny03LjUgNy41djE5LjIyNmMwIDE5LjA4NCAxNS40ODcgMzQuNjA5IDM0LjUyMyAzNC42MDloOTUuODEzYy4zNTUgMS42MDIuNTU3IDMuMjQ5LjU1NyA0LjkzdjE0OS40NTNjLTEyLjIzNC00LjI4OS0yNi40MTctMS41OC0zNi4xODYgOC4xMzEtMTMuNTEyIDEyLjg5LTEzLjUxMiAzNi4wOTggMCA0OC45ODkgMCAwIDEyLjgzNCAxMi43NiAxMi44MzQgMTIuNzZoLTQ0LjI3OWMtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWg2Mi40NmMzLjAzOCAwIDUuNzc1LTEuODMyIDYuOTMzLTQuNjQgMS4xNTktMi44MDkuNTA5LTYuMDM3LTEuNjQ1LTguMTc5bC0yNS43MjctMjUuNTc4Yy03LjY1My03LjMwMy03LjY1Mi0yMC40MTMgMC0yNy43MTYgNy43MjEtNy42NzUgMjAuMjgyLTcuNjc1IDI4LjAwMSAwbDcyLjMyNCA3MS45MDRjNy41OTIgNy4yMTcgNy42MjYgMjAuNDM5LS4wMjcgMjcuNjg5bC03Mi4zMDIgNzEuODgzYy03LjcxOCA3LjY4Ny0yMC4yNzUgNy42ODgtMjcuOTk2LS4wMDUtNy42NTMtNy4zMDMtNy42NTItMjAuNDE0IDAtMjcuNzE3bDI1LjcyNy0yNS41NzdjMi4xNTQtMi4xNDEgMi44MDQtNS4zNyAxLjY0Ni04LjE3OS0xLjE1OC0yLjgwOC0zLjg5Ni00LjY0LTYuOTMzLTQuNjRoLTE0NS41NzdjLTEwLjkwOCAwLTE5Ljc4Mi04LjgwNC0xOS43ODItMTkuNjI0czguODc1LTE5LjYyMyAxOS43ODItMTkuNjIzaDQ4LjExN2M0LjE0MiAwIDcuNS0zLjM1NyA3LjUtNy41cy0zLjM1OC03LjUtNy41LTcuNWgtNDguMTE3Yy0xOS4xNzkgMC0zNC43ODIgMTUuNTMyLTM0Ljc4MiAzNC42MjMgMCAxOS4wOTIgMTUuNjAzIDM0LjYyNCAzNC43ODIgMzQuNjI0aDEyNy4zOTVsLTEyLjgzMyAxMi43NTljLTQuMjkxIDQuMjY2LTcuMzE1IDkuNDU0LTguOTA2IDE1LjExMmgtMTY1LjEwOWMtNC4xNDIgMC03LjUgMy4zNTctNy41IDcuNXMzLjM1OCA3LjUgNy41IDcuNWgxNjQuMjc0YzEuMTYgNy4xMTggNC41MTIgMTMuNjggOS43MzYgMTguODczIDEzLjU1MSAxMy41MDEgMzUuNjA3IDEzLjUwNCA0OS4xNTguMDA1bDcyLjI2My03MS44NDRjNi45MjgtNi43OTggMTAuNzM2LTE2LjY0OCAxMC4xOS0yNi4yODN6Ii8+PC9nPjwvc3ZnPg==" />
         </div>
         <br>
         <div class="single-box">
             <div id="uploadForm" class="well well-lg">
-                <form method="POST" enctype="multipart/form-data" onsubmit="return Validate(this)" action="../abstract-submission/">
+                <form method="POST" enctype="multipart/form-data" onsubmit="return Validate(this)" action="../paper-submission/">
                     {% csrf_token %}
                     <div class="form-group">
                         <div class="form-subgroup half">
@@ -139,8 +139,8 @@
 
                   <div class="form-group">
                       <div class="form-subgroup">
-                        <label class="formText" for="pdf">Upload abstract (.pdf, .doc or .docx file) :</label><br>
-                        <input type="file" id="id" name="pdf" required>
+                        <label class="formText" for="pdf">Upload paper (.pdf, .doc or .docx file) :</label><br>
+                        <input type="file" id="pdf" name="pdf" required>
                       </div>
                   </div>
                     <div class="form-group" >
