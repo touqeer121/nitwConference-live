@@ -92,8 +92,8 @@ class Author_Type(models.Model) :
 
 class Registration(models.Model) :
 	registration_id = models.CharField(max_length=20, primary_key=True)
-	registration_type = models.ForeignKey(Registration_Type, verbose_name="Registration_Type", on_delete=models.CASCADE, blank=True, null=True)
-	author_type = models.ForeignKey(Author_Type, verbose_name="Author_Type", on_delete=models.CASCADE, blank=True, null=True)
+	# registration_type = models.ForeignKey(Registration_Type, verbose_name="Registration_Type", on_delete=models.CASCADE, blank=True, null=True)
+	# author_type = models.ForeignKey(Author_Type, verbose_name="Author_Type", on_delete=models.CASCADE, blank=True, null=True)
 	payment_method = models.CharField(max_length=200, blank=True, default='unknown')
 	transaction_id = models.CharField(max_length=100, blank=True, default='unknown')
 	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
