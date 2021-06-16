@@ -4,7 +4,7 @@ from .models import *
 
 admin.site.register(Abstract)
 admin.site.register(Registration_Type)
-# admin.site.register(Author_Type)
+admin.site.register(Author_Type)
 # admin.site.register(Registration)
 admin.site.register(ContactUsMessage)
 admin.site.register(File)
