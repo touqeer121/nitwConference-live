@@ -1,6 +1,8 @@
 Abstracts.xls
 __pychahce__/
 conference/models_tmp.py
+accounts/migrations
+conference/migrations
 db.sqlite3
 static/files/Abstracts.xls
 static/files/gcimb_brochure_old.pdf
