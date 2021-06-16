@@ -13,6 +13,7 @@ urlpatterns = [
     path('registration-approval/', views.registration_approval, name='registration_approval'),
     path('abstract-submission/', views.abstract_submission, name='abstract_submission'),
     path('paper-submission/', views.paper_submission, name='paper_submission'),
+    path('ppt-submission/', views.ppt_submission, name='ppt_submission'),
     path('about-conference/', views.about_conference, name='about_conference'),
     path('organizing-team/', views.organizing_team, name='organizing_team'),
     path('who-can-join/', views.who_should_join, name='who_should_join'),

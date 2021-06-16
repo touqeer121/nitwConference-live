@@ -65,12 +65,47 @@ class Paper(models.Model) :
 
 	paper_title = models.CharField(max_length=500)
 
-	paper_pdf = models.FileField(upload_to='maps',
-								validators=[FileExtensionValidator(["pdf", "doc", "docx"])], storage=gd_storage)
+	paper_affiliation_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
+	paper_manuscript_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
 	submission_date = models.DateTimeField()
 
 	def __str__(self):
 		return self.paper_title + "(" + str(self.paper_id) + ")"
+
+
+class Ppt(models.Model) :
+	ppt_id = models.CharField(max_length=20, primary_key=True)
+	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
+	track = models.CharField(max_length=500)
+	prefix = models.CharField(max_length=20)
+	first_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100)
+	status = models.CharField(max_length=1, blank=True, default='2')
+	status_A = models.CharField(max_length=1, blank=True, default='2')
+	status_B = models.CharField(max_length=1, blank=True, default='2')
+	remark = models.CharField(max_length=5000, blank=True, default='')
+	remark_A = models.CharField(max_length=5000, blank=True, default='')
+	remark_B = models.CharField(max_length=5000, blank=True, default='')
+	track_A = models.CharField(max_length=5000, blank=True, null=True, default='A')
+	track_B = models.CharField(max_length=5000, blank=True, null=True, default='admin')
+	country = models.CharField(max_length=5000, blank=True, null=True, default='undefined')
+	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
+	institution = models.CharField(max_length=1000)
+	email = models.EmailField()
+	phone = models.CharField(max_length=20,
+							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
+							 blank=True)
+
+	ppt_title = models.CharField(max_length=500)
+
+	ppt_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["ppt", "pptx"])], storage=gd_storage)
+	submission_date = models.DateTimeField()
+
+	def __str__(self):
+		return self.ppt_title + "(" + str(self.ppt_id) + ")"
 
 
 class Registration_Type(models.Model) :
@@ -140,6 +175,12 @@ class Paper_Count(models.Model):
 
 	def __unicode__(self):
 		return str(self.paper_count)
+
+class Ppt_Count(models.Model):
+	paper_count = models.IntegerField(default=0)
+
+	def __unicode__(self):
+		return str(self.ppt_count)
 
 class Registration_Count(models.Model):
 	registration_count = models.IntegerField(default=0)

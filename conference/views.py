@@ -146,12 +146,12 @@ def registration(request):
 			absID = request.POST['abs_id']
 			abs = get_object_or_404(Abstract, abs_id=absID)
 			if not abs:
-				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
+				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 				return redirect('/registration')
 		
 			cnt = Registration_Count.objects.get()
 			middle = math.ceil(datetime.datetime.today().timestamp())
-			p1 = str(middle)[5:]
+			p1 = str(middle)[required:]
 			p2 = str(cnt.registration_count)
 			cnt.registration_count = cnt.registration_count + 1
 			cnt.save()
@@ -262,6 +262,14 @@ def is_duplicate_entry(request):
 	request.POST['lname'], institution= request.POST['institution'])
 	return (len(oldEntry)> 0)
 
+def is_duplicate_paper(request):
+	abstract = get_object_or_404(Abstract, pk=request.POST['abs_id'])
+	oldEntry = Paper.objects.filter (abstract=abstract)
+
+	oldEntry = Paper.objects.filter(abstract=abstract, first_name=request.POST['fname'], last_name=\
+	request.POST['lname'], institution= request.POST['institution'])
+	return (len(oldEntry)> 0)
+
 def assign_track_chair(request):
 	abstracts = Abstract.objects.all()
 	for abs in abstracts:
@@ -361,14 +369,16 @@ def abstract_submission(request):
 
 def paper_submission(request):
 	if (request.method == "POST"):
+		return redirect("/paper-submission")
 		duplicate = is_duplicate_paper(request)
 		if not duplicate:
 			doc=request.FILES
-			file_pdf = doc['pdf']
+			file_pdf1 = doc['pdf1']
+			file_pdf2 = doc['pdf2']
 			absID = request.POST['abs_id']
 			abs = get_object_or_404(Abstract, abs_id=absID)
 			if not abs:
-				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
+				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
 			cnt = Full_Paper_Count.objects.get()
 			middle = math.ceil(datetime.datetime.today().timestamp())
@@ -377,7 +387,8 @@ def paper_submission(request):
 			cnt.registration_count = cnt.registration_count + 1
 			cnt.save()
 			pprID = "GCIMB" + p1 + p2 + "P"
-			ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_pdf=file_pdf, abstract = abs)
+			ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_affiliation_pdf=file_pdf1, \
+					paper_manuscript_pdf=file_pdf2, abstract = abs)
 			ppr.track = request.POST['track']
 			ppr.prefix = request.POST['prefix']
 			ppr.first_name = request.POST['fname']
@@ -445,6 +456,49 @@ def paper_submission(request):
 		print("EVRYTHING DONE with PAPER SUBMISSION\n")
 		return redirect('/paper-submission')
 	return render(request, 'paper_submission.html')	
+
+def ppt_submission(request):
+	if (request.method == "POST"):
+		return redirect("/ppt-submission")
+		duplicate = is_duplicate_paper(request)
+		if not duplicate:
+			doc=request.FILES
+			file_pdf = doc['pdf']
+			absID = request.POST['abs_id']
+			abs = get_object_or_404(Abstract, abs_id=absID)
+			if not abs:
+				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
+				return redirect('/paper-submission')
+			cnt = Full_Paper_Count.objects.get()
+			middle = math.ceil(datetime.datetime.today().timestamp())
+			p1 = str(middle)[6:]
+			p2 = str(cnt.registration_count)
+			cnt.registration_count = cnt.registration_count + 1
+			cnt.save()
+			pptID = "GCIMB" + p1 + p2 + "T"
+			ppt = Paper.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
+			ppt.track = request.POST['track']
+			ppt.prefix = request.POST['prefix']
+			ppt.first_name = request.POST['fname']
+			ppt.last_name = request.POST['lname']
+			ppt.institution = request.POST['institution']
+			ppt.country = request.POST['country']
+			ppt.state = request.POST['state']
+			ppt.email = request.POST['email']
+			ppt.phone = request.POST['phone']
+			ppt.paper_title = request.POST['title']
+
+			ppt.save()
+
+		if not duplicate:
+			# forward_submission_info(absID)
+			messages.success(request, "You've successfully submitted the ppt.")
+		else:
+			messages.success(request, "You've already submitted a ppt for this abstract.")
+		print("EVRYTHING DONE with PPT SUBMISSION\n")
+		return redirect('/ppt-submission')
+	return render(request, 'ppt_submission.html')	
+
 
 def early_bird(request):
 	return render(request, 'early-bird.html')
