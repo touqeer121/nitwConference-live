@@ -131,50 +131,50 @@ def keynote_speakers(request):
 	return render(request, 'speakers.html')
 
 def is_duplicate_registration(request):
-	oldEntry = Registration.objects.filter(first_name=request.POST['fname'], last_name=	request.POST['lname'],\
-				institution= request.POST['institution'])
+	# oldEntry = Registration.objects.filter(first_name=request.POST['fname'], last_name=	request.POST['lname'],\
+	# 			institution= request.POST['institution'])
+	oldEntry=1
 	return (len(oldEntry)> 0)
 
 def registration(request):
-	print("MEHOD : ", request.method)
-	if request.method == "POST":
-		duplicate = is_duplicate_registration(request)
-		if not duplicate:
-			doc=request.FILES
-			id_proof_file = doc['id_proof']
-			absID = request.POST['abs_id']
-			abs = get_object_or_404(Abstract, abs_id=absID)
-			if not abs:
-				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
-				return redirect('/registration')
+	# print("MEHOD : ", request.method)
+	# if request.method == "POST":
+	# 	duplicate = is_duplicate_registration(request)
+	# 	if not duplicate:
+	# 		doc=request.FILES
+	# 		id_proof_file = doc['id_proof']
+	# 		absID = request.POST['abs_id']
+	# 		abs = get_object_or_404(Abstract, abs_id=absID)
+	# 		if not abs:
+	# 			messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
+	# 			return redirect('/registration')
 		
-			cnt = Registration_Count.objects.get()
-			middle = math.ceil(datetime.datetime.today().timestamp())
-			p1 = str(middle)[5:]
-			p2 = str(cnt.registration_count)
-			cnt.registration_count = cnt.registration_count + 1
-			cnt.save()
-			regID = "RGCIMB" + p1 + p2
-			reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now(), \
-					id_proof=id_proof_file, abstract=abs)
-			reg.registration_type = get_object_or_404(Registration_Type, id=request.POST['registration_type'])
-			reg.author_type = get_object_or_404(Author_Type, id=request.POST['author_type'])
-			reg.prefix = request.POST['prefix']
-			reg.first_name = request.POST['fname']
-			reg.last_name = request.POST['lname']
-			reg.institution = request.POST['institution']
-			reg.country = request.POST['country']
-			reg.state = request.POST['state']
-			reg.email = request.POST['email']
-			reg.phone = request.POST['phone']
-			reg.transaction_id = request.POST['trans_id']
-			reg.save()
-			messages.success(request, "You've successfully applied for registration. Please wait for approval acknowledgement.")	
-		else:
-			messages.success(request, "You've already applied for registration.")
-		return redirect('/registration')
+	# 		cnt = Registration_Count.objects.get()
+	# 		middle = math.ceil(datetime.datetime.today().timestamp())
+	# 		p1 = str(middle)[5:]
+	# 		p2 = str(cnt.registration_count)
+	# 		cnt.registration_count = cnt.registration_count + 1
+	# 		cnt.save()
+	# 		regID = "RGCIMB" + p1 + p2
+	# 		reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now(), \
+	# 				id_proof=id_proof_file, abstract=abs)
+	# 		reg.registration_type = get_object_or_404(Registration_Type, id=request.POST['registration_type'])
+	# 		reg.author_type = get_object_or_404(Author_Type, id=request.POST['author_type'])
+	# 		reg.prefix = request.POST['prefix']
+	# 		reg.first_name = request.POST['fname']
+	# 		reg.last_name = request.POST['lname']
+	# 		reg.institution = request.POST['institution']
+	# 		reg.country = request.POST['country']
+	# 		reg.state = request.POST['state']
+	# 		reg.email = request.POST['email']
+	# 		reg.phone = request.POST['phone']
+	# 		reg.transaction_id = request.POST['trans_id']
+	# 		reg.save()
+	# 		messages.success(request, "You've successfully applied for registration. Please wait for approval acknowledgement.")	
+	# 	else:
+	# 		messages.success(request, "You've already applied for registration.")
+	# 	return redirect('/registration')
 
-	# messages.success(request, "GET METHOD")
 	return render(request, 'register.html')
 
 @csrf_exempt
@@ -182,7 +182,7 @@ def registration(request):
 def registration_approval(request):
 	context = {}
 	if(request.user.username=='gcimb'):
-		context['registrations'] = Registration.objects.all().order_by('registration_id')
+		# context['registrations'] = Registration.objects.all().order_by('registration_id')
 		return render(request, 'registration_approval.html', context)
 	
 	messages.success(request, "You do not have the authority to perform this action.")
@@ -588,95 +588,95 @@ def remove_remark(request, abstractid):
 
 @login_required(login_url='/sign-in/')
 def approve_id(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		if cd.id_status == 1:
-			messages.success(request, "ID already approved.")
-		else:
-			messages.success(request, "ID approved.")
-			cd.id_status = 1
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	if cd.id_status == 1:
+	# 		messages.success(request, "ID already approved.")
+	# 	else:
+	# 		messages.success(request, "ID approved.")
+	# 		cd.id_status = 1
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reject_id(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		if cd.id_status == 0:
-			messages.success(request, "ID already rejected.")
-		else:
-			messages.success(request, "ID rejected.")
-			cd.id_status = 0
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	if cd.id_status == 0:
+	# 		messages.success(request, "ID already rejected.")
+	# 	else:
+	# 		messages.success(request, "ID rejected.")
+	# 		cd.id_status = 0
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reset_decision_for_id(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		messages.success(request, "Decision reset.")
-		cd.id_status = 2
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	messages.success(request, "Decision reset.")
+	# 	cd.id_status = 2
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def approve_payment(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		if cd.payment_status == 1:
-			messages.success(request, "Payment already approved.")
-		else:
-			messages.success(request, "Payment approved.")
-			cd.payment_status = 1
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	if cd.payment_status == 1:
+	# 		messages.success(request, "Payment already approved.")
+	# 	else:
+	# 		messages.success(request, "Payment approved.")
+	# 		cd.payment_status = 1
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reject_payment(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		if cd.payment_status == 0:
-			messages.success(request, "Payment already rejected.")
-		else:
-			messages.success(request, "Payment rejected.")
-			cd.payment_status = 0
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	if cd.payment_status == 0:
+	# 		messages.success(request, "Payment already rejected.")
+	# 	else:
+	# 		messages.success(request, "Payment rejected.")
+	# 		cd.payment_status = 0
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reset_decision_for_payment(request, registrationid):
-	cd = get_object_or_404(Registration, pk=registrationid)
-	uname = request.user.username
-	# remark = request.POST.get('remark')
-	if uname=='gcimb':
-		messages.success(request, "Decision reset.")
-		cd.payment_status = 2
-		cd.save()
-	else : 
-		messages.success(request, "You do not have the authority to perform this action.")
+	# cd = get_object_or_404(Registration, pk=registrationid)
+	# uname = request.user.username
+	# # remark = request.POST.get('remark')
+	# if uname=='gcimb':
+	# 	messages.success(request, "Decision reset.")
+	# 	cd.payment_status = 2
+	# 	cd.save()
+	# else : 
+	# 	messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
