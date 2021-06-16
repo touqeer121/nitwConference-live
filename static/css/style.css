@@ -1959,6 +1959,47 @@ th, td{
 #modal-table tr:nth-child(odd) {
 	background-color: #f0f0f0;
 }
+
+/* Choose file*/
+.file-upload .file-upload-select {
+	display: block;
+	color: #000000;
+	cursor: pointer;
+	text-align: left;
+	background: #dce0eb;
+	overflow: hidden;
+	position: relative;
+	border-radius: 25px;
+	height: 40px;
+	/* margin-top: 10px; */
+}
+.file-upload .file-upload-select .file-select-button {
+	background: #c9ccd3;
+	padding: 10px;
+	display: inline-block;
+}
+.file-upload .file-upload-select .file-select-name {
+	display: inline-block;
+	padding: 10px;
+}
+.file-upload .file-upload-select:hover .file-select-button {
+	background: #43cae8;
+	color: #ffffff;
+	transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+}
+.file-upload .file-upload-select input[type="file"] {
+	display: none;
+}
+.file-upload{
+	padding: 0px 0px 0px 0px;	
+}
+
+
+
+
 @media (max-width:1280px){
 	.inner{
 		min-height: 33em;

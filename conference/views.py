@@ -292,7 +292,8 @@ def abstract_submission(request):
 		duplicate = is_duplicate_entry(request)
 		if not duplicate:
 			doc=request.FILES
-			file_pdf = doc['pdf']
+			affiliation_pdf = doc['pdf1']
+			file_pdf = doc['pdf2']
 			cnt = Paper_Count.objects.get()
 			year = datetime.datetime.now().year
 			yy = str(year)
@@ -301,7 +302,8 @@ def abstract_submission(request):
 			cnt.paper_count = cnt.paper_count + 1
 			cnt.save()
 			absID = "GCIMB" + p1 + p2
-			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
+			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), \
+					abstract_affiliation_pdf=affiliation_pdf, abstract_pdf=file_pdf)
 			ppr.track = request.POST['track']
 			ppr.prefix = request.POST['prefix']
 			ppr.first_name = request.POST['fname']
@@ -369,7 +371,6 @@ def abstract_submission(request):
 
 def paper_submission(request):
 	if (request.method == "POST"):
-		return redirect("/paper-submission")
 		duplicate = is_duplicate_paper(request)
 		if not duplicate:
 			doc=request.FILES
@@ -383,8 +384,8 @@ def paper_submission(request):
 			cnt = Full_Paper_Count.objects.get()
 			middle = math.ceil(datetime.datetime.today().timestamp())
 			p1 = str(middle)[6:]
-			p2 = str(cnt.registration_count)
-			cnt.registration_count = cnt.registration_count + 1
+			p2 = str(cnt.full_paper_count)
+			cnt.full_paper_count = cnt.full_paper_count + 1
 			cnt.save()
 			pprID = "GCIMB" + p1 + p2 + "P"
 			ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_affiliation_pdf=file_pdf1, \
@@ -400,56 +401,54 @@ def paper_submission(request):
 			ppr.phone = request.POST['phone']
 			ppr.paper_title = request.POST['title']
 
-			# tracks = TrackChairProfile.objects.filter(track=ppr.track)
-			# if len(tracks) > 0 :
-			# 	ppr.track_A = tracks[0].user.username
-			# else:
-			# 	print("NO TRACK CHAIR FOUND")
-			# if len(tracks) > 1 :
-			# 	ppr.track_B = tracks[1].user.username
-			# if ppr.track == 'Strategic Management and Corporate Governance':
-			# 	ppr.track_B = 'mahesh'
-
+			tracks = TrackChairProfile.objects.filter(track=ppr.track)
+			if len(tracks) > 0 :
+				ppr.track_A = tracks[0].user.username
+			else:
+				print("NO TRACK CHAIR FOUND")
+			if len(tracks) > 1 :
+				ppr.track_B = tracks[1].user.username
+			if ppr.track == 'Strategic Management and Corporate Governance':
+				ppr.track_B = 'mahesh'
+				
 			ppr.save()
-	
-		# msg = MIMEMultipart()
-		# msg.set_unixfrom('author')
-		# msg['From'] = settings.EMAIL_HOST_USER
-		# msg['To'] = request.POST['email']
-
-		# if not duplicate:
-		# 	msg['Subject'] = 'Abstract submission acknowledgement'
-		# 	message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-		# 			'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
-		# 			'Your abstract ID will be ' + absID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-		# 			'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
-		# 			'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-		# 			'Best Regards,\n' + \
-		# 			'Organizing Team,\n' + \
-		# 			'Global Conference on Innovations in Management and Business'
-		# else:
-		# 	msg['Subject'] = 'Abstract already submitted'
-		# 	abs_id = get_object_or_404(Abstract, paper_title=request.POST['title']).abs_id
-		# 	if abs_id is None:
-		# 		message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" is already ' + \
-		# 		'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-		# 	else:	
-		# 		message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" (Abstract ID : ' + str(abs_id) + ') is already ' + \
-		# 		'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-		
-		# msg.attach(MIMEText(message))
-
-		# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-
-		#KEEP THIS COMMENTED ONLY
-		# mailserver.starttls()
-
-		# mailserver.ehlo()
-		# mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		# mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		msg['To'] = request.POST['email']
 
 		if not duplicate:
-			# forward_submission_info(absID)
+			msg['Subject'] = 'Paper submission acknowledgement'
+			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+					'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
+					'Your paper ID will be ' + pprID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+					'Best Regards,\n' + \
+					'Organizing Team,\n' + \
+					'Global Conference on Innovations in Management and Business'
+		else:
+			msg['Subject'] = 'Paper already submitted'
+			pprID = get_object_or_404(Abstract, paper_title=request.POST['title']).pprID
+			if pprID is None:
+				message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" is already ' + \
+				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			else:	
+				message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" (Paper ID : ' + str(pprID) + ') is already ' + \
+				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+		
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+
+		# KEEP THIS COMMENTED ONLY
+		# mailserver.starttls()
+
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+		if not duplicate:
+			# forward_submission_info(pprID)
 			messages.success(request, "You've successfully submitted the paper.")
 		else:
 			messages.success(request, "You've already submitted a paper for this abstract.")
@@ -459,7 +458,7 @@ def paper_submission(request):
 
 def ppt_submission(request):
 	if (request.method == "POST"):
-		return redirect("/ppt-submission")
+		# return redirect("/ppt-submission")
 		duplicate = is_duplicate_paper(request)
 		if not duplicate:
 			doc=request.FILES
@@ -469,14 +468,14 @@ def ppt_submission(request):
 			if not abs:
 				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
-			cnt = Full_Paper_Count.objects.get()
+			cnt = Ppt_Count.objects.get()
 			middle = math.ceil(datetime.datetime.today().timestamp())
 			p1 = str(middle)[6:]
-			p2 = str(cnt.registration_count)
-			cnt.registration_count = cnt.registration_count + 1
+			p2 = str(cnt.ppt_count)
+			cnt.ppt_count = cnt.ppt_count + 1
 			cnt.save()
 			pptID = "GCIMB" + p1 + p2 + "T"
-			ppt = Paper.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
+			ppt = Ppt.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
 			ppt.track = request.POST['track']
 			ppt.prefix = request.POST['prefix']
 			ppt.first_name = request.POST['fname']
@@ -486,9 +485,49 @@ def ppt_submission(request):
 			ppt.state = request.POST['state']
 			ppt.email = request.POST['email']
 			ppt.phone = request.POST['phone']
-			ppt.paper_title = request.POST['title']
+			ppt.ppt_title = request.POST['title']
 
+			tracks = TrackChairProfile.objects.filter(track=ppr.track)
+			if len(tracks) > 0 :
+				ppr.track_A = tracks[0].user.username
+			else:
+				print("NO TRACK CHAIR FOUND")
+			if len(tracks) > 1 :
+				ppr.track_B = tracks[1].user.username
+			if ppr.track == 'Strategic Management and Corporate Governance':
+				ppr.track_B = 'mahesh'
+				
 			ppt.save()
+
+		if not duplicate:
+			msg['Subject'] = 'Presentation submission acknowledgement'
+			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+					'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+					'Your paper ID will be ' + pptID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+					'Best Regards,\n' + \
+					'Organizing Team,\n' + \
+					'Global Conference on Innovations in Management and Business'
+		else:
+			msg['Subject'] = 'Presentation already submitted'
+			pptID = get_object_or_404(Abstract, ppt_title=request.POST['title']).pptID
+			if pptID is None:
+				message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" is already ' + \
+				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			else:	
+				message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" (Presentation ID : ' + str(pptID) + ') is already ' + \
+				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+		
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+
+		# KEEP THIS COMMENTED ONLY
+		# mailserver.starttls()
+
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
 
 		if not duplicate:
 			# forward_submission_info(absID)

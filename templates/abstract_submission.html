@@ -137,12 +137,30 @@
                         </div>
                     </div>
 
-                  <div class="form-group">
-                      <div class="form-subgroup">
-                        <label class="formText" for="pdf">Upload abstract (.pdf, .doc or .docx file) :</label><br>
-                        <input type="file" id="id" name="pdf" required>
-                      </div>
-                  </div>
+                    <div class="form-group">
+                        <div class="form-subgroup half">
+                            <label class="formText">Upload title of abstract with author affiliations (.pdf file)</label>
+                            <br>    
+                            <div class="file-upload">
+                                <div id="fus1" class="file-upload-select">
+                                    <div id="fsb1" class="file-select-button" >Choose File</div>
+                                <div id="fsn1" class="file-select-name">No file chosen...</div> 
+                                <input type="file" id="pdf1" name="pdf1" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-subgroup half">
+                            <label class="formText">Upload manuscript without author affiliations (.pdf file)</label>
+                            <br>    
+                            <div class="file-upload">
+                                <div id="fus2" class="file-upload-select">
+                                    <div id="fsb2" class="file-select-button" >Choose File</div>
+                                <div id="fsn2" class="file-select-name">No file chosen...</div> 
+                                <input type="file" id="pdf2" name="pdf2" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group" >
                         <button class="my-input formButton nonlinkButton"  type="submit">Submit</button>
                     </div>
@@ -156,5 +174,35 @@
     populateCountries("country", "state");
 </script>
 
+<script>
+    let fileInput = document.getElementById("pdf1");
+    let fileSelect = document.getElementById("fus1");
+    let fileButton = document.getElementById("fsb1");
+    fileSelect.onclick = function() {
+        fileInput.click();
+    }
+    fileInput.onchange = function() {
+        let filename = fileInput.files[0].name;
+        let selectName = document.getElementById("fsn1");
+        fileButton.style.background = "#43cae8";
+        fileButton.style.color = "white";
+        selectName.innerText = filename;
+
+    }
+
+    let fileInput2 = document.getElementById("pdf2");
+    let fileSelect2 = document.getElementById("fus2");
+    let fileButton2 = document.getElementById("fsb2");
+    fileSelect2.onclick = function() {
+        fileInput2.click();
+    }
+    fileInput2.onchange = function() {
+        let filename2 = fileInput2.files[0].name;
+        let selectName2 = document.getElementById("fsn2");
+        fileButton2.style.background = "#43cae8";
+        fileButton2.style.color = "white";
+        selectName2.innerText = filename2;
+    }
+</script>
 
 {% endblock content %} 

@@ -30,9 +30,11 @@ class Abstract(models.Model) :
 
 	paper_title = models.CharField(max_length=500)
 
-	abstract_pdf = models.FileField(upload_to='maps',
-								validators=[FileExtensionValidator(["pdf", "doc", "docx"])], storage=gd_storage)
+	abstract_affiliation_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
 
+	abstract_pdf = models.FileField(upload_to='maps',
+								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
 
 	submission_date = models.DateTimeField()
 
@@ -177,7 +179,7 @@ class Paper_Count(models.Model):
 		return str(self.paper_count)
 
 class Ppt_Count(models.Model):
-	paper_count = models.IntegerField(default=0)
+	ppt_count = models.IntegerField(default=0)
 
 	def __unicode__(self):
 		return str(self.ppt_count)

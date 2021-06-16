@@ -68,6 +68,12 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <div class="form-subgroup half">
+                          <label class="formText">Abstract ID</label><br>
+                          <input class="my-input" type="text" name="abs_id" id="abs_id" placeholder="GCIMBXXXXXX" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-subgroup half">
                             <label class="formText">Prefix</label><br>
                             <select class="my-input" id="prefix" name="prefix" required>
                                 <option value="" disabled selected>Select...</option>
@@ -132,23 +138,23 @@
                             </select>
                         </div>
                         <div class="form-subgroup half">
-                            <label class="formText" for="title">Title :</label>
+                            <label class="formText" for="title">Title</label>
                             <input class="my-input" type="text" name="title"  id="title" required>
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="form-subgroup half">
-                          <label class="formText">Abstract ID</label><br>
-                          <input class="my-input" type="text" name="abs_id" id="abs_id" placeholder="GCIMBXXXXXX" required/>
+                            <label class="formText">Upload presentation file (.ppt or .pptx file)</label>
+                            <br>    
+                            <div class="file-upload">
+                                <div id="fus1" class="file-upload-select">
+                                    <div id="fsb1" class="file-select-button" >Choose File</div>
+                                <div id="fsn1" class="file-select-name">No file chosen...</div> 
+                                <input type="file" id="pdf" name="pdf" required>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                  <div class="form-group">
-                      <div class="form-subgroup">
-                        <label class="formText" for="pdf">Upload presentation file (.ppt file or .pptx file) :</label><br>
-                        <input type="file" id="ppt" name="ppt" required>
-                      </div>
-                  </div>
                     <div class="form-group" >
                         <button class="my-input formButton nonlinkButton"  type="submit">Submit</button>
                     </div>
@@ -160,6 +166,21 @@
 </section>
 <script>
     populateCountries("country", "state");
+</script>
+<script>
+    let fileInput = document.getElementById("pdf");
+    let fileSelect = document.getElementById("fus1");
+    let fileButton = document.getElementById("fsb1");
+    fileSelect.onclick = function() {
+        fileInput.click();
+    }
+    fileInput.onchange = function() {
+        let filename = fileInput.files[0].name;
+        let selectName = document.getElementById("fsn1");
+        fileButton.style.background = "#43cae8";
+        fileButton.style.color = "white";
+        selectName.innerText = filename;
+    }
 </script>
 
 
