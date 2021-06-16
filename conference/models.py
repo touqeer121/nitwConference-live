@@ -76,11 +76,11 @@ class Abstract(models.Model) :
 	# 	return self.paper_title + "(" + str(self.paper_id) + ")"
 
 
-# class Registration_Type(models.Model) :
-# 	id = models.AutoField(primary_key=True)
-# 	registration_type = models.CharField(max_length=100)
-# 	def __str__(self):
-# 		return self.registration_type +" (" + str(self.id) + ")"
+class Registration_Type(models.Model) :
+	id = models.AutoField(primary_key=True)
+	registration_type = models.CharField(max_length=100)
+	def __str__(self):
+		return self.registration_type +" (" + str(self.id) + ")"
 
 
 # class Author_Type(models.Model) :	
@@ -144,8 +144,8 @@ class Paper_Count(models.Model):
 	def __unicode__(self):
 		return str(self.paper_count)
 
-# class Registration_Count(models.Model):
-# 	registration_count = models.IntegerField(default=0)
+class Registration_Count(models.Model):
+	registration_count = models.IntegerField(default=0)
 
 # 	def __unicode__(self):
 # 		return str(self.registration_count)
