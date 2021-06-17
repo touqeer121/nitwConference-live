@@ -135,8 +135,8 @@ def forward_registration_info(regID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	# recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	recipients = ['touqeer.pathan289@gmail.com']
+	recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New participant registered | Registration ID : '+regID
 
@@ -171,8 +171,19 @@ def registration(request):
 		# return redirect('/registration')
 		duplicate = is_duplicate_registration(request)
 		if not duplicate:
-			abs = ''
-			if(request.POST['registration_type'] != '5' and request.POST['author_type'] != '5'):
+			abs = ''			
+			rtype = str(request.POST['registration_type']).strip()
+			atype = str(request.POST['author_type']).strip()
+			if(atype == '2'):
+				atype = '5'
+			elif(atype == '3'):
+				atype = '6'
+			elif(atype == '4'):
+				atype = '7'
+			elif(atype == '5'):
+				atype = '8'
+					
+			if(rtype != '5' and atype != '8'):
 				print("NOT LISTENER OR..")
 				absID = request.POST['abs_id']
 				abs = get_object_or_404(Abstract, abs_id=absID)
@@ -189,12 +200,10 @@ def registration(request):
 			cnt.save()
 			regID = "GCIMB" + p1 + p2 + "R"
 			reg = Registration.objects.create(registration_id=regID)
-			rtype = str(request.POST['registration_type']).strip()
-			atype = str(request.POST['author_type']).strip()
 			reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
 			reg.author_type = get_object_or_404(Author_Type, id=atype)
 			reg.first_name = request.POST['fname']
-			if(request.POST['registration_type'] != '5' and request.POST['author_type'] != '5'):
+			if(rtype != '5' and atype != '8'):
 				reg.abstract = abs
 			
 			reg.institution = request.POST['institution']
@@ -302,8 +311,8 @@ def forward_submission_info(absID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	recipients = ['touqeer.pathan289@gmail.com']
+	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
@@ -333,8 +342,8 @@ def forward_paper_submission_info(pprID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	recipients = ['touqeer.pathan289@gmail.com']
+	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Paper Submitted | Paper ID : '+pprID
 
@@ -365,8 +374,8 @@ def forward_ppt_submission_info(pptID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	recipients = ['touqeer.pathan289@gmail.com']
+	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	# recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Presentation Submitted | Presentation ID : '+pptID
 
