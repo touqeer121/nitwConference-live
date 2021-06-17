@@ -69,7 +69,8 @@
         <button id="slide" class="formButton rightFixedButton" type="button">
             <i class="fa fa-arrow-circle-right fa-2x" aria-hidden="true"></i>
         </button>
-        {% if request.user.is_authenticated and request.user.username == 'gcimb' %}  
+        {% if request.user.is_authenticated %} 
+        {% if request.user.username == 'gcimb' or request.user.username == 'finance'%}  
         <div id="scroll-container" >
             <div id="scroll-content">
                 <table id="myTable" class="display-table" >
@@ -262,6 +263,7 @@
                 </table>    
             </div>
         </div>
+        {% endif %}
         {% endif %}
     </div>
 </section>

@@ -195,10 +195,10 @@ def registration(request):
 			year = datetime.datetime.now().year
 			yy = str(year)
 			p1 = yy[2:]
-			p2 = str(cnt.registration_count).zfill(4)
 			cnt.registration_count = cnt.registration_count + 1
+			p2 = str(cnt.registration_count).zfill(4)
 			cnt.save()
-			regID = "GCIMB" + p1 + p2 + "R"
+			regID = "GCIMBR" + p1 + p2 
 			reg = Registration.objects.create(registration_id=regID)
 			reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
 			reg.author_type = get_object_or_404(Author_Type, id=atype)
@@ -215,7 +215,7 @@ def registration(request):
 			print("Just before saving")
 			reg.save()
 
-			messages.success(request, "You've successfully applied for registration. Please wait for approval acknowledgement.")
+			messages.success(request, "You have successfully submitted your details. Please expect an email from us.")
 			
 			msg = MIMEMultipart()
 			msg.set_unixfrom('author')
@@ -261,19 +261,12 @@ def registration(request):
 @login_required(login_url='/sign-in/')
 def registration_approval(request):
 	context = {}
-	if(request.user.username=='gcimb'):
+	if(request.user.username=='gcimb' or request.user.username=='finance'):
 		# context['registrations'] = Registration.objects.all().order_by('registration_id')
 		return render(request, 'registration_approval.html', context)
 	
 	messages.success(request, "You do not have the authority to perform this action.")
 	return redirect('/')
-
-def remark_abstracts(request):
-	context = {}
-	if(request.user.username=='gcimb'):
-		context['abstracts'] = Abstract.objects.all().order_by('abs_id')
-		context['track'] = ''
-		return render(request, 'all_abstracts.html', context)
 
 def update_sheet(absID):
 	# response = HttpResponse(content_type='application/ms-excel')
@@ -526,10 +519,10 @@ def paper_submission(request):
 			year = datetime.datetime.now().year
 			yy = str(year)[2:]
 			p1 = yy
-			p2 = str(cnt.full_paper_count).zfill(4)
 			cnt.full_paper_count = cnt.full_paper_count + 1
+			p2 = str(cnt.full_paper_count).zfill(4)
 			cnt.save()
-			pprID = "GCIMB" + p1 + p2 + "P"
+			pprID = "GCIMBP" + p1 + p2
 			ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_affiliation_pdf=file_pdf1, \
 					paper_manuscript_pdf=file_pdf2, abstract = abs)
 			ppr.track = request.POST['track']
@@ -614,10 +607,10 @@ def ppt_submission(request):
 			year = datetime.datetime.now().year
 			yy = str(year)[2:]
 			p1 = yy
-			p2 = str(cnt.ppt_count).zfill(4)
 			cnt.ppt_count = cnt.ppt_count + 1
+			p2 = str(cnt.ppt_count).zfill(4)
 			cnt.save()
-			pptID = "GCIMB" + p1 + p2 + "T"
+			pptID = "GCIMBT" + p1 + p2
 			ppt = Ppt.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
 			ppt.track = request.POST['track']
 			ppt.prefix = request.POST['prefix']
@@ -785,15 +778,23 @@ def export_abstracts_sheet(request):
 @csrf_exempt
 @login_required(login_url='/sign-in/')
 def remark_abstracts(request):
+	print("START")
 	context = {}
 	if(request.user.username=='gcimb'):
+		print("SUPERADMIN")
 		context['abstracts'] = Abstract.objects.all().order_by('abs_id')
 		context['track'] = ''
 		return render(request, 'all_abstracts.html', context)
+	if(request.user.username=='shekar'):
+		print("SHEKAR")
+		context['abstracts'] = Abstract.objects.filter(track='Digital Transformation and Information Systems')
+		return render(request, 'all_abstracts.html', context)
+
 	curUser = request.user
 	curUser = get_object_or_404(TrackChairProfile, user=curUser)
 	print("USER " , curUser)
 
+	
 	if(request.user.username=='mahesh'):
 		track2 = 'Strategic Management and Corporate Governance'
 	else:
@@ -816,6 +817,14 @@ def approve_abstract(request, abstractid):
 			cd.is_finally_rejected = False
 			cd.is_finally_approved = True
 		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname=='shekar':
+		if cd.status_C == '1':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract approved.")
+			cd.status_C = '1'
+		cd.remark_C = str(remark).strip()
 		cd.save()
 	elif uname == cd.track_A:
 		if cd.is_approved_by_A:
@@ -855,6 +864,14 @@ def reject_abstract(request, abstractid):
 			cd.is_finally_approved = False
 		cd.remark = str(remark).strip()
 		cd.save()
+	elif uname=='shekar':
+		if cd.status_C == '0':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Abstract rejected.")
+			cd.status_C = '0'
+		cd.remark_C = str(remark).strip()
+		cd.save()
 	elif uname == cd.track_A:
 		if cd.is_rejected_by_A:
 			messages.success(request, "Remarks Updated.")
@@ -891,6 +908,14 @@ def remove_remark(request, abstractid):
 			messages.success(request, "Remarks Removed.")
 			cd.is_finally_approved = cd.is_finally_rejected = False
 		cd.remark = ''
+		cd.save()
+	elif uname=='shekar':
+		if cd.status_C == '2':
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.status_C = '2'
+		cd.remark_C = ''
 		cd.save()
 	elif uname == cd.track_A:
 		if not cd.is_approved_by_A and not cd.is_rejected_by_A:
