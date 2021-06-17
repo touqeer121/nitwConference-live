@@ -65,7 +65,7 @@
                             </li>
                             {% endif %}
                             {% if request.user.is_authenticated and request.user.username == 'gcimb' %}
-                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/remark-abstracts/' %}active{% endif %}">
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/registration-approval/' %}active{% endif %}">
                                 <a class="nav-link " href="../registration-approval">Review Registrations</a>
                             </li>
                             {% endif %}
@@ -94,7 +94,7 @@
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/abstract-submission/' %}active{% endif %}">
                                 <a class="nav-link" href="../preconference-workshop/">Pre-Conference Workshops</a>
                             </li>
-                            {% if not request.user.is_authenticated or request.user.username == 'touqeer' or request.user.username == 'gcimb' %}
+                            {% if not request.user.is_authenticated or request.user.username == 'gcimb' %}
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
                                 {% if request.path == '/call_for_papers/' or request.path == '/abstract-submission-guidelines/' or request.path == '/evaluation-process/' or request.path == '/publication-opportunities/'%}
                                     active
@@ -151,6 +151,14 @@
                         of Technology Warangal of India are jointly organizing the Global Conference on Innovations in
                         Management and Business during July 27-28, 2021 online.
                     </p>
+                    <br>
+					<h5>Follow Us at </h5>
+                    <ul class="list-unstyled social row left" >
+                        <li style="margin:15px 15px 15px 35px"><a target="_blank" href="https://www.linkedin.com/company/global-conference-on-innovations-in-management-and-business/?viewAsMember=true">
+                            <i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+                        <li style="margin:15px 15px 15px 35px"><a target="_blank" href="https://www.facebook.com/GCIMB">
+                            <i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+                    </ul>
 				</div>
                 <div class="col-xs-12 col-sm-4 col-md-4 left">
 					<h5>Contact Details:</h5>

@@ -46,15 +46,15 @@ section .section-title {
 	padding: 3px 0;
 }
 #footer ul.social li a i {
-    margin-right: 5px;
-	font-size:25px;
-	-webkit-transition: .5s all ease;
-	-moz-transition: .5s all ease;
-	transition: .5s all ease;
+    /* margin-right: 5px; */
+	font-size:20px;
+	-webkit-transition: .3s all ease;
+	-moz-transition: .3s all ease;
+	transition: .35s all ease;
 }
 #footer ul.social li:hover a i {
-	font-size:30px;
-	margin-top:-10px;
+	/* margin-top:-10px; */
+	/* transform: scale(1.1,1.1); */
 }
 #footer ul.social li a,
 #footer ul.quick-links li a{
@@ -878,6 +878,14 @@ img{
 	height: auto;
 	margin:  0 auto;
 }
+.my-img-logo-pay{
+	max-height:100%;
+	/* max-width:100%; */
+	display: block;
+	height: auto;
+	max-width: 200px;
+	margin: 0 auto;
+}
 .my-img{
 	width: 100%;
 }
@@ -1393,7 +1401,7 @@ img{
 }
 .social li:hover a i {
 	transform: scale(1.1,1.1);
-	margin-top:-10px;
+	/* margin-top:-10px; */
 }
 
 /*review start*/
@@ -1948,7 +1956,7 @@ th, td{
    */
 #modal-table{
 	text-align: left;
-	margin: 0 auto;
+	width: 100%;
 }
 #modal-table  td, #modal-table  tr, #modal-table  th{
 	text-align: left;
@@ -1957,7 +1965,14 @@ th, td{
 	background-color: white;
 }
 #modal-table tr:nth-child(odd) {
-	background-color: #f0f0f0;
+	background-color: #ebebeb;
+}
+#modal-table th{
+	background-color: rgba(1,1,1, 0);
+}
+#modal-table tbody{
+	margin: 0 auto;
+	width: 100%;
 }
 
 /* Choose file*/
@@ -1997,8 +2012,13 @@ th, td{
 	padding: 0px 0px 0px 0px;	
 }
 
+.showBox{
+	visibility: visible;
+}
 
-
+.hideBox{
+	visibility: hidden;
+}
 
 @media (max-width:1280px){
 	.inner{

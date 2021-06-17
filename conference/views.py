@@ -130,51 +130,122 @@ def brochure(request):
 def keynote_speakers(request):
 	return render(request, 'speakers.html')
 
+def forward_registration_info(regID):
+	reg = get_object_or_404(Registration, registration_id=regID)
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	# recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	recipients = ['touqeer.pathan289@gmail.com']
+	msg['To'] = ", ".join(recipients)
+	msg['Subject'] = 'New participant registered | Registration ID : '+regID
+
+	message = 'Registrations Details : \n' + \
+			'Registration ID : '+ str(regID) + '\n' + \
+			'Author : '+ str(reg.first_name) + '\n' + \
+			'Institute : '+ str(reg.institution) + '\n' + \
+			'Address : '+ str(reg.state) +', '+str(reg.country) + '\n' + \
+			'Institute : '+ str(reg.institution) + '\n' + \
+			'Email : '+ str(reg.email) + '\n' + \
+			'Phone : '+ str(reg.phone) + '\n' + \
+			'Transaction ID : '+ str(reg.transaction_id) + '\n' + \
+			'Registration Date : '+ str(reg.registration_date.date()) + '\n' 
+
+	msg.attach(MIMEText(message))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+	# mailserver.starttls()
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	print("INFO MAIL SENT\n")
+
 def is_duplicate_registration(request):
-	# oldEntry = Registration.objects.filter(first_name=request.POST['fname'], last_name=	request.POST['lname'],\
-	# 			institution= request.POST['institution'])
-	oldEntry=1
+	oldEntry = Registration.objects.filter(first_name=request.POST['fname'], \
+				institution= request.POST['institution'])
+	# oldEntry=1
 	return (len(oldEntry)> 0)
 
 def registration(request):
 	print("MEHOD : ", request.method)
 	if request.method == "POST":
+		# return redirect('/registration')
 		duplicate = is_duplicate_registration(request)
 		if not duplicate:
-			doc=request.FILES
-			id_proof_file = doc['id_proof']
-			absID = request.POST['abs_id']
-			abs = get_object_or_404(Abstract, abs_id=absID)
-			if not abs:
-				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
-				return redirect('/registration')
-		
+			abs = ''
+			if(request.POST['registration_type'] != '5' and request.POST['author_type'] != '5'):
+				print("NOT LISTENER OR..")
+				absID = request.POST['abs_id']
+				abs = get_object_or_404(Abstract, abs_id=absID)
+				if not abs:
+					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
+					print("IF NO ABS ")
+					return redirect('/registration')
 			cnt = Registration_Count.objects.get()
-			middle = math.ceil(datetime.datetime.today().timestamp())
-			p1 = str(middle)[required:]
-			p2 = str(cnt.registration_count)
+			year = datetime.datetime.now().year
+			yy = str(year)
+			p1 = yy[2:]
+			p2 = str(cnt.registration_count).zfill(4)
 			cnt.registration_count = cnt.registration_count + 1
 			cnt.save()
 			regID = "GCIMB" + p1 + p2 + "R"
-			reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now(), \
-					id_proof=id_proof_file, abstract=abs)
-			reg.registration_type = get_object_or_404(Registration_Type, id=request.POST['registration_type'])
-			reg.author_type = get_object_or_404(Author_Type, id=request.POST['author_type'])
-			reg.prefix = request.POST['prefix']
+			reg = Registration.objects.create(registration_id=regID)
+			rtype = str(request.POST['registration_type']).strip()
+			atype = str(request.POST['author_type']).strip()
+			reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
+			reg.author_type = get_object_or_404(Author_Type, id=atype)
 			reg.first_name = request.POST['fname']
-			reg.last_name = request.POST['lname']
+			if(request.POST['registration_type'] != '5' and request.POST['author_type'] != '5'):
+				reg.abstract = abs
+			
 			reg.institution = request.POST['institution']
 			reg.country = request.POST['country']
 			reg.state = request.POST['state']
 			reg.email = request.POST['email']
 			reg.phone = request.POST['phone']
 			reg.transaction_id = request.POST['trans_id']
+			print("Just before saving")
 			reg.save()
-			messages.success(request, "You've successfully applied for registration. Please wait for approval acknowledgement.")	
-		else:
-			messages.success(request, "You've already applied for registration.")
-		return redirect('/registration')
 
+			messages.success(request, "You've successfully applied for registration. Please wait for approval acknowledgement.")
+			
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = settings.EMAIL_HOST_USER
+			msg['To'] = request.POST['email']
+
+			msg['Subject'] = 'Resgistration Successful Acknowledgement'
+			message = 'Hello ' + str(reg.first_name) + ',\n\n' + \
+					'Hope you are safe and doing well. This is to acknowledge that we have received your application for registration.' + \
+					'Your registration ID will be ' + regID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+					'Upon approval, You will receive a confirmation mail from us within 3 days\n\n'+\
+					'Best Regards,\n' + \
+					'Organizing Team,\n' + \
+					'Global Conference on Innovations in Management and Business'
+			
+			forward_registration_info(regID)
+		else:
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = settings.EMAIL_HOST_USER
+			msg['To'] = request.POST['email']
+
+			msg['Subject'] = 'Resgistration Already in Process'
+			message = 'Hello \n\n' + \
+					'Looks like you\'ve already applied for registration.' + \
+					'If you do not receive an email within 3 days after applying please contact us at info@gcimb.org. \n\n' + \
+					'Best Regards,\n' + \
+					'Organizing Team,\n' + \
+					'Global Conference on Innovations in Management and Business'
+			messages.success(request, "You've already applied for registration.")	
+
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		return redirect('/registration')
+		
 	return render(request, 'register.html')
 
 @csrf_exempt
@@ -231,8 +302,8 @@ def forward_submission_info(absID):
 	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
+	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	recipients = ['touqeer.pathan289@gmail.com']
 	msg['To'] = ", ".join(recipients)
 	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
@@ -247,6 +318,69 @@ def forward_submission_info(absID):
 			'Email : '+ str(ppr.email) + '\n' + \
 			'Phone : '+ str(ppr.phone) + '\n' + \
 			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+
+	msg.attach(MIMEText(message))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+	# mailserver.starttls()
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	print("INFO MAIL SENT\n")
+
+def forward_paper_submission_info(pprID):
+	ppr = get_object_or_404(Paper, paper_id=pprID)
+	absID = ppr.abstract.abs_id
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	recipients = ['touqeer.pathan289@gmail.com']
+	msg['To'] = ", ".join(recipients)
+	msg['Subject'] = 'New Paper Submitted | Paper ID : '+pprID
+
+	message = 'A new paper has been submitted \n\n' + 'Paper Details : \n' + \
+			'Paper ID : '+ str(pprID) + '\n' + \
+			'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
+			'Track : '+ str(ppr.track) + '\n' + \
+			'Title : '+ str(ppr.paper_title) + '\n' + \
+			'Paper affiliations link : '+ str(ppr.paper_affiliation_pdf.url)[:-16] + '\n' + \
+			'Paper manuscript link : '+ str(ppr.paper_manuscript_pdf.url)[:-16] + '\n' + \
+			'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
+			'Institute : '+ str(ppr.institution) + '\n' + \
+			'Email : '+ str(ppr.email) + '\n' + \
+			'Phone : '+ str(ppr.phone) + '\n' + \
+			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+
+	msg.attach(MIMEText(message))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+	# mailserver.starttls()
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	print("INFO MAIL SENT\n")
+
+def forward_ppt_submission_info(pptID):
+	ppt = get_object_or_404(Ppt, ppt_id=pptID)
+	absID = ppt.abstract.abs_id
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	# recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+	recipients = ['touqeer.pathan289@gmail.com']
+	msg['To'] = ", ".join(recipients)
+	msg['Subject'] = 'New Presentation Submitted | Presentation ID : '+pptID
+
+	message = 'A new presentation has been submitted \n\n' + 'Presentation Details : \n' + \
+			'Presentation ID : '+ str(pptID) + '\n' + \
+			'Author : '+ str(ppt.prefix) + ' ' + str(ppt.first_name) + ' ' + str(ppt.last_name) + '\n' + \
+			'Track : '+ str(ppt.track) + '\n' + \
+			'Title : '+ str(ppt.ppt_title) + '\n' + \
+			'Presentation link : '+ str(ppt.ppt_pdf.url)[:-16] + '\n' + \
+			'Address : '+ str(ppt.state) +', '+str(ppt.country) + '\n' + \
+			'Institute : '+ str(ppt.institution) + '\n' + \
+			'Email : '+ str(ppt.email) + '\n' + \
+			'Phone : '+ str(ppt.phone) + '\n' + \
+			'Submission Date : '+ str(ppt.submission_date.date()) + '\n' 
 
 	msg.attach(MIMEText(message))
 	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -292,8 +426,7 @@ def abstract_submission(request):
 		duplicate = is_duplicate_entry(request)
 		if not duplicate:
 			doc=request.FILES
-			affiliation_pdf = doc['pdf1']
-			file_pdf = doc['pdf2']
+			file_pdf = doc['pdf1']
 			cnt = Paper_Count.objects.get()
 			year = datetime.datetime.now().year
 			yy = str(year)
@@ -302,8 +435,7 @@ def abstract_submission(request):
 			cnt.paper_count = cnt.paper_count + 1
 			cnt.save()
 			absID = "GCIMB" + p1 + p2
-			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), \
-					abstract_affiliation_pdf=affiliation_pdf, abstract_pdf=file_pdf)
+			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
 			ppr.track = request.POST['track']
 			ppr.prefix = request.POST['prefix']
 			ppr.first_name = request.POST['fname']
@@ -382,9 +514,10 @@ def paper_submission(request):
 				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
 			cnt = Full_Paper_Count.objects.get()
-			middle = math.ceil(datetime.datetime.today().timestamp())
-			p1 = str(middle)[6:]
-			p2 = str(cnt.full_paper_count)
+			year = datetime.datetime.now().year
+			yy = str(year)[2:]
+			p1 = yy
+			p2 = str(cnt.full_paper_count).zfill(4)
 			cnt.full_paper_count = cnt.full_paper_count + 1
 			cnt.save()
 			pprID = "GCIMB" + p1 + p2 + "P"
@@ -448,7 +581,7 @@ def paper_submission(request):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 		if not duplicate:
-			# forward_submission_info(pprID)
+			forward_paper_submission_info(pprID)
 			messages.success(request, "You've successfully submitted the paper.")
 		else:
 			messages.success(request, "You've already submitted a paper for this abstract.")
@@ -469,9 +602,10 @@ def ppt_submission(request):
 				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
 			cnt = Ppt_Count.objects.get()
-			middle = math.ceil(datetime.datetime.today().timestamp())
-			p1 = str(middle)[6:]
-			p2 = str(cnt.ppt_count)
+			year = datetime.datetime.now().year
+			yy = str(year)[2:]
+			p1 = yy
+			p2 = str(cnt.ppt_count).zfill(4)
 			cnt.ppt_count = cnt.ppt_count + 1
 			cnt.save()
 			pptID = "GCIMB" + p1 + p2 + "T"
@@ -487,21 +621,26 @@ def ppt_submission(request):
 			ppt.phone = request.POST['phone']
 			ppt.ppt_title = request.POST['title']
 
-			tracks = TrackChairProfile.objects.filter(track=ppr.track)
+			tracks = TrackChairProfile.objects.filter(track=ppt.track)
 			if len(tracks) > 0 :
-				ppr.track_A = tracks[0].user.username
+				ppt.track_A = tracks[0].user.username
 			else:
 				print("NO TRACK CHAIR FOUND")
 			if len(tracks) > 1 :
-				ppr.track_B = tracks[1].user.username
-			if ppr.track == 'Strategic Management and Corporate Governance':
-				ppr.track_B = 'mahesh'
+				ppt.track_B = tracks[1].user.username
+			if ppt.track == 'Strategic Management and Corporate Governance':
+				ppt.track_B = 'mahesh'
 				
 			ppt.save()
 
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		msg['To'] = request.POST['email']
+
 		if not duplicate:
 			msg['Subject'] = 'Presentation submission acknowledgement'
-			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+			message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
 					'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
 					'Your paper ID will be ' + pptID +'. Please make a note of it and quote the same in future communications.\n\n' + \
 					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
@@ -530,7 +669,7 @@ def ppt_submission(request):
 
 
 		if not duplicate:
-			# forward_submission_info(absID)
+			forward_ppt_submission_info(pptID)
 			messages.success(request, "You've successfully submitted the ppt.")
 		else:
 			messages.success(request, "You've already submitted a ppt for this abstract.")
@@ -769,95 +908,95 @@ def remove_remark(request, abstractid):
 
 @login_required(login_url='/sign-in/')
 def approve_id(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	if cd.id_status == 1:
-	# 		messages.success(request, "ID already approved.")
-	# 	else:
-	# 		messages.success(request, "ID approved.")
-	# 		cd.id_status = 1
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.id_status == 1:
+			messages.success(request, "ID already approved.")
+		else:
+			messages.success(request, "ID approved.")
+			cd.id_status = 1
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reject_id(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	if cd.id_status == 0:
-	# 		messages.success(request, "ID already rejected.")
-	# 	else:
-	# 		messages.success(request, "ID rejected.")
-	# 		cd.id_status = 0
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.id_status == 0:
+			messages.success(request, "ID already rejected.")
+		else:
+			messages.success(request, "ID rejected.")
+			cd.id_status = 0
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reset_decision_for_id(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	messages.success(request, "Decision reset.")
-	# 	cd.id_status = 2
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		messages.success(request, "Decision reset.")
+		cd.id_status = 2
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def approve_payment(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	if cd.payment_status == 1:
-	# 		messages.success(request, "Payment already approved.")
-	# 	else:
-	# 		messages.success(request, "Payment approved.")
-	# 		cd.payment_status = 1
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.payment_status == 1:
+			messages.success(request, "Payment already approved.")
+		else:
+			messages.success(request, "Payment approved.")
+			cd.payment_status = 1
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reject_payment(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	if cd.payment_status == 0:
-	# 		messages.success(request, "Payment already rejected.")
-	# 	else:
-	# 		messages.success(request, "Payment rejected.")
-	# 		cd.payment_status = 0
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.payment_status == 0:
+			messages.success(request, "Payment already rejected.")
+		else:
+			messages.success(request, "Payment rejected.")
+			cd.payment_status = 0
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
 def reset_decision_for_payment(request, registrationid):
-	# cd = get_object_or_404(Registration, pk=registrationid)
-	# uname = request.user.username
-	# # remark = request.POST.get('remark')
-	# if uname=='gcimb':
-	# 	messages.success(request, "Decision reset.")
-	# 	cd.payment_status = 2
-	# 	cd.save()
-	# else : 
-	# 	messages.success(request, "You do not have the authority to perform this action.")
+	cd = get_object_or_404(Registration, pk=registrationid)
+	uname = request.user.username
+	# remark = request.POST.get('remark')
+	if uname=='gcimb':
+		messages.success(request, "Decision reset.")
+		cd.payment_status = 2
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))

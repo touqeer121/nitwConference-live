@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator, RegexValidator
 from gdstorage.storage import GoogleDriveStorage
+from django.utils import timezone
 gd_storage = GoogleDriveStorage()
 
 class Abstract(models.Model) :
@@ -147,10 +148,10 @@ class Registration(models.Model) :
 	id_proof = models.FileField(upload_to='maps', validators=[FileExtensionValidator(["png", "pdf", "jpeg", "jpg"])], 
 								storage=gd_storage, blank=True, default='undefined')
 	remark = models.CharField(max_length=5000, blank=True, default='')
-	registration_date = models.DateTimeField()
+	registration_date = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		return self.prefix +' '+ self.first_name + ' ' + self.last_name  + ' : ' + self.abstract.abs_id + "(" + str(self.registration_id) + ")"
+		return self.prefix +' '+ self.first_name + ' ' + self.last_name  + ' : (' + str(self.registration_id) + ")"
 
 
 class File(models.Model):

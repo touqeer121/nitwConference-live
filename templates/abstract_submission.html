@@ -139,7 +139,7 @@
 
                     <div class="form-group">
                         <div class="form-subgroup half">
-                            <label class="formText">Upload title of abstract with author affiliations (.pdf file)</label>
+                            <label class="formText">Upload abstract (.pdf , .doc or .docx file)</label>
                             <br>    
                             <div class="file-upload">
                                 <div id="fus1" class="file-upload-select">
@@ -149,8 +149,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="form-subgroup half">
-                            <label class="formText">Upload manuscript without author affiliations (.pdf file)</label>
+                        <!-- <div class="form-subgroup half">
+                            <label class="formText">Upload abstract (.pdf , .doc or .docx file)</label>
                             <br>    
                             <div class="file-upload">
                                 <div id="fus2" class="file-upload-select">
@@ -159,7 +159,7 @@
                                 <input type="file" id="pdf2" name="pdf2" required>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="form-group" >
                         <button class="my-input formButton nonlinkButton"  type="submit">Submit</button>
@@ -188,20 +188,6 @@
         fileButton.style.color = "white";
         selectName.innerText = filename;
 
-    }
-
-    let fileInput2 = document.getElementById("pdf2");
-    let fileSelect2 = document.getElementById("fus2");
-    let fileButton2 = document.getElementById("fsb2");
-    fileSelect2.onclick = function() {
-        fileInput2.click();
-    }
-    fileInput2.onchange = function() {
-        let filename2 = fileInput2.files[0].name;
-        let selectName2 = document.getElementById("fsn2");
-        fileButton2.style.background = "#43cae8";
-        fileButton2.style.color = "white";
-        selectName2.innerText = filename2;
     }
 </script>
 
