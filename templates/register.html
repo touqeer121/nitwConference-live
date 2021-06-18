@@ -490,9 +490,12 @@
                 </div>
             </div>
 
-            <div class="col-md-6 col-sm-6 my-input" style="font-size: 24px;">
+            <div class="col-md-6 col-sm-6 my-input" style="font-size: 20px;">
               <div class="row " style="margin: 5% auto; text-align: left;">
-                  <div style="margin: 1% 0 1% 25px;font-weight: bold; text-align: left;width: 40%;" >Account Name : </div><div style="width: 50%;margin: 1% 0 1% 25px; text-align: left;" >GCIMB 2021</div>
+                <div style="margin: 1% 0 1% 25px;font-weight: bold; text-align: left;width: 40%;" >Bank Name : </div><div style="width: 50%;margin: 1% 0 1% 25px; text-align: left;" >State Bank of India</div>
+                </div>
+              <div class="row " style="margin: 5% auto; text-align: left;">
+                <div style="margin: 1% 0 1% 25px;font-weight: bold; text-align: left;width: 40%;" >Account Name : </div><div style="width: 50%;margin: 1% 0 1% 25px; text-align: left;" >GCIMB 2021</div>
                 </div>
                 <div class="row " style="margin: 5% auto;">
                   <div style="margin: 1% 0 1% 25px;font-weight: bold; text-align: left;width: 40%;" >Account Number : </div><div style="width: 50%;margin: 1% 0 1% 25px; text-align: left;" >40227117516</div>
@@ -542,7 +545,6 @@
             <div style="font-size: 20px;">
               <table id="modal-table">
                 <tr>
-                  <th>Bank Name : </th><td>State Bank of India</td>
                 </tr<tr>
                   <th>Account Name : </th><td>GCIMB 2021</td>
                 </tr><tr>
@@ -721,7 +723,7 @@
 function fillDetails(){
   console.log("YES called");
   let rtypes = ['Early Bird (Conference)', 'Early Bird (Conference+Workshop)', 'Regular (Conference)', 'Regular (Conference+Workshop)', 'Regular (Workshop)' ]
-  let atypes = ['Academicians', 'Doctoral Students', 'Industry Professionals', 'Masters Students', 'Listeners' ]
+  let atypes = ['Academician', 'Doctoral Student', 'Industry Professional', 'Masters Student', 'Listener' ]
   let r = document.getElementById('registration_type');
   let p = document.getElementById('author_type');  
 
@@ -797,7 +799,11 @@ function fillDetails(){
 }
 
 //Enable or disable button based on if inputs are filled or not
-$('input, select').filter('[required]').change(function() {
+$('select').filter('[required]').change(function() {
+  checkInputs();
+})
+$('input').filter('[required]').keyup(function() {
+  console.log("ON KEY UP");
   checkInputs();
 })
 checkInputs();
