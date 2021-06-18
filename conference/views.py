@@ -746,7 +746,7 @@ def remark_abstracts(request):
 	context = {}
 	if(request.user.username=='gcimb'):
 		print("SUPERADMIN")
-		context['abstracts'] = Abstract.objects.all().order_by('abs_id')
+		context['abstracts'] = Abstract.objects.all().order_by('abs_id')[:10]
 		context['track'] = ''
 		return render(request, 'all_abstracts.html', context)
 	if(request.user.username=='shekar'):

@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
 {% block title %} | Review Abstracts{% endblock title %}
 {% block scripts %}
-
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function () {
             // messages timeout for 3 sec
@@ -71,7 +73,11 @@
         <button id="slide" class="formButton rightFixedButton" type="button">
             <i class="fa fa-arrow-circle-right fa-2x" aria-hidden="true"></i>
         </button>
-        {% if request.user.is_authenticated and request.user.username == 'gcimb' %}  
+        {% if request.user.is_authenticated and request.user.username == 'gcimb' %}
+        <div class="form-group row">
+            <label style="display: inline-block;width: 50%; font-size: 20px;">Filter by track name or any other word : </label>
+            <input class="my-input" id="myInput" type="text" placeholder="Search.." style="display: inline-block; width: 50%;">  
+        </div>
         <div id="scroll-container" >
             <div id="scroll-content">
                 <table id="myTable" class="display-table" >
@@ -225,6 +231,10 @@
         </div>
         
         {% elif request.user.is_authenticated and request.user.username == 'shekar' %}     
+        <div class="form-group row">
+            <label style="display: inline-block;width: 50%; font-size: 20px;">Filter by any word : </label>
+            <input class="my-input" id="myInput1" type="text" placeholder="Search.." style="display: inline-block; width: 50%;">  
+        </div>
         <div id="scroll-container" >
             <div id="scroll-content">
                 <table id="myTable" class="display-table" >
@@ -240,7 +250,7 @@
                         <th style="min-width: 400px;">Remark</th>
                     </tr>
                 </thead>
-                <tbody id="myTableBody">
+                <tbody id="myTableBody1">
                     {%for abs in abstracts%}
                     <tr>
                         <td>{{forloop.counter}}.</td>
@@ -310,7 +320,11 @@
         </div>
 
 
-        {% elif request.user.is_authenticated %}     
+        {% elif request.user.is_authenticated %}   
+        <div class="form-group row">
+            <label style="display: inline-block;width: 50%; font-size: 20px;">Filter by any word : </label>
+            <input class="my-input" id="myInput2" type="text" placeholder="Search.." style="display: inline-block; width: 50%;">  
+        </div>  
         <div id="scroll-container" >
             <div id="scroll-content">
                 <table id="myTable" class="display-table" >
@@ -326,7 +340,7 @@
                         <th style="min-width: 400px;">Remark</th>
                     </tr>
                 </thead>
-                <tbody id="myTableBody">
+                <tbody id="myTableBody2">
                     {%for abs in abstracts%}
                     <tr>
                         <td>{{forloop.counter}}.</td>
@@ -510,5 +524,35 @@
 </script>
 <script>
     AOS.init();
+</script>
+<script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTableBody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+      $("#myInput1").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTableBody1 tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+</script>
+<script>
+    $(document).ready(function(){
+      $("#myInput2").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTableBody2 tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
 </script>
 {% endblock content %}
