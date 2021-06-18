@@ -79,13 +79,13 @@
                         <th>S.No.</th>
                         <th>Registration ID</th>
                         <th>Details</th>
-                        <th>ID Status</th>
-                        <th>ID proof Actions</th>
+                        <!-- <th>ID Status</th>
+                        <th>ID proof Actions</th> -->
                         <th>Registration Type</th>
-                        <th>Payment Method</th>
+                        <!-- <th>Payment Method</th> -->
                         <th>Transaction ID</th>
-                        <th>Payment Status</th>
-                        <th>Payment Actions</th>
+                        <th>Payment Verification Status</th>
+                        <th>Payment Verification Actions</th>
                         <!-- <th style="min-width: 400px;">Remark</th> -->
                     </tr>
                 </thead>
@@ -146,20 +146,14 @@
                                             <th>Phone No. : </th><td>{{reg.phone}}</td>
                                         </tr><tr>   
                                             <th>Abstract ID</th><td>{{reg.abstract.abs_id}}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>ID Proof : </th>
-                                            <td>
-                                                <a target="_blank" href="{{reg.id_proof.url}}dont">View ID Proof</a>
-                                            </td>
-                                        </tr>
+                                        </tr>                                        
                                     </table>
                                     <button class="formButton" data-dismiss="modal">Close</button>
                                 </div>
                             </div>
 
                         </td>
-                        <td>
+                        <!-- <td>
                             <b>
                             {% if reg.id_status == '1' %}
                                 <span style="color: green;">Approved</span>
@@ -169,7 +163,7 @@
                                 <span style="color: blue;">Pending</span>
                             {% endif %}
                             </b>
-                        </td>
+                        </td> 
                         <td>
                             <span style="display: block">
                                 {% if reg.id_status == '1' %}
@@ -204,9 +198,9 @@
                                 </a>
                                 {% endif %}
                             </span>
-                        </td>
+                        </td> -->
                         <td>{{reg.registration_type.registration_type}}</td>
-                        <td>{{reg.payment_method}}</td>
+                        <!-- <td>{{reg.payment_method}}</td> -->
                         <td>{{reg.transaction_id}}</td>
                         <td>
                             <b>
