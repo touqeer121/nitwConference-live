@@ -1486,9 +1486,6 @@ img{
 	#my-ul{
 		text-align: center;!important;
 	}
-	h1{
-
-	}
 }
 
 /* Timeline Started*/
@@ -1733,9 +1730,7 @@ img{
 	.copy{
 		top:30%;
 	}
-	#mainButtons{
 
-	}
 }
 .dropdown-menu {
 	padding: 10px!important;
@@ -2128,6 +2123,12 @@ th, td{
 	}
 	.timeline-line{
 		display: none;
+	}
+	.social{
+		margin: 10px auto;	
+	}
+	#footer ul.social li{
+		margin: 5px auto 10px auto !important;	
 	}
 	
 }
