@@ -542,6 +542,8 @@
             <div style="font-size: 20px;">
               <table id="modal-table">
                 <tr>
+                  <th>Bank Name : </th><td>State Bank of India</td>
+                </tr<tr>
                   <th>Account Name : </th><td>GCIMB 2021</td>
                 </tr><tr>
                   <th>Account Number : </th><td>40227117516</td>
@@ -771,7 +773,6 @@ function fillDetails(){
 </script>
 <script>
   function checkInputs() {
-    console.log("INSIDE CHECK");
   var isValid = true;
   $('input, select').filter('[required]').each(function() {
     if ($(this).val() === '' || $(this).val() === null) {
@@ -786,7 +787,6 @@ function fillDetails(){
     }
   });
   if(isValid) {
-      console.log("Returned True");
     $('#regButton').prop('disabled', false);
     $('#regButton').removeClass("disabled-button");
     $('#regButton').addClass("formButton");
