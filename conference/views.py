@@ -212,47 +212,11 @@ def registration(request):
 			reg.email = request.POST['email']
 			reg.phone = request.POST['phone']
 			reg.transaction_id = request.POST['trans_id']
-			print("Just before saving")
 			reg.save()
-
-			messages.success(request, "You have successfully submitted your details. Please expect an email from us.")
-			
-			msg = MIMEMultipart()
-			msg.set_unixfrom('author')
-			msg['From'] = settings.EMAIL_HOST_USER
-			msg['To'] = request.POST['email']
-
-			msg['Subject'] = 'Resgistration Successful Acknowledgement'
-			message = 'Hello ' + str(reg.first_name) + ',\n\n' + \
-					'Hope you are safe and doing well. This is to acknowledge that we have received your application for registration.' + \
-					'Your registration ID will be ' + regID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-					'Upon approval, You will receive a confirmation mail from us within 3 days\n\n'+\
-					'Best Regards,\n' + \
-					'Organizing Team,\n' + \
-					'Global Conference on Innovations in Management and Business'
-			
+			messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
 			forward_registration_info(regID)
 		else:
-			msg = MIMEMultipart()
-			msg.set_unixfrom('author')
-			msg['From'] = settings.EMAIL_HOST_USER
-			msg['To'] = request.POST['email']
-
-			msg['Subject'] = 'Resgistration Already in Process'
-			message = 'Hello \n\n' + \
-					'Looks like you\'ve already applied for registration.' + \
-					'If you do not receive an email within 3 days after applying please contact us at info@gcimb.org. \n\n' + \
-					'Best Regards,\n' + \
-					'Organizing Team,\n' + \
-					'Global Conference on Innovations in Management and Business'
-			messages.success(request, "You've already applied for registration.")	
-
-		msg.attach(MIMEText(message))
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-		# mailserver.starttls()
-		mailserver.ehlo()
-		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			messages.success(request, "You've already registered. Plese wait for our email.")	
 		return redirect('/registration')
 		
 	return render(request, 'register.html')
@@ -261,7 +225,7 @@ def registration(request):
 @login_required(login_url='/sign-in/')
 def registration_approval(request):
 	context = {}
-	if(request.user.username=='gcimb' or request.user.username=='finance'):
+	if(request.user.username=='gcimb' or request.user.username=='gcimb'):
 		# context['registrations'] = Registration.objects.all().order_by('registration_id')
 		return render(request, 'registration_approval.html', context)
 	
