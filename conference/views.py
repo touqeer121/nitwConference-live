@@ -225,8 +225,8 @@ def registration(request):
 @login_required(login_url='/sign-in/')
 def registration_approval(request):
 	context = {}
-	if(request.user.username=='gcimb' or request.user.username=='gcimb'):
-		# context['registrations'] = Registration.objects.all().order_by('registration_id')
+	if(request.user.username=='gcimb' or request.user.username=='finance'):
+		context['registrations'] = Registration.objects.all().order_by('registration_id')
 		return render(request, 'registration_approval.html', context)
 	
 	messages.success(request, "You do not have the authority to perform this action.")
