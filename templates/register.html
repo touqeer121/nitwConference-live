@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{% static 'css/modal.css' %}">
   <script type="text/javascript" src="{% static 'js/modal.js' %}"></script>
   <script src="{% static 'js/countries.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script>
     var _validFileExtensions = [".pdf", ".png", ".jpg", ".jpeg"];
     function Validate(oForm) {
@@ -441,7 +442,7 @@
               {% csrf_token %}
               <div class="form-group">
                   <div class="form-subgroup half">
-                    <label class="formText">Registration Type</label><br>
+                    <label class="formText">Registration Type<sup style="color: red;font-size: 20px;">*</sup></label><br>
                     <select class="my-input" id="registration_type" name="registration_type" onchange="rtypeChange()" required>
                       <option value="" disabled selected>Select...</option>
                       <option value="1">Early bird (Conference)</option>
@@ -452,7 +453,7 @@
                     </select>
                 </div>
                 <div class="form-subgroup half ">
-                    <label class="formText">Participant Type</label><br>
+                    <label class="formText">Participant Type<sup style="color: red;font-size: 20px;">*</sup></label><br>
                     <select class="my-input" id="author_type" name="author_type" onchange="ptypeChange()" required>
                       <option value="" disabled selected>Select...</option>
                       <option value="1">Academician</option>
@@ -644,41 +645,41 @@
                 </div> -->
                 <div class="form-group">
                   <div class="form-subgroup half">
-                      <label class="formText">Full Name (as to appear on certificate) </label><br>
+                      <label class="formText">Full Name (as to appear on certificate)<sup style="color: red;font-size: 20px;">*</sup></label><br>
                       <input class="my-input" type="text" name="fname" id="fname" required/>
                   </div>
                   <div class="form-subgroup half">
-                      <label class="formText">Institution/Organization (as to appear on certificate) </label><br>
+                      <label class="formText">Institution/Organization (as to appear on certificate)<sup style="color: red;font-size: 20px;">*</sup></label><br>
                       <input class="my-input" type="text" name="institution" id="institution" required/>
                   </div>
               </div>
                 <div class="form-group">
                     <div class="form-subgroup half">
-                          <label class="formText">Country</label><br>
+                          <label class="formText">Country<sup style="color: red;font-size: 20px;">*</sup></label><br>
                           <select class="my-input" id="country" name ="country"></select>
                     </div>
                     <div class="form-subgroup half">
-                            <label class="formText">State</label><br>
+                            <label class="formText">State<sup style="color: red;font-size: 20px;">*</sup></label><br>
                             <select  class="my-input" name ="state" id ="state"></select>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-subgroup half">
-                        <label class="formText">Email</label><br>
+                        <label class="formText">Email<sup style="color: red;font-size: 20px;">*</sup></label><br>
                         <input class="my-input" type="email" name="email" id="email" required/>
                     </div>
                     <div class="form-subgroup half">
-                        <label class="formText">Phone No. (with country code)</label><br>
+                        <label class="formText">Phone No. (with country code)<sup style="color: red;font-size: 20px;">*</sup></label><br>
                         <input class="my-input" type="text" name="phone" id="phone" required/>
                     </div>
                 </div>
                 <div class="form-group">
                   <div class="form-subgroup half">
-                    <label class="formText">Transaction ID/ Reference ID/ Receipt No.</label><br>
+                    <label class="formText">Transaction ID/ Reference ID/ Receipt No.<sup style="color: red;font-size: 20px;">*</sup></label><br>
                     <input class="my-input" type="text" name="trans_id" id="trans_id" required/>
                   </div>
                   <div id="absIDGroup" class="form-subgroup half showBox">
-                    <label class="formText">Abstract ID</label><br>
+                    <label class="formText">Abstract ID<sup style="color: red;font-size: 20px;">*</sup></label><br>
                     <input class="my-input" type="text" name="abs_id" id="abs_id" placeholder="GCIMBXXXXXX" required/>
                   </div>                
                 </div>
@@ -693,9 +694,11 @@
                     <input type="file" id="id_proof" name="id_proof" required>
                   </div>
                 </div> -->
-
+                <p id="note" class="showBox" style="text-align: left;font-size: 16px; color:red">
+                  Please fill all * marked details to register.
+                </p>
                 <div class="form-group" >
-                    <button class="my-input formButton nonlinkButton" onclick="fillDetails()" data-target="confirmation" data-toggle="modal">Register</button>
+                    <button id="regButton" class="my-input formButton nonlinkButton" onclick="fillDetails()" data-target="confirmation" data-toggle="modal">Register</button>
                 </div>
             </form>
         <br>
@@ -766,5 +769,37 @@ function fillDetails(){
   }
 }
 </script>
+<script>
+  function checkInputs() {
+    console.log("INSIDE CHECK");
+  var isValid = true;
+  $('input, select').filter('[required]').each(function() {
+    if ($(this).val() === '' || $(this).val() === null) {
+      $('#regButton').prop('disabled', true);
+      $('#regButton').removeClass("formButton");
+      $('#regButton').addClass("disabled-button"); 
+      $('#note').removeClass("hideBox");
+      $('#note').addClass("showBox");
+      isValid = false;
+      console.log("Returned false");
+      return false;
+    }
+  });
+  if(isValid) {
+      console.log("Returned True");
+    $('#regButton').prop('disabled', false);
+    $('#regButton').removeClass("disabled-button");
+    $('#regButton').addClass("formButton");
+    $('#note').removeClass("showBox");
+    $('#note').addClass("hideBox");    
+  }
+  return isValid;
+}
 
+//Enable or disable button based on if inputs are filled or not
+$('input, select').filter('[required]').change(function() {
+  checkInputs();
+})
+checkInputs();
+</script>
 {% endblock content %}

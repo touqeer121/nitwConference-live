@@ -2010,10 +2010,18 @@ th, td{
 .showBox{
 	visibility: visible;
 }
-
 .hideBox{
 	visibility: hidden;
 }
+
+.disabled-button{
+	background-color: grey;
+	color: rgb(212, 212, 212);
+}
+.disabled-button:hover{
+	transition:0.5s;	
+}
+
 
 @media (max-width:1280px){
 	.inner{
