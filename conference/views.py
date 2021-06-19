@@ -131,8 +131,9 @@ def keynote_speakers(request):
 	return render(request, 'speakers.html')
 
 def forward_registration_info(regID):
-	reg = get_object_or_404(Registration, registration_id=regID)
-	msg = MIMEMultipart()
+	reg = Registration.objects.get(registration_id=regID)
+	if reg is None :
+		return
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
 	recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
@@ -166,9 +167,7 @@ def is_duplicate_registration(request):
 	return (len(oldEntry)> 0)
 
 def registration(request):
-	print("MEHOD : ", request.method)
 	if request.method == "POST":
-		# return redirect('/registration')
 		duplicate = is_duplicate_registration(request)
 		if not duplicate:
 			abs = ''			
@@ -184,13 +183,18 @@ def registration(request):
 				atype = '8'
 					
 			if(rtype != '5' and atype != '8'):
-				print("NOT LISTENER OR..")
 				absID = request.POST['abs_id']
-				abs = get_object_or_404(Abstract, abs_id=absID)
-				if not abs:
+				print("NOT LISTENER OR..",  absID)
+				try:
+					abs = Abstract.objects.get(abs_id=absID)
+				except Abstract.DoesNotExist:
+					abs = None				
+				if abs is None:
 					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 					print("IF NO ABS ")
 					return redirect('/registration')
+				else:
+					print("ELSE GOT ABS ")
 			cnt = Registration_Count.objects.get()
 			year = datetime.datetime.now().year
 			yy = str(year)
@@ -363,11 +367,19 @@ def is_duplicate_entry(request):
 	return (len(oldEntry)> 0)
 
 def is_duplicate_paper(request):
-	abstract = get_object_or_404(Abstract, pk=request.POST['abs_id'])
-	oldEntry = Paper.objects.filter (abstract=abstract)
+	try:
+		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
+	except Abstract.DoesNotExist:
+		abstract = None
+	oldEntry = Paper.objects.filter(abstract=abstract)
+	return (len(oldEntry)> 0)
 
-	oldEntry = Paper.objects.filter(abstract=abstract, first_name=request.POST['fname'], last_name=\
-	request.POST['lname'], institution= request.POST['institution'])
+def is_duplicate_ppt(request):
+	try:
+		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
+	except Abstract.DoesNotExist:
+		abstract = None
+	oldEntry = Ppt.objects.filter(abstract=abstract)
 	return (len(oldEntry)> 0)
 
 def assign_track_chair(request):
@@ -475,7 +487,10 @@ def paper_submission(request):
 			file_pdf1 = doc['pdf1']
 			file_pdf2 = doc['pdf2']
 			absID = request.POST['abs_id']
-			abs = get_object_or_404(Abstract, abs_id=absID)
+			try:
+				abs = Abstract.objects.get(abs_id=absID)
+			except Abstract.DoesNotExist:
+				abs = None
 			if not abs:
 				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
@@ -528,7 +543,7 @@ def paper_submission(request):
 					'Global Conference on Innovations in Management and Business'
 		else:
 			msg['Subject'] = 'Paper already submitted'
-			pprID = get_object_or_404(Abstract, paper_title=request.POST['title']).pprID
+			pprID = Paper.objects.get(paper_title=request.POST['title']).ppr_id
 			if pprID is None:
 				message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" is already ' + \
 				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
@@ -557,15 +572,17 @@ def paper_submission(request):
 
 def ppt_submission(request):
 	if (request.method == "POST"):
-		# return redirect("/ppt-submission")
-		duplicate = is_duplicate_paper(request)
+		duplicate = is_duplicate_ppt(request)
 		if not duplicate:
 			doc=request.FILES
 			file_pdf = doc['pdf']
 			absID = request.POST['abs_id']
-			abs = get_object_or_404(Abstract, abs_id=absID)
+			try:
+				abs = Abstract.objects.get(abs_id=absID)
+			except Abstract.DoesNotExist:
+				abs = None
 			if not abs:
-				messages.success(request, "Abstraction ID is invalid. Please retry with correct one.")
+				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 				return redirect('/paper-submission')
 			cnt = Ppt_Count.objects.get()
 			year = datetime.datetime.now().year
@@ -615,7 +632,7 @@ def ppt_submission(request):
 					'Global Conference on Innovations in Management and Business'
 		else:
 			msg['Subject'] = 'Presentation already submitted'
-			pptID = get_object_or_404(Abstract, ppt_title=request.POST['title']).pptID
+			pptID = Ppt.objects.get(ppt_title=request.POST['title']).ppt_id
 			if pptID is None:
 				message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" is already ' + \
 				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
@@ -688,7 +705,7 @@ def contact_us(request):
 		mailserver.quit()
 		messages.success(request, "Message Sent successfully. We'll get back to you soon.")
 		return redirect('/contact_us')
-	# messages.success(request, "testing bro")
+		# messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')
 
 def digital_transformation_and_information_systems(request):
@@ -755,7 +772,7 @@ def remark_abstracts(request):
 		return render(request, 'all_abstracts.html', context)
 
 	curUser = request.user
-	curUser = get_object_or_404(TrackChairProfile, user=curUser)
+	curUser = TrackChairProfile.objects.get(user=curUser)
 	print("USER " , curUser)
 
 	
