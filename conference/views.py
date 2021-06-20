@@ -134,6 +134,7 @@ def forward_registration_info(regID):
 	reg = Registration.objects.get(registration_id=regID)
 	if reg is None :
 		return
+	msg = MIMEMultipart()
 	msg.set_unixfrom('author')
 	msg['From'] = settings.EMAIL_HOST_USER
 	recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
@@ -216,6 +217,7 @@ def registration(request):
 			reg.email = request.POST['email']
 			reg.phone = request.POST['phone']
 			reg.transaction_id = request.POST['trans_id']
+			reg.remark = request.POST['fee']
 			reg.save()
 			messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
 			forward_registration_info(regID)
@@ -231,7 +233,7 @@ def registration_approval(request):
 	context = {}
 	if(request.user.username=='gcimb' or request.user.username=='finance'):
 		context['registrations'] = Registration.objects.all().order_by('registration_id')
-		return render(request, 'registration_approval.html', context)
+	return render(request, 'registration_approval.html', context)
 	
 	messages.success(request, "You do not have the authority to perform this action.")
 	return redirect('/')

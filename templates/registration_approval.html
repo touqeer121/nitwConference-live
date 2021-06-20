@@ -18,6 +18,27 @@
           $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
+
+    <script>    
+        let prices = [
+            ['INR 1600 / 40 USD', 'INR 1000 / 30 USD', 'INR 2000 / 50 USD', 'INR 500 / 15 USD', 'INR 600 / 20 USD'],
+            ['INR 1900 / 45 USD', 'INR 1250 / 35 USD', 'INR 2300 / 55 USD', 'INR 700 / 20 USD', 'INR 900 / 25 USD'],
+            ['INR 2000 / 50 USD', 'INR 1500 / 40 USD', 'INR 2500 / 60 USD', 'INR 600 / 20 USD', 'INR 600 / 20 USD'],
+            ['INR 2300 / 55 USD', 'INR 1800 / 45 USD', 'INR 2800 / 65 USD', 'INR 900 / 25 USD', 'INR 900 / 25 USD'],
+            ['INR 500 / 15 USD', 'INR 400 / 12 USD', 'INR 500 / 15 USD', 'INR 300 / 10 USD', 'INR 500 / 15 USD']    
+        ];
+        function getFee(reg_id, auth_id, rid){
+            
+            reg_id = parseInt(reg_id);
+            auth_id = parseInt(auth_id);
+            if(auth_id != 1 ){
+                auth_id -= 3;
+            }
+            document.getElementById(rid).innerHTML = prices[auth_id-1][reg_id-1];
+            console.log("RID= "+rid+", reg= "+ reg_id +", auth= "+auth_id+ " => " + prices[auth_id-1][reg_id-1]);
+            // return prices[auth_id-1][reg_id-1];
+        }
+    </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -82,7 +103,7 @@
                         <!-- <th>ID Status</th>
                         <th>ID proof Actions</th> -->
                         <th>Registration Type</th>
-                        <!-- <th>Payment Method</th> -->
+                        <th>Fee paid</th>
                         <th>Transaction ID</th>
                         <th>Payment Verification Status</th>
                         <th>Payment Verification Actions</th>
@@ -200,7 +221,7 @@
                             </span>
                         </td> -->
                         <td>{{reg.registration_type.registration_type}}</td>
-                        <!-- <td>{{reg.payment_method}}</td> -->
+                        <td>{{reg.remark}}</td>
                         <td>{{reg.transaction_id}}</td>
                         <td>
                             <b>

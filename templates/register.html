@@ -52,9 +52,10 @@
     function ptypeChange(){
       let r = document.getElementById('registration_type');
       let p = document.getElementById('author_type');
-      let price = document.getElementById('price')
+      let price = document.getElementById('price');
       let absID = document.getElementById('abs_id');
       let absIDGroup = document.getElementById('absIDGroup');
+      let feeInput = document.getElementById('fee');
 
       if (p.value == "5" || r.value == "5"){
         absID.required = false;
@@ -67,16 +68,19 @@
         absIDGroup.classList.add("showBox");
       }
       if(p.value != "" && r.value != ""){
-        price.innerText = prices[r.value-1][p.value-1]
-        console.log("VAL = " ,prices[r.value-1][p.value-1])
+        price.innerText = prices[r.value-1][p.value-1];
+        feeInput.value = prices[r.value-1][p.value-1];
+        console.log("VAL = " ,prices[r.value-1][p.value-1]);
       }
     }
     
     function rtypeChange(){
       let r = document.getElementById('registration_type');
       let p = document.getElementById('author_type');
+      let price = document.getElementById('price');
       let absID = document.getElementById('abs_id');
       let absIDGroup = document.getElementById('absIDGroup');
+      let feeInput = document.getElementById('fee');
 
       if (p.value == "5" || r.value == "5"){
         absID.required = false;
@@ -89,7 +93,8 @@
         absIDGroup.classList.add("showBox");
       }
       if(p.value != "" && r.value != ""){
-        price.innerText = prices[r.value-1][p.value-1]
+        price.innerText = prices[r.value-1][p.value-1];
+        feeInput.value = prices[r.value-1][p.value-1];
         console.log("VAL = " ,prices[r.value-1][p.value-1])
       }
     }
@@ -687,7 +692,7 @@
                     <input class="my-input" type="text" name="abs_id" id="abs_id" placeholder="GCIMBXXXXXX" required/>
                   </div>                
                 </div>
-
+                <input class="my-input" type="text" name="fee" id="fee" required hidden/>
                 <!-- <div class="form-group">
                   <div class="form-subgroup">
                     <label class="formText" for="id_proof">
