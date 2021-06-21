@@ -231,7 +231,7 @@ def registration(request):
 @login_required(login_url='/sign-in/')
 def registration_approval(request):
 	context = {}
-	if(request.user.username=='gcimb' or request.user.username=='finance'):
+	if(request.user.username=='gcimb' or request.user.username=='accounts'):
 		context['registrations'] = Registration.objects.all().order_by('registration_id')
 	return render(request, 'registration_approval.html', context)
 	
