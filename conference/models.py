@@ -153,7 +153,7 @@ class Registration(models.Model) :
 	registration_date = models.DateTimeField(default=timezone.now)
 
 	def __str__(self):
-		return self.prefix +' '+ self.first_name + ' ' + self.last_name  + ' : (' + str(self.registration_id) + ")"
+		return self.first_name + ' : (' + str(self.registration_id) + ")"
 
 
 class File(models.Model):
