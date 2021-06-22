@@ -928,7 +928,7 @@ def approve_id(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		if cd.id_status == 1:
 			messages.success(request, "ID already approved.")
 		else:
@@ -944,7 +944,7 @@ def reject_id(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		if cd.id_status == 0:
 			messages.success(request, "ID already rejected.")
 		else:
@@ -961,7 +961,7 @@ def reset_decision_for_id(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		messages.success(request, "Decision reset.")
 		cd.id_status = 2
 		cd.save()
@@ -975,7 +975,7 @@ def approve_payment(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == 1:
 			messages.success(request, "Payment already approved.")
 		else:
@@ -992,7 +992,7 @@ def reject_payment(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == 0:
 			messages.success(request, "Payment already rejected.")
 		else:
@@ -1009,7 +1009,7 @@ def reset_decision_for_payment(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
-	if uname=='gcimb':
+	if uname=='gcimb' or uname =='accounts':
 		messages.success(request, "Decision reset.")
 		cd.payment_status = 2
 		cd.save()
