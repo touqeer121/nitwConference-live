@@ -198,3 +198,34 @@ class Full_Paper_Count(models.Model):
 
 	def __unicode__(self):
 		return str(self.full_paper_count)
+
+class ReceivedException(models.Model):
+	function_name =  models.CharField(max_length=1000, blank=True, default='unknown')
+	corresponding_id =  models.CharField(max_length=1000, blank=True, default='unknown')
+	exception_args =  models.CharField(max_length=10000, blank=True, default='unknown')
+	exception_message =  models.CharField(max_length=10000, blank=True, default='unknown')
+	general_info =  models.CharField(max_length=10000, blank=True, default='unknown')
+	current_user_info =  models.CharField(max_length=10000, blank=True, default='unknown')
+	exception_date = models.DateTimeField(default=timezone.now)
+
+	def __unicode__(self):
+		return str(self.id) + funcName
+	
+class EmailQueue(models.Model):
+	corresponding_id =  models.CharField(max_length=1000, blank=True, default='unknown')
+	mail_reason =  models.CharField(max_length=10000, blank=True, default='unknown')
+	general_info =  models.CharField(max_length=10000, blank=True, default='unknown')
+	pending_date = models.DateTimeField(default=timezone.now)
+
+	def __unicode__(self):
+		return str(self.id) + corresponding_id
+
+class EmailInfo(models.Model):
+	corresponding_id =  models.CharField(max_length=1000, blank=True, default='unknown')
+	mail_reason =  models.CharField(max_length=10000, blank=True, default='unknown')
+	general_info =  models.CharField(max_length=10000, blank=True, default='unknown')
+	sent_date = models.DateTimeField(default=timezone.now)
+
+	def __unicode__(self):
+		return str(self.id) + corresponding_id
+	

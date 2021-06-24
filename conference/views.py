@@ -90,7 +90,7 @@ def create_checkout_session(request):
             print('TRY END')
             return JsonResponse({'sessionId': checkout_session.id})
         except Exception as e:
-            print('ECXPETION')
+            print('ECXEPTION')
             return JsonResponse({'error': str(e)})
 
 			
@@ -143,36 +143,58 @@ def brochure(request):
 def keynote_speakers(request):
 	return render(request, 'speakers.html')
 
+def sendReportToAdmin(request, fn , cid, e, gInfo):
+	userInfo = 'logged out'
+	args = 'no args'
+	msg = 'no msg'
+	if request.user.is_authenticated : 
+		userInfo = request.user.username
+	if hasattr(e, 'args'): 
+		agr = str(e.args)
+	if  hasattr(e, 'message'): 
+		msg = str(e.message)	
+	reg = ReceivedException.objects.create(function_name=fn, corresponding_id=cid, exception_args=args, 
+			exception_message=msg, general_info=gInfo, current_user_info=userInfo, exception_date=datetime.datetime.now())
+	reg.save()
+
 def forward_registration_info(regID):
 	reg = Registration.objects.get(registration_id=regID)
 	if reg is None :
 		return
-	msg = MIMEMultipart()
-	msg.set_unixfrom('author')
-	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
-	msg['To'] = ", ".join(recipients)
-	msg['Subject'] = 'New participant registered | Registration ID : '+regID
+	try :
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		# recipients = ['touqeer.pathan289@gmail.com']
+		msg['To'] = ", ".join(recipients)
+		msg['Subject'] = 'New participant registered | Registration ID : '+regID
 
-	message = 'Registrations Details : \n' + \
-			'Registration ID : '+ str(regID) + '\n' + \
-			'Author : '+ str(reg.first_name) + '\n' + \
-			'Institute : '+ str(reg.institution) + '\n' + \
-			'Address : '+ str(reg.state) +', '+str(reg.country) + '\n' + \
-			'Institute : '+ str(reg.institution) + '\n' + \
-			'Email : '+ str(reg.email) + '\n' + \
-			'Phone : '+ str(reg.phone) + '\n' + \
-			'Transaction ID : '+ str(reg.transaction_id) + '\n' + \
-			'Registration Date : '+ str(reg.registration_date.date()) + '\n' 
+		message = 'Registrations Details : \n' + \
+				'Registration ID : '+ str(regID) + '\n' + \
+				'Author : '+ str(reg.first_name) + '\n' + \
+				'Institute : '+ str(reg.institution) + '\n' + \
+				'Address : '+ str(reg.state) +', '+str(reg.country) + '\n' + \
+				'Institute : '+ str(reg.institution) + '\n' + \
+				'Email : '+ str(reg.email) + '\n' + \
+				'Phone : '+ str(reg.phone) + '\n' + \
+				'Transaction ID : '+ str(reg.transaction_id) + '\n' + \
+				'Registration Date : '+ str(reg.registration_date.date()) + '\n' 
 
-	msg.attach(MIMEText(message))
-	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-	# mailserver.starttls()
-	mailserver.ehlo()
-	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-	print("INFO MAIL SENT\n")
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+		EmailInfo.objects.create(corresponding_id=regID, mail_reason="forward_registration_info", general_info="first", sent_date=datetime.datetime.now())
+
+		print("INFO MAIL SENT\n")
+	except Exception as e:
+		EmailQueue.objects.create(corresponding_id=str(regID), mail_reason="forward_registration_info", general_info="first", pending_date=datetime.datetime.now())
+		sendReportToAdmin(request, "forward_registration_info ", str(regID), e, "")
+
 
 def is_duplicate_registration(request):
 	oldEntry = Registration.objects.filter(first_name=request.POST['fname'], \
@@ -217,7 +239,7 @@ def registration(request):
 			p2 = str(cnt.registration_count).zfill(4)
 			cnt.save()
 			regID = "GCIMBR" + p1 + p2 
-			reg = Registration.objects.create(registration_id=regID)
+			reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now())
 			reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
 			reg.author_type = get_object_or_404(Author_Type, id=atype)
 			reg.first_name = request.POST['fname']
@@ -283,98 +305,119 @@ def update_sheet(absID):
 	print("SHEET UPDATED\n")
 
 def forward_submission_info(absID):
-	ppr = get_object_or_404(Abstract, abs_id=absID)
-	msg = MIMEMultipart()
-	msg.set_unixfrom('author')
-	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
-	msg['To'] = ", ".join(recipients)
-	msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
+	try:
+		ppr = get_object_or_404(Abstract, abs_id=absID)
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		# recipients = ['touqeer.pathan289@gmail.com']
+		msg['To'] = ", ".join(recipients)
+		msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
 
-	# 'Track : '+ ppr.track + '\n' +\
-	message = 'A new abtract has been submitted \n\n' + 'Abstract Details : \n' + \
-			'Abstract ID : '+ str(absID) + '\n' + \
-			'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
-			'Title : '+ str(ppr.paper_title) + '\n' + \
-			'Abstract Link : '+ str(ppr.abstract_pdf.url)[:-16] + '\n' + \
-			'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
-			'Institute : '+ str(ppr.institution) + '\n' + \
-			'Email : '+ str(ppr.email) + '\n' + \
-			'Phone : '+ str(ppr.phone) + '\n' + \
-			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+		# 'Track : '+ ppr.track + '\n' +\
+		message = 'A new abtract has been submitted \n\n' + 'Abstract Details : \n' + \
+				'Abstract ID : '+ str(absID) + '\n' + \
+				'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
+				'Title : '+ str(ppr.paper_title) + '\n' + \
+				'Abstract Link : '+ str(ppr.abstract_pdf.url)[:-16] + '\n' + \
+				'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
+				'Institute : '+ str(ppr.institution) + '\n' + \
+				'Email : '+ str(ppr.email) + '\n' + \
+				'Phone : '+ str(ppr.phone) + '\n' + \
+				'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
 
-	msg.attach(MIMEText(message))
-	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-	# mailserver.starttls()
-	mailserver.ehlo()
-	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-	print("INFO MAIL SENT\n")
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		
+		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_submission_info",  general_info="first", sent_date=datetime.datetime.now())
+
+		print("INFO MAIL SENT\n")
+	except Exception as e:
+		EmailQueue.objects.create(corresponding_id=str(absID), mail_reason="forward_submission_info",  general_info="first", pending_date=datetime.datetime.now())
+		sendReportToAdmin(request, "forward_submission_info ", str(absID), e, "")
 
 def forward_paper_submission_info(pprID):
-	ppr = get_object_or_404(Paper, paper_id=pprID)
-	absID = ppr.abstract.abs_id
-	msg = MIMEMultipart()
-	msg.set_unixfrom('author')
-	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
-	msg['To'] = ", ".join(recipients)
-	msg['Subject'] = 'New Paper Submitted | Paper ID : '+pprID
+	try : 
+		ppr = get_object_or_404(Paper, paper_id=pprID)
+		absID = ppr.abstract.abs_id
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		# recipients = ['touqeer.pathan289@gmail.com']
+		msg['To'] = ", ".join(recipients)
+		msg['Subject'] = 'New Paper Submitted | Paper ID : '+pprID
 
-	message = 'A new paper has been submitted \n\n' + 'Paper Details : \n' + \
-			'Paper ID : '+ str(pprID) + '\n' + \
-			'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
-			'Track : '+ str(ppr.track) + '\n' + \
-			'Title : '+ str(ppr.paper_title) + '\n' + \
-			'Paper affiliations link : '+ str(ppr.paper_affiliation_pdf.url)[:-16] + '\n' + \
-			'Paper manuscript link : '+ str(ppr.paper_manuscript_pdf.url)[:-16] + '\n' + \
-			'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
-			'Institute : '+ str(ppr.institution) + '\n' + \
-			'Email : '+ str(ppr.email) + '\n' + \
-			'Phone : '+ str(ppr.phone) + '\n' + \
-			'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
+		message = 'A new paper has been submitted \n\n' + 'Paper Details : \n' + \
+				'Paper ID : '+ str(pprID) + '\n' + \
+				'Author : '+ str(ppr.prefix) + ' ' + str(ppr.first_name) + ' ' + str(ppr.last_name) + '\n' + \
+				'Track : '+ str(ppr.track) + '\n' + \
+				'Title : '+ str(ppr.paper_title) + '\n' + \
+				'Paper affiliations link : '+ str(ppr.paper_affiliation_pdf.url)[:-16] + '\n' + \
+				'Paper manuscript link : '+ str(ppr.paper_manuscript_pdf.url)[:-16] + '\n' + \
+				'Address : '+ str(ppr.state) +', '+str(ppr.country) + '\n' + \
+				'Institute : '+ str(ppr.institution) + '\n' + \
+				'Email : '+ str(ppr.email) + '\n' + \
+				'Phone : '+ str(ppr.phone) + '\n' + \
+				'Submission Date : '+ str(ppr.submission_date.date()) + '\n' 
 
-	msg.attach(MIMEText(message))
-	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-	# mailserver.starttls()
-	mailserver.ehlo()
-	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-	print("INFO MAIL SENT\n")
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		
+		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_paper_submission_info",  general_info="first", sent_date=datetime.datetime.now())
+
+		print("INFO MAIL SENT\n")
+	except Exception as e:
+		EmailQueue.objects.create(corresponding_id=str(pprID), mail_reason="forward_paper_submission_info",  general_info="first", pending_date=datetime.datetime.now())
+		sendReportToAdmin(request, "forward_paper_submission_info ", str(pprID), e, "")
+	
 
 def forward_ppt_submission_info(pptID):
-	ppt = get_object_or_404(Ppt, ppt_id=pptID)
-	absID = ppt.abstract.abs_id
-	msg = MIMEMultipart()
-	msg.set_unixfrom('author')
-	msg['From'] = settings.EMAIL_HOST_USER
-	recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
-	# recipients = ['touqeer.pathan289@gmail.com']
-	msg['To'] = ", ".join(recipients)
-	msg['Subject'] = 'New Presentation Submitted | Presentation ID : '+pptID
+	try:
+		ppt = get_object_or_404(Ppt, ppt_id=pptID)
+		absID = ppt.abstract.abs_id
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		# recipients = ['touqeer.pathan289@gmail.com']
+		msg['To'] = ", ".join(recipients)
+		msg['Subject'] = 'New Presentation Submitted | Presentation ID : '+pptID
 
-	message = 'A new presentation has been submitted \n\n' + 'Presentation Details : \n' + \
-			'Presentation ID : '+ str(pptID) + '\n' + \
-			'Author : '+ str(ppt.prefix) + ' ' + str(ppt.first_name) + ' ' + str(ppt.last_name) + '\n' + \
-			'Track : '+ str(ppt.track) + '\n' + \
-			'Title : '+ str(ppt.ppt_title) + '\n' + \
-			'Presentation link : '+ str(ppt.ppt_pdf.url)[:-16] + '\n' + \
-			'Address : '+ str(ppt.state) +', '+str(ppt.country) + '\n' + \
-			'Institute : '+ str(ppt.institution) + '\n' + \
-			'Email : '+ str(ppt.email) + '\n' + \
-			'Phone : '+ str(ppt.phone) + '\n' + \
-			'Submission Date : '+ str(ppt.submission_date.date()) + '\n' 
+		message = 'A new presentation has been submitted \n\n' + 'Presentation Details : \n' + \
+				'Presentation ID : '+ str(pptID) + '\n' + \
+				'Author : '+ str(ppt.prefix) + ' ' + str(ppt.first_name) + ' ' + str(ppt.last_name) + '\n' + \
+				'Track : '+ str(ppt.track) + '\n' + \
+				'Title : '+ str(ppt.ppt_title) + '\n' + \
+				'Presentation link : '+ str(ppt.ppt_pdf.url)[:-16] + '\n' + \
+				'Address : '+ str(ppt.state) +', '+str(ppt.country) + '\n' + \
+				'Institute : '+ str(ppt.institution) + '\n' + \
+				'Email : '+ str(ppt.email) + '\n' + \
+				'Phone : '+ str(ppt.phone) + '\n' + \
+				'Submission Date : '+ str(ppt.submission_date.date()) + '\n' 
 
-	msg.attach(MIMEText(message))
-	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-	# mailserver.starttls()
-	mailserver.ehlo()
-	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-	print("INFO MAIL SENT\n")
+		msg.attach(MIMEText(message))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# mailserver.starttls()
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		
+		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_ppt_submission_info",  general_info="first", sent_date=datetime.datetime.now())
 
+		print("INFO MAIL SENT\n")
+	except Exception as e:
+		EmailQueue.objects.create(corresponding_id=str(pptID), mail_reason="forward_ppt_submission_info",  general_info="first", pending_date=datetime.datetime.now())
+		sendReportToAdmin(request, "forward_ppt_submission_info ", str(pptID), e, "")	
 
 def is_duplicate_entry(request):
 	oldEntry = Abstract.objects.filter(paper_title=request.POST['title'], first_name=request.POST['fname'], last_name=\
@@ -450,46 +493,60 @@ def abstract_submission(request):
 				ppr.track_B = 'mahesh'
 			ppr.save()
 	
-		msg = MIMEMultipart()
-		msg.set_unixfrom('author')
-		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = request.POST['email']
+		absID = ''
+		try:
+			absID = get_object_or_404(Abstract, paper_title=request.POST['title']).abs_id
+		except:
+			absID = 'Exception While Abstract Submission'
+		try:
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = settings.EMAIL_HOST_USER
+			msg['To'] = request.POST['email']
 
-		if not duplicate:
-			msg['Subject'] = 'Abstract submission acknowledgement'
-			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-					'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
-					'Your abstract ID will be ' + absID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-					'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
-					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-					'Best Regards,\n' + \
-					'Organizing Team,\n' + \
-					'Global Conference on Innovations in Management and Business'
-		else:
-			msg['Subject'] = 'Abstract already submitted'
-			abs_id = get_object_or_404(Abstract, paper_title=request.POST['title']).abs_id
-			if abs_id is None:
-				message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" is already ' + \
-				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-			else:	
-				message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" (Abstract ID : ' + str(abs_id) + ') is already ' + \
-				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-		
-		msg.attach(MIMEText(message))
+			if not duplicate:
+				msg['Subject'] = 'Abstract submission acknowledgement'
+				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+						'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
+						'Your abstract ID will be ' + str(absID) +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
+						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+						'Best Regards,\n' + \
+						'Organizing Team,\n' + \
+						'Global Conference on Innovations in Management and Business'
+			else:
+				msg['Subject'] = 'Abstract already submitted'
+				if absID is None:
+					message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" is already ' + \
+					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+				else:	
+					message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" (Abstract ID : ' + str(absID) + ') is already ' + \
+					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			
+			msg.attach(MIMEText(message))
 
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-		# mailserver.starttls()
-		mailserver.ehlo()
-		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-
-		if not duplicate:
-			# update_sheet(absID)
-			forward_submission_info(absID)
-			messages.success(request, "You've successfully submitted the abstract.")
-		else:
-			messages.success(request, "You've already submitted an abstract with this title.")
-		print("EVRYTHING DONE\n")
+			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+			# mailserver.starttls()
+			mailserver.ehlo()
+			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	
+			if not duplicate:
+				EmailInfo.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_submission_info(absID)
+				messages.success(request, "You've successfully submitted the abstract.")
+			else:
+				EmailInfo.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				messages.success(request, "You've already submitted an abstract with this title.")
+			print("EVRYTHING DONE\n")
+			
+		except Exception as e:
+			if not duplicate:
+				messages.success(request, "You've successfully submitted the abstract.")
+			else:
+				messages.success(request, "You've already submitted an abstract with this title.")
+			EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="", pending_date=datetime.datetime.now())
+			sendReportToAdmin(request, "abstract_submission", str(absID), e, "exception while mailing, data is stored")
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
 
@@ -547,41 +604,55 @@ def paper_submission(request):
 		msg['From'] = settings.EMAIL_HOST_USER
 		msg['To'] = request.POST['email']
 
-		if not duplicate:
-			msg['Subject'] = 'Paper submission acknowledgement'
-			message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-					'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
-					'Your paper ID will be ' + pprID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-					'Best Regards,\n' + \
-					'Organizing Team,\n' + \
-					'Global Conference on Innovations in Management and Business'
-		else:
-			msg['Subject'] = 'Paper already submitted'
-			pprID = Paper.objects.get(paper_title=request.POST['title']).ppr_id
-			if pprID is None:
-				message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" is already ' + \
-				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-			else:	
-				message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" (Paper ID : ' + str(pprID) + ') is already ' + \
-				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+		pprID = ''
+		try:
+			pprID = str(get_object_or_404(Paper, paper_title=request.POST['title']).paper_id)
+		except:
+			pprID = '<Exception While Paper Submission>'
 		
-		msg.attach(MIMEText(message))
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		try:
+			if not duplicate:
+				msg['Subject'] = 'Paper submission acknowledgement'
+				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+						'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
+						'Your paper ID will be ' + pprID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+						'Best Regards,\n' + \
+						'Organizing Team,\n' + \
+						'Global Conference on Innovations in Management and Business'
+			else:
+				msg['Subject'] = 'Paper already submitted'
+				if pprID is None:
+					message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" is already ' + \
+					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+				else:	
+					message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" (Paper ID : ' + pprID + ') is already ' + \
+					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			
+			msg.attach(MIMEText(message))
+			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-		# KEEP THIS COMMENTED ONLY
-		# mailserver.starttls()
+			mailserver.ehlo()
+			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
-		mailserver.ehlo()
-		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			if not duplicate:
+				EmailInfo.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_paper_submission_info(pprID)
+				messages.success(request, "You've successfully submitted the paper.")
+			else: 
+				EmailInfo.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				messages.success(request, "You've already submitted a paper for this abstract.")
+			print("EVRYTHING DONE with PAPER SUBMISSION\n")
 
-		if not duplicate:
-			forward_paper_submission_info(pprID)
-			messages.success(request, "You've successfully submitted the paper.")
-		else:
-			messages.success(request, "You've already submitted a paper for this abstract.")
-		print("EVRYTHING DONE with PAPER SUBMISSION\n")
+		except Exception as e:
+			if not duplicate:
+				messages.success(request, "You've successfully submitted the paper.")
+			else: 
+				messages.success(request, "You've already submitted a paper for this abstract.")
+			EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="", pending_date=datetime.datetime.now())
+			sendReportToAdmin(request, "paper_submission", str(pprID), e, "exception while mailing, data is stored")
+
 		return redirect('/paper-submission')
 	return render(request, 'paper_submission.html')	
 
@@ -631,47 +702,61 @@ def ppt_submission(request):
 				
 			ppt.save()
 
-		msg = MIMEMultipart()
-		msg.set_unixfrom('author')
-		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = request.POST['email']
-
-		if not duplicate:
-			msg['Subject'] = 'Presentation submission acknowledgement'
-			message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
-					'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
-					'Your paper ID will be ' + pptID +'. Please make a note of it and quote the same in future communications.\n\n' + \
-					'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-					'Best Regards,\n' + \
-					'Organizing Team,\n' + \
-					'Global Conference on Innovations in Management and Business'
-		else:
-			msg['Subject'] = 'Presentation already submitted'
-			pptID = Ppt.objects.get(ppt_title=request.POST['title']).ppt_id
-			if pptID is None:
-				message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" is already ' + \
-				'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-			else:	
-				message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" (Presentation ID : ' + str(pptID) + ') is already ' + \
-				'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+		pptID = ''
+		try:
+			pptID = str(get_object_or_404(Ppt, paper_title=request.POST['title']).ppt_id)
+		except:
+			pptID = '<Exception While Presentation Submission>'
 		
-		msg.attach(MIMEText(message))
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		try:
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = settings.EMAIL_HOST_USER
+			msg['To'] = request.POST['email']
 
-		# KEEP THIS COMMENTED ONLY
-		# mailserver.starttls()
+			if not duplicate:
+				msg['Subject'] = 'Presentation submission acknowledgement'
+				message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
+						'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+						'Your paper ID will be ' + pptID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+						'Best Regards,\n' + \
+						'Organizing Team,\n' + \
+						'Global Conference on Innovations in Management and Business'
+			else:
+				msg['Subject'] = 'Presentation already submitted'
+				if pptID is None:
+					message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" is already ' + \
+					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+				else:	
+					message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" (Presentation ID : ' + pptID + ') is already ' + \
+					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			
+			msg.attach(MIMEText(message))
+			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-		mailserver.ehlo()
-		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			mailserver.ehlo()
+			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 
-		if not duplicate:
-			forward_ppt_submission_info(pptID)
-			messages.success(request, "You've successfully submitted the ppt.")
-		else:
-			messages.success(request, "You've already submitted a ppt for this abstract.")
-		print("EVRYTHING DONE with PPT SUBMISSION\n")
+			if not duplicate:
+				EmailInfo.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_ppt_submission_info(pptID)
+				messages.success(request, "You've successfully submitted the ppt.")
+			else:
+				EmailInfo.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				messages.success(request, "You've already submitted a ppt for this abstract.")
+			print("EVRYTHING DONE with PPT SUBMISSION\n")
+
+		except Exception as e:
+			if not duplicate:
+				messages.success(request, "You've successfully submitted the ppt.")
+			else:
+				messages.success(request, "You've already submitted a ppt for this abstract.")
+			EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="", pending_date=datetime.datetime.now())
+			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while mailing, data is stored")
+
 		return redirect('/ppt-submission')
 	return render(request, 'ppt_submission.html')	
 
@@ -702,25 +787,24 @@ def evaluation_process(request):
 
 def contact_us(request):
 	if request.method == 'POST':
-		msg = MIMEMultipart()
-		msg.set_unixfrom('author')
-		msg['From'] = 'info@gcimb.org'
-		msg['To'] = request.POST['email']
-		msg['Subject'] = request.POST['subject']
-		message = request.POST['message']
-		msg.attach(MIMEText(message))
-
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
-		# mailserver.starttls()
-		mailserver.ehlo()
-		mailserver.login('info@gcimb.org', 'info123@gcimb')
-
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-
-		mailserver.quit()
-		messages.success(request, "Message Sent successfully. We'll get back to you soon.")
+		try:
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = 'info@gcimb.org'
+			msg['To'] = request.POST['email']
+			msg['Subject'] = request.POST['subject']
+			message = request.POST['message']
+			msg.attach(MIMEText(message))
+			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+			mailserver.ehlo()
+			mailserver.login('info@gcimb.org', 'info123@gcimb')
+			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			mailserver.quit()
+			EmailInfo.objects.create(str(request.POST['email']), mail_reason="contact_us", general_info=str(request.POST['subject']) +'\n'+ str(request.POST['message']), sent_date=datetime.datetime.now())
+			messages.success(request, "Message Sent successfully. We'll get back to you soon.")
+		except Exception as e:
+			sendReportToAdmin(request, "contact_us", 'Subject : '+ str(request.POST['subject']), e, str(request.POST['message']))
 		return redirect('/contact_us')
-		# messages.success(request, "testing bro")
 	return render(request, 'contact_us.html')
 
 def digital_transformation_and_information_systems(request):
@@ -1117,10 +1201,10 @@ def approve_payment(request, registrationid):
 	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == 1:
 			messages.success(request, "Payment already approved, Receipt regenerated")
-			generate_receipt(request, registrationid)
+			# generate_receipt(request, registrationid)
 		else:
 			messages.success(request, "Payment approved, Receipt generated.")
-			generate_receipt(request, registrationid)
+			# generate_receipt(request, registrationid)
 			cd.payment_status = 1
 		cd.save()
 	else : 
@@ -1285,39 +1369,45 @@ def test_doc(request):
 
 @login_required(login_url='/sign-in/')
 def send_approval_mail(request, registrationid):
-	reg = get_object_or_404(Registration, pk=registrationid)
-	msg = MIMEMultipart()
-	msg.set_unixfrom('author')
-	msg['From'] = settings.EMAIL_HOST_USER
-	msg['To'] = reg.email.strip()
+	try: 
+		reg = get_object_or_404(Registration, pk=registrationid)
+		msg = MIMEMultipart()
+		msg.set_unixfrom('author')
+		msg['From'] = settings.EMAIL_HOST_USER
+		msg['To'] = reg.email.strip()
 
-	msg['Subject'] = 'Registration Aprroved!'
-	message = 'Hello ' + reg.first_name + ',\n\n' + \
-			'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
-			'Your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
-			'Many thanks for considering to attend the conference.\n\n'+\
-			'Best Regards,\n' + \
-			'Organizing Team,\n' + \
-			'Global Conference on Innovations in Management and Business'	
-	
-	msg.attach(MIMEText(message))
+		msg['Subject'] = 'Registration Aprroved!'
+		message = 'Hello ' + reg.first_name + ',\n\n' + \
+				'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+				'Your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
+				'Many thanks for considering to attend the conference.\n\n'+\
+				'Best Regards,\n' + \
+				'Organizing Team,\n' + \
+				'Global Conference on Innovations in Management and Business'	
+		
+		msg.attach(MIMEText(message))
 
-	filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
-	with open(filePath, "rb") as fil:
-		part = MIMEApplication(
-			fil.read(),
-			Name=basename(filePath)
-		)
-	# After the file is closed
-	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
-	msg.attach(part)
+		filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
+		with open(filePath, "rb") as fil:
+			part = MIMEApplication(
+				fil.read(),
+				Name=basename(filePath)
+			)
+		# After the file is closed
+		part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
+		msg.attach(part)
 
-	# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
-	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
+		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-	mailserver.ehlo()
-	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		mailserver.ehlo()
+		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
+	except Exception as e:
+		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
+		sendReportToAdmin(request, "send_approval_mail" , e, "")
 
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 	
