@@ -149,13 +149,16 @@ def sendReportToAdmin(request, fn , cid, e, gInfo):
 	msg = 'no msg'
 	if request.user.is_authenticated : 
 		userInfo = request.user.username
+	print(e)
 	if hasattr(e, 'args'): 
 		agr = str(e.args)
 	if  hasattr(e, 'message'): 
 		msg = str(e.message)	
+	else:
+		msg = str(e)
 	reg = ReceivedException.objects.create(function_name=fn, corresponding_id=cid, exception_args=args, 
 			exception_message=msg, general_info=gInfo, current_user_info=userInfo, exception_date=datetime.datetime.now())
-	reg.save()
+	# reg.save()
 
 def forward_registration_info(regID):
 	reg = Registration.objects.get(registration_id=regID)
@@ -542,10 +545,11 @@ def abstract_submission(request):
 			
 		except Exception as e:
 			if not duplicate:
+				EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the abstract.")
 			else:
+				EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted an abstract with this title.")
-			EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="", pending_date=datetime.datetime.now())
 			sendReportToAdmin(request, "abstract_submission", str(absID), e, "exception while mailing, data is stored")
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
@@ -647,10 +651,11 @@ def paper_submission(request):
 
 		except Exception as e:
 			if not duplicate:
+				EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the paper.")
 			else: 
+				EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
-			EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="", pending_date=datetime.datetime.now())
 			sendReportToAdmin(request, "paper_submission", str(pprID), e, "exception while mailing, data is stored")
 
 		return redirect('/paper-submission')
@@ -751,10 +756,11 @@ def ppt_submission(request):
 
 		except Exception as e:
 			if not duplicate:
+				EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the ppt.")
 			else:
+				EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
-			EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="", pending_date=datetime.datetime.now())
 			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while mailing, data is stored")
 
 		return redirect('/ppt-submission')
