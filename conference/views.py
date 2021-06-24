@@ -13,9 +13,11 @@ from gdstorage.storage import GoogleDriveStorage, GoogleDrivePermissionType, Goo
 from django.core.mail import send_mail
 from django.conf import settings
 import smtplib
+from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
+from os.path import basename
 from email import encoders
 import xlrd
 import xlwt
@@ -23,11 +25,21 @@ from xlutils.copy import copy
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.staticfiles.storage import staticfiles_storage
-from nitwConference.settings import STATIC_URL
+from nitwConference.settings import STATIC_URL, MEDIA_URL
 import stripe
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.db import connection
+from docx import Document
+from docx.shared import Inches
+from docx2pdf import convert
+import pythoncom, pathlib
+from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.section import WD_ORIENT
+from docx.oxml.xmlchemy import OxmlElement
+from docx.oxml.shared import qn
+
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -971,15 +983,143 @@ def reset_decision_for_id(request, registrationid):
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
 @login_required(login_url='/sign-in/')
+def generate_receipt(request, registrationid):
+	uname = request.user.username
+	if uname=='gcimb' or uname =='accounts':
+		reg = get_object_or_404(Registration, pk=registrationid)
+		document = Document()
+
+		section = document.sections[0]
+		new_width, new_height = section.page_height, section.page_width
+		section.orientation = WD_ORIENT.LANDSCAPE
+		section.page_width = new_width
+		section.page_height = new_height
+
+		sec_pr = section._sectPr # get the section properties el
+		# create new borders el
+		pg_borders = OxmlElement('w:pgBorders')
+		# specifies how the relative positioning of the borders should be calculated
+		pg_borders.set(qn('w:offsetFrom'), 'page')
+		for border_name in ('top', 'left', 'bottom', 'right',): # set all borders
+			border_el = OxmlElement(f'w:{border_name}')
+			border_el.set(qn('w:val'), 'double') # a single line
+			border_el.set(qn('w:sz'), '4') # for meaning of  remaining attrs please look docs
+			border_el.set(qn('w:space'), '24')
+			border_el.set(qn('w:color'), 'auto')
+			pg_borders.append(border_el) # register single border to border el
+		sec_pr.append(pg_borders) # apply border changes to section
+
+		header = document.sections[0].header
+		paragraph = header.paragraphs[0]
+
+		text_run = paragraph.add_run()
+		text_run.text = "Receipt" + '\t\t                                      '  # For center align of text
+		text_run.bold = True
+		font = text_run.font
+		font.name = 'Arial'
+		font.size = Pt(20)
+
+		logo_run = paragraph.add_run()
+		logo_run.add_picture('static/images/'+'gcimb_img.png', width=Inches(2))
+
+		
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		date = p.add_run('\nDate: '+ str(reg.registration_date.date())+'\n')
+		# date.font.name = 'Arial'
+		date.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Participant’s Name: ')
+		name.bold = True
+		val = p.add_run(str(reg.first_name))
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Institution / Organization: ')
+		name.bold = True
+		val = p.add_run(str(reg.institution))
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Mode of payment: ')
+		name.bold = True
+		val = p.add_run('Account transfer')
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		print("PATH : " + STATIC_URL + 'images/' + 'sign_tmp.png')
+
+		table = document.add_table(rows=1, cols=3)
+		hdr_cells = table.rows[0].cells
+		hdr_cells[0].text = 'Item'
+		hdr_cells[1].text = 'Quantity'
+		hdr_cells[2].text = 'Amount'
+		
+		row_cells = table.add_row().cells
+		row_cells[0].text = reg.registration_type.registration_type
+		row_cells[1].text = '1'
+		row_cells[2].text = reg.remark
+		
+		for row in table.rows:
+			for cell in row.cells:
+				paragraphs = cell.paragraphs
+				for paragraph in paragraphs:
+					for run in paragraph.runs:
+						font = run.font
+						font.size= Pt(14)
+
+		document.add_paragraph('\n')
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		sign = p.add_run()
+		# sign.add_picture('static/images/'+'sign_tmp.png', width=Inches(1.25))
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		name = p.add_run('For Finance Team')
+		name.font.name = 'Arial'
+		name.font.size = Pt(14) 
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		gcimb = p.add_run('GCIMB 2021')
+		gcimb.font.name = 'Arial'
+		gcimb.font.size = Pt(15) 
+		
+		pathlib.Path('static/files/' + registrationid ).mkdir(exist_ok=True) 
+
+		docFlieName = registrationid + ".docx"
+		pdfFlieName = registrationid + "_receipt.pdf"
+		
+		document.save("static/files/"+ registrationid + "/" + docFlieName)
+		pythoncom.CoInitialize()
+		convert("static/files/"+ registrationid + "/" + docFlieName, "static/files/"+ registrationid + "/" +pdfFlieName)
+		if os.path.exists("static/files/"+ registrationid + "/" + docFlieName):
+			os.remove("static/files/"+ registrationid + "/" + docFlieName)
+		else:
+			print("The file does not exist")
+	return
+
+
+@login_required(login_url='/sign-in/')
 def approve_payment(request, registrationid):
 	cd = get_object_or_404(Registration, pk=registrationid)
 	uname = request.user.username
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == 1:
-			messages.success(request, "Payment already approved.")
+			messages.success(request, "Payment already approved, Receipt regenerated")
+			generate_receipt(request, registrationid)
 		else:
-			messages.success(request, "Payment approved.")
+			messages.success(request, "Payment approved, Receipt generated.")
+			generate_receipt(request, registrationid)
 			cd.payment_status = 1
 		cd.save()
 	else : 
@@ -1017,3 +1157,205 @@ def reset_decision_for_payment(request, registrationid):
 		messages.success(request, "You do not have the authority to perform this action.")
 	
 	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required(login_url='/sign-in/')
+def test_doc(request):
+	uname = request.user.username
+	if uname=='gcimb':
+		reg = get_object_or_404(Registration, pk='GCIMBR210003')
+		document = Document()
+
+		section = document.sections[0]
+		new_width, new_height = section.page_height, section.page_width
+		section.orientation = WD_ORIENT.LANDSCAPE
+		section.page_width = new_width
+		section.page_height = new_height
+
+		sec_pr = section._sectPr # get the section properties el
+		# create new borders el
+		pg_borders = OxmlElement('w:pgBorders')
+		# specifies how the relative positioning of the borders should be calculated
+		pg_borders.set(qn('w:offsetFrom'), 'page')
+		for border_name in ('top', 'left', 'bottom', 'right',): # set all borders
+			border_el = OxmlElement(f'w:{border_name}')
+			border_el.set(qn('w:val'), 'double') # a single line
+			border_el.set(qn('w:sz'), '4') # for meaning of  remaining attrs please look docs
+			border_el.set(qn('w:space'), '24')
+			border_el.set(qn('w:color'), 'auto')
+			pg_borders.append(border_el) # register single border to border el
+		sec_pr.append(pg_borders) # apply border changes to section
+
+		header = document.sections[0].header
+		paragraph = header.paragraphs[0]
+
+		text_run = paragraph.add_run()
+		text_run.text = "Receipt" + '\t\t                                      '  # For center align of text
+		text_run.bold = True
+		font = text_run.font
+		font.name = 'Arial'
+		font.size = Pt(20)
+
+		logo_run = paragraph.add_run()
+		logo_run.add_picture('static/images/'+'gcimb_img.png', width=Inches(2))
+
+		
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		date = p.add_run('\nDate: '+ str(reg.registration_date.date())+'\n')
+		# date.font.name = 'Arial'
+		date.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Participant’s Name: ')
+		name.bold = True
+		val = p.add_run(str(reg.first_name))
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Institution / Organization: ')
+		name.bold = True
+		val = p.add_run(str(reg.institution))
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
+		name = p.add_run('Mode of payment: ')
+		name.bold = True
+		val = p.add_run('Account transfer')
+		# name.font.name = 'Arial'
+		name.font.size = val.font.size = Pt(14)
+
+		print("PATH : " + STATIC_URL + 'images/' + 'sign_tmp.png')
+
+		table = document.add_table(rows=1, cols=3)
+		hdr_cells = table.rows[0].cells
+		hdr_cells[0].text = 'Item'
+		hdr_cells[1].text = 'Quantity'
+		hdr_cells[2].text = 'Amount'
+		
+		row_cells = table.add_row().cells
+		row_cells[0].text = reg.registration_type.registration_type
+		row_cells[1].text = '1'
+		row_cells[2].text = reg.remark
+		
+		for row in table.rows:
+			for cell in row.cells:
+				paragraphs = cell.paragraphs
+				for paragraph in paragraphs:
+					for run in paragraph.runs:
+						font = run.font
+						font.size= Pt(14)
+
+		document.add_paragraph('\n')
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		sign = p.add_run()
+		# sign.add_picture('static/images/'+'sign_tmp.png', width=Inches(1.25))
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		name = p.add_run('For Finance Team')
+		name.font.name = 'Arial'
+		name.font.size = Pt(14) 
+
+		p = document.add_paragraph()
+		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+		gcimb = p.add_run('GCIMB 2021')
+		gcimb.font.name = 'Arial'
+		gcimb.font.size = Pt(15) 
+
+		# document.add_page_break()
+		document.save("static/files/"+'demo.docx')
+		# pythoncom.CoInitialize()
+		# convert("media/demo.docx", "media/demoC.pdf")
+		messages.success(request, "Doc saved successfully")
+
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+@login_required(login_url='/sign-in/')
+def send_approval_mail(request, registrationid):
+	reg = get_object_or_404(Registration, pk=registrationid)
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	msg['To'] = reg.email.strip()
+
+	msg['Subject'] = 'Registration Aprroved!'
+	message = 'Hello ' + reg.first_name + ',\n\n' + \
+			'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+			'Your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
+			'Many thanks for considering to attend the conference.\n\n'+\
+			'Best Regards,\n' + \
+			'Organizing Team,\n' + \
+			'Global Conference on Innovations in Management and Business'	
+	
+	msg.attach(MIMEText(message))
+
+	filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
+	with open(filePath, "rb") as fil:
+		part = MIMEApplication(
+			fil.read(),
+			Name=basename(filePath)
+		)
+	# After the file is closed
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
+	msg.attach(part)
+
+	# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+	
+
+@login_required(login_url='/sign-in/')
+def test_mail(request):
+	reg = get_object_or_404(Registration, pk='GCIMBR210003')
+	msg = MIMEMultipart()
+	msg.set_unixfrom('author')
+	msg['From'] = settings.EMAIL_HOST_USER
+	msg['To'] = 'touqeer.pathan289@gmail.com'
+
+	msg['Subject'] = 'Registration Aprroved!'
+	message = 'Hello ' + reg.first_name + ',\n\n' + \
+			'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+			'Your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
+			'Many thanks for considering to attend the conference.\n\n'+\
+			'Best Regards,\n' + \
+			'Organizing Team,\n' + \
+			'Global Conference on Innovations in Management and Business'	
+	
+	msg.attach(MIMEText(message))
+
+	filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
+	with open(filePath, "rb") as fil:
+		part = MIMEApplication(
+			fil.read(),
+			Name=basename(filePath)
+		)
+	# After the file is closed
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
+	msg.attach(part)
+
+	# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
+	mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+
+	mailserver.ehlo()
+	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+

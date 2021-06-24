@@ -50,5 +50,12 @@ urlpatterns = [
     url('approvepayment/(?P<registrationid>\w+)', views.approve_payment, name='approve_payment'),
     url('rejectpayment/(?P<registrationid>\w+)', views.reject_payment, name='reject_payment'),
     url('resetdecisionforpayment/(?P<registrationid>\w+)', views.reset_decision_for_payment, name='reset_decision_for_payment'),
+    
+    path('test-doc/', views.test_doc, name='test_doc'),
+    url('generate-receipt/(?P<registrationid>\w+)', views.generate_receipt, name='generate_receipt'),
+    
+    path('test-mail/', views.test_mail, name='test_mail'),
+    url('send-approval-mail/(?P<registrationid>\w+)', views.send_approval_mail, name='send_approval_mail'),
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
