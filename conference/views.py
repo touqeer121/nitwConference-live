@@ -33,7 +33,8 @@ from django.db import connection
 from docx import Document
 from docx.shared import Inches
 from docx2pdf import convert
-import pythoncom, pathlib
+# import pythoncom
+import pathlib
 from docx.shared import Pt
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.section import WD_ORIENT
@@ -1099,7 +1100,7 @@ def generate_receipt(request, registrationid):
 		pdfFlieName = registrationid + "_receipt.pdf"
 		
 		document.save("static/files/"+ registrationid + "/" + docFlieName)
-		pythoncom.CoInitialize()
+		# pythoncom.CoInitialize()
 		convert("static/files/"+ registrationid + "/" + docFlieName, "static/files/"+ registrationid + "/" +pdfFlieName)
 		if os.path.exists("static/files/"+ registrationid + "/" + docFlieName):
 			os.remove("static/files/"+ registrationid + "/" + docFlieName)
