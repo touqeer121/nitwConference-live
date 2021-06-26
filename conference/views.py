@@ -1086,10 +1086,10 @@ def generate_receipt(request, registrationid):
 	except ECXEPTION as e:
 		messages.success("Error while receipt generation! regisration could not be found in database.")
 		return
-		
+
 	invoice = "GCIMBIN21" + str(reg.registration_id)[-4:]
 	filePath = 'static/files/' + reg.registration_id 
-	fileName = invoice + '_receipt.pdf'
+	fileName = reg.registration_id + '_receipt.pdf'
 	pathlib.Path(filePath).mkdir(exist_ok=True) 
 
 	filePath += '/'
@@ -1219,9 +1219,11 @@ def approve_payment(request, registrationid):
 		if cd.payment_status == 1:
 			messages.success(request, "Payment already approved, Receipt regenerated")
 			generate_receipt(request, registrationid)
+			print("IF me")
 		else:
 			messages.success(request, "Payment approved, Receipt generated.")
 			generate_receipt(request, registrationid)
+			print("ELSE me")
 			cd.payment_status = 1
 		cd.save()
 	else : 

@@ -200,13 +200,11 @@
                         </td> -->
                         <td>
                             {% if reg.payment_status == '1' %}
-                                <a style="display: inline-block" href="{% static 'files/Pre-Conference Workshop Flyer.pdf' %}">
-                                    <a style="display: inline-block" target="__blank"
-                                    href="{% with 'files/'|add:reg.registration_id|add:'/'|add:reg.registration_id|add:'_receipt.pdf' as receipt_static %}
-                                            {% static receipt_static %}
-                                        {% endwith %}">
-                                        View
-                                    </a>
+                                <a style="display: inline-block" target="__blank"
+                                href="{% with 'files/'|add:reg.registration_id|add:'/'|add:reg.registration_id|add:'_receipt.pdf' as receipt_static %}
+                                        {% static receipt_static %}
+                                    {% endwith %}">
+                                    View
                                 </a>
                             {% else %}
                                 <span style="color: red;"> 
@@ -216,11 +214,9 @@
                         </td>
                         <td>
                             {% if reg.payment_status == '1' %}
-                                <a style="display: inline-block" href="{% static 'files/Pre-Conference Workshop Flyer.pdf' %}">
-                                    <a class="formButton brochureButton" data-toggle="tooltip" title="Send verification mail"
-                                        href="../send-approval-mail/{{reg.registration_id}}">
-                                        Send
-                                    </a>
+                                <a class="formButton brochureButton" data-toggle="tooltip" title="Send verification mail"
+                                href="../send-approval-mail/{{reg.registration_id}}">
+                                    Send
                                 </a>
                             {% else %}
                                 <span style="color: red;"> 
