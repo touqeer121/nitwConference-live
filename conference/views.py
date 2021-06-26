@@ -1218,6 +1218,12 @@ def approve_payment(request, registrationid):
 	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == '1':
 			messages.success(request, "Payment already approved, Receipt regenerated")
+			try:
+				fileName = 'static/files/' + cd.registration_id + '/' + cd.registration_id + '_receipt.pdf'
+				os.remove(fileName)
+				print('old recipt file deleted')
+			except OSError:
+				pass
 			generate_receipt(request, registrationid)
 			print("IF me")
 		else:
