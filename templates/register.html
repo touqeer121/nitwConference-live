@@ -69,7 +69,6 @@
       }
       if(p.value != "" && r.value != ""){
         price.innerText = prices[r.value-1][p.value-1];
-        feeInput.value = prices[r.value-1][p.value-1];
         console.log("VAL = " ,prices[r.value-1][p.value-1]);
       }
     }
@@ -93,8 +92,9 @@
         absIDGroup.classList.add("showBox");
       }
       if(p.value != "" && r.value != ""){
+        absIDGroup.classList.remove("hideBox");
+        absIDGroup.classList.add("showBox");
         price.innerText = prices[r.value-1][p.value-1];
-        feeInput.value = prices[r.value-1][p.value-1];
         console.log("VAL = " ,prices[r.value-1][p.value-1])
       }
     }
@@ -470,6 +470,18 @@
                 </div>
               </div>
 
+              
+              <!-- <div class="form-group">
+                <div class="form-subgroup half">
+                  <label class="formText">Choose one<sup style="color: red;font-size: 20px;">*</sup></label><br>
+                  <input type="radio" id="paymentTypeRupee" name="paymentType" required/> 
+                  <label id="rupee" class="formText" >-- (For Indians)</label>
+                </div>
+                <div class="form-subgroup half">
+                  <input type="radio" id="paymentTypeDollar" name="paymentType" /> 
+                  <label id="dollar" class="formText">-- (For Others)</label>
+                </div>
+              </div> -->
         <div style="background-color: #dce0eb;  border-radius: 25px; height:80px; width: 200px; font-size: 20px;
           margin:  0 auto">
           <b>Ticket Price :</b>
@@ -595,6 +607,16 @@
                 </tr><tr>
                   <th>Ticket price paid : </th><td id="cticket"> </td>
                 </tr>       
+                <tr>
+                    <td>
+                      <input type="radio" id="paymentTypeRupee" name="paymentType" required/> 
+                      <label id="rupee" class="formText" ></label>
+                    </td>
+                    <td>                      
+                      <input type="radio" id="paymentTypeDollar" name="paymentType" /> 
+                      <label id="dollar" class="formText"></label>
+                    </td>
+                </tr>
               </table>
             </div>
             <div class="form-group" >
@@ -692,7 +714,6 @@
                     <input class="my-input" type="text" name="abs_id" id="abs_id" placeholder="GCIMBXXXXXX" required/>
                   </div>                
                 </div>
-                <input class="my-input" type="text" name="fee" id="fee" required hidden/>
                 <!-- <div class="form-group">
                   <div class="form-subgroup">
                     <label class="formText" for="id_proof">
@@ -743,6 +764,11 @@ function fillDetails(){
   let ctrans_id = document.getElementById('ctrans_id');
   let cabs_id = document.getElementById('cabs_id');
   
+  let rupee = document.getElementById('rupee');
+  let dollar = document.getElementById('dollar');
+  let rup = document.getElementById('paymentTypeRupee');
+  let dol = document.getElementById('paymentTypeDollar');
+  
   cfname.innerText = document.getElementById('fname').value;
   cinstitution.innerText = document.getElementById('institution').value;
   ccountry.innerText = document.getElementById('country').value;
@@ -759,6 +785,15 @@ function fillDetails(){
     cr_type.innerText = rtypes[r.value-1];
     cp_type.innerText = atypes[p.value-1];
     console.log("A");
+
+    tmp =  document.getElementById('price').innerText;
+    tmp = tmp.split("/");
+    rupee.innerText = tmp[0];
+    dollar.innerText = tmp[1];
+    rup.value = tmp[0];
+    dol.value = tmp[1];
+    
+    console.log(rup.value+"  "+dol.value);
   }
   else if (p.value != "" && r.value != ""){
     document.getElementById('absRow').classList.add("hideBox");
@@ -768,6 +803,15 @@ function fillDetails(){
     cr_type.innerText = rtypes[r.value-1];
     cp_type.innerText = atypes[p.value-1];
     console.log("B");
+
+    tmp =  document.getElementById('price').innerText;
+    tmp = tmp.split("/");
+    rupee.innerText = tmp[0];
+    dollar.innerText = tmp[1];
+    rup.value = tmp[0];
+    dol.value = tmp[1];
+    
+    console.log(rup.value+"  "+dol.value);
   }
   else{
     document.getElementById('absRow').classList.remove("showBox");

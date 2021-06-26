@@ -134,9 +134,9 @@ class Registration(models.Model) :
 	payment_method = models.CharField(max_length=200, blank=True, default='unknown')
 	transaction_id = models.CharField(max_length=100, blank=True, default='unknown')
 	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
-	prefix = models.CharField(max_length=20)
+	prefix = models.CharField(max_length=20, blank=True, null=True)
 	first_name = models.CharField(max_length=100)
-	last_name = models.CharField(max_length=100)
+	last_name = models.CharField(max_length=100, blank=True, null=True)
 	id_status = models.CharField(max_length=1, blank=True, default='2')
 	payment_status =  models.CharField(max_length=1, blank=True, default='2')
 	country = models.CharField(max_length=5000, blank=True, null=True, default='undefined')
@@ -148,7 +148,7 @@ class Registration(models.Model) :
 							 blank=True)
 
 	id_proof = models.FileField(upload_to='maps', validators=[FileExtensionValidator(["png", "pdf", "jpeg", "jpg"])], 
-								storage=gd_storage, blank=True, default='undefined')
+								storage=gd_storage, blank=True, null=True, default='undefined')
 	remark = models.CharField(max_length=5000, blank=True, default='')
 	registration_date = models.DateTimeField(default=timezone.now)
 

@@ -40,7 +40,14 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.enum.section import WD_ORIENT
 from docx.oxml.xmlchemy import OxmlElement
 from docx.oxml.shared import qn
-
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, landscape
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import Paragraph, Table, TableStyle
+from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
+from reportlab.lib import colors
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -255,7 +262,7 @@ def registration(request):
 			reg.email = request.POST['email']
 			reg.phone = request.POST['phone']
 			reg.transaction_id = request.POST['trans_id']
-			reg.remark = request.POST['fee']
+			reg.remark = request.POST['paymentType']
 			reg.save()
 			messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
 			forward_registration_info(regID)
@@ -1075,129 +1082,133 @@ def reset_decision_for_id(request, registrationid):
 
 @login_required(login_url='/sign-in/')
 def generate_receipt(request, registrationid):
-	uname = request.user.username
-	if uname=='gcimb' or uname =='accounts':
+	try:
 		reg = get_object_or_404(Registration, pk=registrationid)
-		document = Document()
+	except ECXEPTION as e:
+		messages.success("Error while receipt generation! regisration could not be found in database.")
+		return
+	filePath = 'static/files/' + reg.registration_id 
+	fileName = reg.registration_id + '_receipt.pdf'
+	pathlib.Path(filePath).mkdir(exist_ok=True) 
 
-		section = document.sections[0]
-		new_width, new_height = section.page_height, section.page_width
-		section.orientation = WD_ORIENT.LANDSCAPE
-		section.page_width = new_width
-		section.page_height = new_height
+	filePath += '/'
+	title = 'Receipt'
+	logoPath = 'static/images/gcimb_img.png' 
+	signPath = 'static/images/sign.jpeg'
 
-		sec_pr = section._sectPr # get the section properties el
-		# create new borders el
-		pg_borders = OxmlElement('w:pgBorders')
-		# specifies how the relative positioning of the borders should be calculated
-		pg_borders.set(qn('w:offsetFrom'), 'page')
-		for border_name in ('top', 'left', 'bottom', 'right',): # set all borders
-			border_el = OxmlElement(f'w:{border_name}')
-			border_el.set(qn('w:val'), 'double') # a single line
-			border_el.set(qn('w:sz'), '4') # for meaning of  remaining attrs please look docs
-			border_el.set(qn('w:space'), '24')
-			border_el.set(qn('w:color'), 'auto')
-			pg_borders.append(border_el) # register single border to border el
-		sec_pr.append(pg_borders) # apply border changes to section
+	date = 'Date: ' + str(reg.registration_date.date())		
 
-		header = document.sections[0].header
-		paragraph = header.paragraphs[0]
+	regards0 = 'Convenor'
+	regards = 'Finance Team'
+	regards2 = 'GCIMB 2021'
 
-		text_run = paragraph.add_run()
-		text_run.text = "Receipt" + '\t\t                                      '  # For center align of text
-		text_run.bold = True
-		font = text_run.font
-		font.name = 'Arial'
-		font.size = Pt(20)
+	width, height = landscape(letter)
+	styles = getSampleStyleSheet()
+	styleN = styles["Normal"]
+	styleN.alignment = TA_LEFT
+	styleN.fontName = 'Courier'
+	styleN.fontSize = 16
+	styleN.leading = 16
+	
+	styleS = styles["Code"]
+	styleS.alignment = TA_CENTER
+	styleS.fontName = 'Courier'
+	styleS.fontSize = 16
+	styleS.textColor = 'white'
 
-		logo_run = paragraph.add_run()
-		logo_run.add_picture('static/images/'+'gcimb_img.png', width=Inches(2))
+	styleBH = styles["BodyText"]
+	styleBH.alignment = TA_CENTER
+	styleBH.fontName = 'Courier'
+	styleBH.fontSize = 16
 
-		
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-		date = p.add_run('\nDate: '+ str(reg.registration_date.date())+'\n')
-		# date.font.name = 'Arial'
-		date.font.size = Pt(14)
+	def coord(x, y, unit=1):
+		x, y = x * unit, height -  y * unit
+		return x, y
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-		name = p.add_run('Participant’s Name: ')
-		name.bold = True
-		val = p.add_run(str(reg.first_name))
-		# name.font.name = 'Arial'
-		name.font.size = val.font.size = Pt(14)
+	invoice = "GCIMBIN21" + str(reg.registration_id)[-4:]
+	name = Paragraph('''<b>Participant\'s Name : </b>''', styleN)
+	nameVal = Paragraph(f'''{reg.first_name}''', styleN)
+	institution = Paragraph('''<b>Institution / Organization:</b>''', styleN)
+	institutionVal = Paragraph(f'''{reg.institution}''', styleN)
+	mode = Paragraph('''<b>Mode of payment:</b>''', styleN)
+	modeVal = Paragraph(f'''Account transfer''', styleN)
+	gap = Paragraph(f'''''', styleN)
+	mode = Paragraph('''<b>Invoice Number:</b>''', styleN)
+	modeVal = Paragraph(f'''{invoice}''', styleN)
+	gap = Paragraph(f'''''', styleN)
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-		name = p.add_run('Institution / Organization: ')
-		name.bold = True
-		val = p.add_run(str(reg.institution))
-		# name.font.name = 'Arial'
-		name.font.size = val.font.size = Pt(14)
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.LEFT
-		name = p.add_run('Mode of payment: ')
-		name.bold = True
-		val = p.add_run('Account transfer')
-		# name.font.name = 'Arial'
-		name.font.size = val.font.size = Pt(14)
+	# Headers
+	hdescrpcion = Paragraph('''<b>Item</b>''', styleS)
+	hpartida = Paragraph('''<b>Quantity</b>''', styleS)
+	hcandidad = Paragraph('''<b>Amount</b>''', styleS)
 
-		print("PATH : " + STATIC_URL + 'images/' + 'sign_tmp.png')
+	# Texts
+	descrpcion = Paragraph(f'''{reg.registration_type.registration_type}''', styleBH)
+	qua = Paragraph('1', styleBH)
+	amount = Paragraph(f'''{reg.remark}''', styleBH)
 
-		table = document.add_table(rows=1, cols=3)
-		hdr_cells = table.rows[0].cells
-		hdr_cells[0].text = 'Item'
-		hdr_cells[1].text = 'Quantity'
-		hdr_cells[2].text = 'Amount'
-		
-		row_cells = table.add_row().cells
-		row_cells[0].text = reg.registration_type.registration_type
-		row_cells[1].text = '1'
-		row_cells[2].text = reg.remark
-		
-		for row in table.rows:
-			for cell in row.cells:
-				paragraphs = cell.paragraphs
-				for paragraph in paragraphs:
-					for run in paragraph.runs:
-						font = run.font
-						font.size= Pt(14)
+	data= [[name, nameVal],
+			[gap, gap],
+		[institution, institutionVal],
+			[gap, gap],
+		[mode, modeVal],
+			[gap, gap],
+	]
 
-		document.add_paragraph('\n')
+	mainTable = Table(data, colWidths=[8 * cm, 16 * cm])
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-		sign = p.add_run()
-		# sign.add_picture('static/images/'+'sign_tmp.png', width=Inches(1.25))
+	mainTable.setStyle(TableStyle([
+							('VALIGN', (0,0), (-1,-1), 'MIDDLE')
+						# ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+						# ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+						]))
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-		name = p.add_run('For Finance Team')
-		name.font.name = 'Arial'
-		name.font.size = Pt(14) 
+	data= [[hdescrpcion, hpartida, hcandidad],
+		[descrpcion, qua, amount]
+	]
+	table = Table(data, colWidths=[8 * cm, 8 * cm, 8 * cm])
 
-		p = document.add_paragraph()
-		p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-		gcimb = p.add_run('GCIMB 2021')
-		gcimb.font.name = 'Arial'
-		gcimb.font.size = Pt(15) 
-		
-		pathlib.Path('static/files/' + registrationid ).mkdir(exist_ok=True) 
+	table.setStyle(TableStyle([
+						('INNERGRID', (0,0), (-1,-1), 0.25, colors.grey),
+						('BOX', (0,0), (-1,-1), 0.25, colors.grey),
+						('BACKGROUND', (0,0), (-1,0), colors.Color(red=(67.0/255),green=(202.0/255),blue=(232.0/255))),
+						('BOTTOMPADDING', (0,0), (-1,-1), 12)
+						]))
 
-		docFlieName = registrationid + ".docx"
-		pdfFlieName = registrationid + "_receipt.pdf"
-		
-		document.save("static/files/"+ registrationid + "/" + docFlieName)
-		# pythoncom.CoInitialize()
-		convert("static/files/"+ registrationid + "/" + docFlieName, "static/files/"+ registrationid + "/" +pdfFlieName)
-		if os.path.exists("static/files/"+ registrationid + "/" + docFlieName):
-			os.remove("static/files/"+ registrationid + "/" + docFlieName)
-		else:
-			print("The file does not exist")
+
+	pdf = canvas.Canvas(filePath + fileName, pagesize=landscape(letter))
+	pdf.rect(20, 20, 750, 570, stroke=1, fill=0) 
+	pdf.rect(22, 22, 746, 566, stroke=1, fill=0) 
+
+	pdf.setTitle(title)
+	
+	pdf.setFont('Courier', 36)
+	pdf.drawString(50, 550, title)
+
+	pdf.setFont('Courier', 16)
+	pdf.drawString(550, 500, date)
+
+	pdf.drawInlineImage(logoPath, 550, 534)
+
+	pdf.line(30, 530, 760, 530)
+
+	pdf.setFont('Courier', 16)
+	pdf.drawString(550, 65, regards0)
+	pdf.drawString(550, 50, regards)
+	pdf.drawString(550, 35, regards2)
+	
+	pdf.drawInlineImage(signPath, 550, 80)
+	
+	mainTable.wrapOn(pdf, width-20, height-20)
+	mainTable.drawOn(pdf, *coord(1.8, 11, cm))
+
+
+	table.wrapOn(pdf, width-20, height-20)
+	table.drawOn(pdf, *coord(1.8, 15, cm))
+
+	pdf.save()
 	return
-
 
 @login_required(login_url='/sign-in/')
 def approve_payment(request, registrationid):
@@ -1207,10 +1218,10 @@ def approve_payment(request, registrationid):
 	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == 1:
 			messages.success(request, "Payment already approved, Receipt regenerated")
-			# generate_receipt(request, registrationid)
+			generate_receipt(request, registrationid)
 		else:
 			messages.success(request, "Payment approved, Receipt generated.")
-			# generate_receipt(request, registrationid)
+			generate_receipt(request, registrationid)
 			cd.payment_status = 1
 		cd.save()
 	else : 
@@ -1251,7 +1262,7 @@ def reset_decision_for_payment(request, registrationid):
 
 
 @login_required(login_url='/sign-in/')
-def test_doc(request):
+def test_doc_old(request):
 	uname = request.user.username
 	if uname=='gcimb':
 		reg = get_object_or_404(Registration, pk='GCIMBR210003')
@@ -1456,3 +1467,185 @@ def test_mail(request):
 
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 
+@login_required(login_url='/sign-in/')
+def test_doc(request):
+	uname = request.user.username
+	if uname=='gcimb':
+		reg = get_object_or_404(Registration, pk='GCIMBR210003')
+
+		filePath = 'static/files/' + reg.registration_id 
+		fileName = reg.registration_id + '_receipt.pdf'
+		pathlib.Path(filePath).mkdir(exist_ok=True) 
+
+		filePath += '/'
+		title = 'Receipt'
+		logoPath = 'static/images/gcimb_img.png' 
+		signPath = 'static/images/sign.jpeg'
+
+		date = 'Date: ' + str(reg.registration_date.date())		
+
+		regards0 = 'Convenor'
+		regards = 'Finance Team'
+		regards2 = 'GCIMB 2021'
+
+		width, height = landscape(letter)
+		styles = getSampleStyleSheet()
+		styleN = styles["Normal"]
+		styleN.alignment = TA_LEFT
+		styleN.fontName = 'Courier'
+		styleN.fontSize = 16
+		styleN.leading = 16
+		
+		styleS = styles["Code"]
+		styleS.alignment = TA_CENTER
+		styleS.fontName = 'Courier'
+		styleS.fontSize = 16
+		styleS.textColor = 'white'
+
+		styleBH = styles["BodyText"]
+		styleBH.alignment = TA_CENTER
+		styleBH.fontName = 'Courier'
+		styleBH.fontSize = 16
+
+		def coord(x, y, unit=1):
+			x, y = x * unit, height -  y * unit
+			return x, y
+
+		name = Paragraph('''<b>Participant\'s Name : </b>''', styleN)
+		nameVal = Paragraph(f'''{reg.first_name}''', styleN)
+		institution = Paragraph('''<b>Institution / Organization:</b>''', styleN)
+		institutionVal = Paragraph(f'''{reg.institution}''', styleN)
+		mode = Paragraph('''<b>Mode of payment:</b>''', styleN)
+		modeVal = Paragraph(f'''Account transfer''', styleN)
+		gap = Paragraph(f'''''', styleN)
+		mode = Paragraph('''<b>Invoice Number:</b>''', styleN)
+		modeVal = Paragraph(f'''GCIMBIN210001''', styleN)
+		gap = Paragraph(f'''''', styleN)
+
+
+		# Headers
+		hdescrpcion = Paragraph('''<b>Item</b>''', styleS)
+		hpartida = Paragraph('''<b>Quantity</b>''', styleS)
+		hcandidad = Paragraph('''<b>Amount</b>''', styleS)
+	
+		# Texts
+		descrpcion = Paragraph(f'''{reg.registration_type.registration_type}''', styleBH)
+		qua = Paragraph('1', styleBH)
+		amount = Paragraph(f'''{reg.remark}''', styleBH)
+
+		data= [[name, nameVal],
+				[gap, gap],
+			[institution, institutionVal],
+				[gap, gap],
+			[mode, modeVal],
+				[gap, gap],
+		]
+
+		mainTable = Table(data, colWidths=[8 * cm, 16 * cm])
+
+		mainTable.setStyle(TableStyle([
+								('VALIGN', (0,0), (-1,-1), 'MIDDLE')
+							# ('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+							# ('BOX', (0,0), (-1,-1), 0.25, colors.black),
+							]))
+
+		data= [[hdescrpcion, hpartida, hcandidad],
+			[descrpcion, qua, amount]
+		]
+		table = Table(data, colWidths=[8 * cm, 8 * cm, 8 * cm])
+
+		table.setStyle(TableStyle([
+							('INNERGRID', (0,0), (-1,-1), 0.25, colors.grey),
+							('BOX', (0,0), (-1,-1), 0.25, colors.grey),
+							('BACKGROUND', (0,0), (-1,0), colors.Color(red=(67.0/255),green=(202.0/255),blue=(232.0/255))),
+							('BOTTOMPADDING', (0,0), (-1,-1), 12)
+							]))
+
+
+		pdf = canvas.Canvas(filePath + fileName, pagesize=landscape(letter))
+		pdf.rect(20, 20, 750, 570, stroke=1, fill=0) 
+		pdf.rect(22, 22, 746, 566, stroke=1, fill=0) 
+
+		pdf.setTitle(title)
+		
+		pdf.setFont('Courier', 36)
+		pdf.drawString(50, 550, title)
+
+		pdf.setFont('Courier', 16)
+		pdf.drawString(550, 500, date)
+
+		pdf.drawInlineImage(logoPath, 550, 534)
+
+		pdf.line(30, 530, 760, 530)
+
+		pdf.setFont('Courier', 16)
+		pdf.drawString(550, 65, regards0)
+		pdf.drawString(550, 50, regards)
+		pdf.drawString(550, 35, regards2)
+		
+		pdf.drawInlineImage(signPath, 550, 80)
+		
+		mainTable.wrapOn(pdf, width-20, height-20)
+		mainTable.drawOn(pdf, *coord(1.8, 11, cm))
+
+
+		table.wrapOn(pdf, width-20, height-20)
+		table.drawOn(pdf, *coord(1.8, 15, cm))
+
+		pdf.save()
+		messages.success(request, 'file saved!')
+	else:
+		messages.success(request, 'Access Denied!')
+	return redirect('/')
+
+@login_required(login_url='/sign-in/')
+def test_doc3(request):
+	uname = request.user.username
+	if uname=='gcimb':
+		reg = get_object_or_404(Registration, pk='GCIMBR210003')
+
+		filePath = 'static/files/' + reg.registration_id 
+		fileName = reg.registration_id + '_receipt.pdf'
+		
+		width, height = landscape(letter)
+		styles = getSampleStyleSheet()
+		styleN = styles["BodyText"]
+		styleN.alignment = TA_LEFT
+		
+		styleBH = styles["Normal"]
+		styleBH.alignment = TA_CENTER
+
+
+		def coord(x, y, unit=1):
+			x, y = x * unit, height -  y * unit
+			return x, y
+
+		# Headers
+		hdescrpcion = Paragraph('''<b>Item</b>''', styleBH)
+		hpartida = Paragraph('''<b>Quantity</b>''', styleBH)
+		hcandidad = Paragraph('''<b>Amount</b>''', styleBH)
+
+		# Texts
+		descrpcion = Paragraph(f'''{reg.registration_type.registration_type}''', styleBH)
+		qua = Paragraph('1', styleBH)
+		amount = Paragraph(f'''{reg.remark}''', styleBH)
+
+		data= [[hdescrpcion, hcandidad,hcandidad],
+			[descrpcion, qua, amount]
+		]
+
+		table = Table(data, colWidths=[8 * cm, 8 * cm, 8 * cm])
+
+		table.setStyle(TableStyle([
+							('INNERGRID', (0,0), (-1,-1), 0.25, colors.black),
+							('BOX', (0,0), (-1,-1), 0.25, colors.black),
+							]))
+
+		c = canvas.Canvas(filePath +'/'+ fileName, pagesize=landscape(letter))
+		table.wrapOn(c, width, height)
+		table.drawOn(c, *coord(1.8, 9.6, cm))
+		c.save()
+		messages.success(request, 'file saved!')
+	else:
+		messages.success(request, 'Access Denied!')
+	return redirect('/')
