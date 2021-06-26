@@ -1038,11 +1038,11 @@ def approve_id(request, registrationid):
 	uname = request.user.username
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
-		if cd.id_status == 1:
+		if cd.id_status == '1':
 			messages.success(request, "ID already approved.")
 		else:
 			messages.success(request, "ID approved.")
-			cd.id_status = 1
+			cd.id_status = '1'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
@@ -1054,11 +1054,11 @@ def reject_id(request, registrationid):
 	uname = request.user.username
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
-		if cd.id_status == 0:
+		if cd.id_status == '0':
 			messages.success(request, "ID already rejected.")
 		else:
 			messages.success(request, "ID rejected.")
-			cd.id_status = 0
+			cd.id_status = '0'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
@@ -1072,7 +1072,7 @@ def reset_decision_for_id(request, registrationid):
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
 		messages.success(request, "Decision reset.")
-		cd.id_status = 2
+		cd.id_status = '2'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
@@ -1216,7 +1216,7 @@ def approve_payment(request, registrationid):
 	uname = request.user.username
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
-		if cd.payment_status == 1:
+		if cd.payment_status == '1':
 			messages.success(request, "Payment already approved, Receipt regenerated")
 			generate_receipt(request, registrationid)
 			print("IF me")
@@ -1224,7 +1224,7 @@ def approve_payment(request, registrationid):
 			messages.success(request, "Payment approved, Receipt generated.")
 			generate_receipt(request, registrationid)
 			print("ELSE me")
-			cd.payment_status = 1
+			cd.payment_status = '1'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
@@ -1237,11 +1237,11 @@ def reject_payment(request, registrationid):
 	uname = request.user.username
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
-		if cd.payment_status == 0:
+		if cd.payment_status == '0':
 			messages.success(request, "Payment already rejected.")
 		else:
 			messages.success(request, "Payment rejected.")
-			cd.payment_status = 0
+			cd.payment_status = '0'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
@@ -1255,7 +1255,7 @@ def reset_decision_for_payment(request, registrationid):
 	# remark = request.POST.get('remark')
 	if uname=='gcimb' or uname =='accounts':
 		messages.success(request, "Decision reset.")
-		cd.payment_status = 2
+		cd.payment_status = '2'
 		cd.save()
 	else : 
 		messages.success(request, "You do not have the authority to perform this action.")
