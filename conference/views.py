@@ -1086,8 +1086,10 @@ def generate_receipt(request, registrationid):
 	except ECXEPTION as e:
 		messages.success("Error while receipt generation! regisration could not be found in database.")
 		return
+		
+	invoice = "GCIMBIN21" + str(reg.registration_id)[-4:]
 	filePath = 'static/files/' + reg.registration_id 
-	fileName = reg.registration_id + '_receipt.pdf'
+	fileName = invoice + '_receipt.pdf'
 	pathlib.Path(filePath).mkdir(exist_ok=True) 
 
 	filePath += '/'
@@ -1124,7 +1126,6 @@ def generate_receipt(request, registrationid):
 		x, y = x * unit, height -  y * unit
 		return x, y
 
-	invoice = "GCIMBIN21" + str(reg.registration_id)[-4:]
 	name = Paragraph('''<b>Participant\'s Name : </b>''', styleN)
 	nameVal = Paragraph(f'''{reg.first_name}''', styleN)
 	institution = Paragraph('''<b>Institution / Organization:</b>''', styleN)
