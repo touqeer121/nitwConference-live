@@ -32,7 +32,6 @@ from django.contrib.auth.decorators import login_required
 from django.db import connection
 from docx import Document
 from docx.shared import Inches
-from docx2pdf import convert
 # import pythoncom
 import pathlib
 from docx.shared import Pt
