@@ -1126,15 +1126,16 @@ def generate_receipt(request, registrationid):
 		x, y = x * unit, height -  y * unit
 		return x, y
 
+	
+	invoiceNo = Paragraph('''<b>Invoice Number:</b>''', styleN)
+	invoiceNoVal = Paragraph(f'''{invoice}''', styleN)
+	gap = Paragraph(f'''''', styleN)
 	name = Paragraph('''<b>Participant\'s Name : </b>''', styleN)
 	nameVal = Paragraph(f'''{reg.first_name}''', styleN)
 	institution = Paragraph('''<b>Institution / Organization:</b>''', styleN)
 	institutionVal = Paragraph(f'''{reg.institution}''', styleN)
 	mode = Paragraph('''<b>Mode of payment:</b>''', styleN)
 	modeVal = Paragraph(f'''Account transfer''', styleN)
-	gap = Paragraph(f'''''', styleN)
-	mode = Paragraph('''<b>Invoice Number:</b>''', styleN)
-	modeVal = Paragraph(f'''{invoice}''', styleN)
 	gap = Paragraph(f'''''', styleN)
 
 
@@ -1148,7 +1149,10 @@ def generate_receipt(request, registrationid):
 	qua = Paragraph('1', styleBH)
 	amount = Paragraph(f'''{reg.remark}''', styleBH)
 
-	data= [[name, nameVal],
+	data= [
+		[invoiceNo, invoiceNoVal],
+			[gap, gap],
+		[name, nameVal],
 			[gap, gap],
 		[institution, institutionVal],
 			[gap, gap],
@@ -1201,7 +1205,7 @@ def generate_receipt(request, registrationid):
 	pdf.drawInlineImage(signPath, 550, 80)
 	
 	mainTable.wrapOn(pdf, width-20, height-20)
-	mainTable.drawOn(pdf, *coord(1.8, 11, cm))
+	mainTable.drawOn(pdf, *coord(1.8, 11.5, cm))
 
 
 	table.wrapOn(pdf, width-20, height-20)
@@ -1223,6 +1227,7 @@ def approve_payment(request, registrationid):
 				os.remove(fileName)
 				print('old recipt file deleted')
 			except OSError:
+				print('old recipt file NOT deleted')
 				pass
 			generate_receipt(request, registrationid)
 			print("IF me")
