@@ -1436,8 +1436,8 @@ def send_approval_mail(request, registrationid):
 
 		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
 	except Exception as e:
-		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
-		sendReportToAdmin(request, "send_approval_mail" , e, "")
+		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", pending_date=datetime.datetime.now())
+		sendReportToAdmin(request, "send_approval_mail" , reg.registration_id, e, "")
 
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 	
