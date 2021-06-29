@@ -1433,9 +1433,11 @@ def send_approval_mail(request, registrationid):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-
+		
+		messages.success(request, 'Email Sent Successfully')
 		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
 	except Exception as e:
+		messages.success(request, 'Email could not be sent. (Limit Exceeded)')
 		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", pending_date=datetime.datetime.now())
 		sendReportToAdmin(request, "send_approval_mail" , reg.registration_id, e, "")
 
