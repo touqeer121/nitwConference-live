@@ -5,9 +5,9 @@ from django.utils import timezone
 gd_storage = GoogleDriveStorage()
 
 class Abstract(models.Model) :
-	abs_id = models.CharField(max_length=20, primary_key=True)
+	abs_id = models.CharField(max_length=100, primary_key=True)
 	track = models.CharField(max_length=500)
-	prefix = models.CharField(max_length=20)
+	prefix = models.CharField(max_length=100)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	is_finally_approved = models.BooleanField(blank=True, default=False)
@@ -27,7 +27,7 @@ class Abstract(models.Model) :
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	institution = models.CharField(max_length=1000)
 	email = models.EmailField()
-	phone = models.CharField(max_length=20,
+	phone = models.CharField(max_length=100,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
@@ -46,10 +46,10 @@ class Abstract(models.Model) :
 
 #pass key
 class Paper(models.Model) :
-	paper_id = models.CharField(max_length=20, primary_key=True)
+	paper_id = models.CharField(max_length=100, primary_key=True)
 	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
 	track = models.CharField(max_length=500)
-	prefix = models.CharField(max_length=20)
+	prefix = models.CharField(max_length=100)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	status = models.CharField(max_length=1, blank=True, default='2')
@@ -64,7 +64,7 @@ class Paper(models.Model) :
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	institution = models.CharField(max_length=1000)
 	email = models.EmailField()
-	phone = models.CharField(max_length=20,
+	phone = models.CharField(max_length=100,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
@@ -81,10 +81,10 @@ class Paper(models.Model) :
 
 
 class Ppt(models.Model) :
-	ppt_id = models.CharField(max_length=20, primary_key=True)
+	ppt_id = models.CharField(max_length=100, primary_key=True)
 	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
 	track = models.CharField(max_length=500)
-	prefix = models.CharField(max_length=20)
+	prefix = models.CharField(max_length=100)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100)
 	status = models.CharField(max_length=1, blank=True, default='2')
@@ -99,7 +99,7 @@ class Ppt(models.Model) :
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	institution = models.CharField(max_length=1000)
 	email = models.EmailField()
-	phone = models.CharField(max_length=20,
+	phone = models.CharField(max_length=100,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
@@ -128,13 +128,13 @@ class Author_Type(models.Model) :
 
 
 class Registration(models.Model) :
-	registration_id = models.CharField(max_length=20, primary_key=True)
+	registration_id = models.CharField(max_length=100, primary_key=True)
 	registration_type = models.ForeignKey(Registration_Type, verbose_name="Registration_Type", on_delete=models.CASCADE, blank=True, null=True)
 	author_type = models.ForeignKey(Author_Type, verbose_name="Author_Type", on_delete=models.CASCADE, blank=True, null=True)
 	payment_method = models.CharField(max_length=200, blank=True, default='unknown')
 	transaction_id = models.CharField(max_length=100, blank=True, default='unknown')
 	abstract = models.ForeignKey(Abstract, verbose_name="Abstract", on_delete=models.CASCADE, blank=True, null=True)
-	prefix = models.CharField(max_length=20, blank=True, null=True)
+	prefix = models.CharField(max_length=100, blank=True, null=True)
 	first_name = models.CharField(max_length=100)
 	last_name = models.CharField(max_length=100, blank=True, null=True)
 	id_status = models.CharField(max_length=1, blank=True, default='2')
@@ -143,7 +143,7 @@ class Registration(models.Model) :
 	state = models.CharField(max_length=500, blank=True, null=True, default='undefined')
 	institution = models.CharField(max_length=1000)
 	email = models.EmailField()
-	phone = models.CharField(max_length=20,
+	phone = models.CharField(max_length=100,
 							 validators=[RegexValidator(regex=r'[0-9]{10}', message='Invalid Mobile Number')],
 							 blank=True)
 
