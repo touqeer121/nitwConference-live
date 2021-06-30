@@ -1416,8 +1416,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		# msg['To'] = reg.email.strip()
-		msg['To'] = 'touqeer.pathan4567@gmail.com'
+		msg['To'] = reg.email.strip()
+		# msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
@@ -1426,7 +1426,7 @@ def send_approval_mail(request, registrationid):
 				'Best Regards,\n' + \
 				'Organizing Team,\n' + \
 				'Global Conference on Innovations in Management and Business\n' + \
-				str(reg.id_proof.url)
+				'Receipt link: ' + str(reg.Receipt.receipt_file.url)[:-16]
 		
 		msg.attach(MIMEText(message))
 
@@ -1450,7 +1450,7 @@ def send_approval_mail(request, registrationid):
 		messages.success(request, 'Email Sent Successfully')
 		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
 	except Exception as e:
-		messages.success(request, 'Email could not be sent. (Limit Exceeded)')
+		messages.success(request, 'Email could not be sent. (Limit Exceeded) OR ' + str(e.message))
 		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", pending_date=datetime.datetime.now())
 		sendReportToAdmin(request, "send_approval_mail" , reg.registration_id, e, "")
 
