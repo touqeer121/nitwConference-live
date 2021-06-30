@@ -692,7 +692,7 @@ def ppt_submission(request):
 					abs = Abstract.objects.get(abs_id=absID)
 				except Abstract.DoesNotExist:
 					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
-					return redirect('/paper-submission')
+					return redirect('/ppt-submission')
 				cnt = Ppt_Count.objects.get()
 				year = datetime.datetime.now().year
 				yy = str(year)[2:]
@@ -729,7 +729,7 @@ def ppt_submission(request):
 		except:
 			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while creating new ppt, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
-			return redirect('/paper-submission')
+			return redirect('/ppt-submission')
 		
 		try:
 			msg = MIMEMultipart()
