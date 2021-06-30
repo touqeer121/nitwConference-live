@@ -216,56 +216,64 @@ def registration(request):
 	if request.method == "POST":
 		duplicate = is_duplicate_registration(request)
 		if not duplicate:
-			abs = ''			
-			rtype = str(request.POST['registration_type']).strip()
-			atype = str(request.POST['author_type']).strip()
-			if(atype == '2'):
-				atype = '5'
-			elif(atype == '3'):
-				atype = '6'
-			elif(atype == '4'):
-				atype = '7'
-			elif(atype == '5'):
-				atype = '8'
-					
-			if(rtype != '5' and atype != '8'):
-				absID = request.POST['abs_id']
-				print("NOT LISTENER OR..",  absID)
-				try:
-					abs = Abstract.objects.get(abs_id=absID)
-				except Abstract.DoesNotExist:
-					abs = None				
-				if abs is None:
-					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
-					print("IF NO ABS ")
-					return redirect('/registration')
-				else:
-					print("ELSE GOT ABS ")
-			cnt = Registration_Count.objects.get()
-			year = datetime.datetime.now().year
-			yy = str(year)
-			p1 = yy[2:]
-			cnt.registration_count = cnt.registration_count + 1
-			p2 = str(cnt.registration_count).zfill(4)
-			cnt.save()
-			regID = "GCIMBR" + p1 + p2 
-			reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now())
-			reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
-			reg.author_type = get_object_or_404(Author_Type, id=atype)
-			reg.first_name = request.POST['fname']
-			if(rtype != '5' and atype != '8'):
-				reg.abstract = abs
-			
-			reg.institution = request.POST['institution']
-			reg.country = request.POST['country']
-			reg.state = request.POST['state']
-			reg.email = request.POST['email']
-			reg.phone = request.POST['phone']
-			reg.transaction_id = request.POST['trans_id']
-			reg.remark = request.POST['paymentType']
-			reg.save()
-			messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
-			forward_registration_info(regID)
+			regID = None
+			try:
+				abs = ''
+				rtype = str(request.POST['registration_type']).strip()
+				atype = str(request.POST['author_type']).strip()
+				if(atype == '2'):
+					atype = '5'
+				elif(atype == '3'):
+					atype = '6'
+				elif(atype == '4'):
+					atype = '7'
+				elif(atype == '5'):
+					atype = '8'
+				
+				if(rtype != '5' and atype != '8'):
+					absID = request.POST['abs_id']
+					print("NOT LISTENER OR..",  absID)
+					try:
+						abs = Abstract.objects.get(abs_id=absID)
+					except Abstract.DoesNotExist:
+						abs = None				
+					if abs is None:
+						messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
+						print("IF NO ABS ")
+						return redirect('/registration')
+					else:
+						print("ELSE GOT ABS ")
+				cnt = Registration_Count.objects.get()
+				year = datetime.datetime.now().year
+				yy = str(year)
+				p1 = yy[2:]
+				cnt.registration_count = cnt.registration_count + 1
+				p2 = str(cnt.registration_count).zfill(4)
+				cnt.save()
+				regID = "GCIMBR" + p1 + p2 
+				reg = Registration.objects.create(registration_id=regID, registration_date=datetime.datetime.now())
+				reg.registration_type = get_object_or_404(Registration_Type, id=rtype)
+				reg.author_type = get_object_or_404(Author_Type, id=atype)
+				reg.first_name = request.POST['fname']
+				if(rtype != '5' and atype != '8'):
+					reg.abstract = abs
+				
+				reg.institution = request.POST['institution']
+				reg.country = request.POST['country']
+				reg.state = request.POST['state']
+				reg.email = request.POST['email']
+				reg.phone = request.POST['phone']
+				reg.transaction_id = request.POST['trans_id']
+				reg.remark = request.POST.get('paymentType', '-EXCEPTION-')
+				reg.save()
+				messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
+			except Exception as e:
+				gInfo = "Error while registration, can be about 'paymentType' value="+str(request.POST['paymentType'])
+				sendReportToAdmin(request, "Registration", "Could be : " + str(regID) + " (but is not) ", e, gInfo)
+				messages.success(request, "Could not register due to some technical error. Please try agin later.")
+				return redirect('/registration')
+			if regID:
+				forward_registration_info(regID)
 		else:
 			messages.success(request, "You've already registered. Plese wait for our email.")	
 		return redirect('/registration')
