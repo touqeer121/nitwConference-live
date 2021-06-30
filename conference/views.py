@@ -270,7 +270,7 @@ def registration(request):
 			except Exception as e:
 				gInfo = "Error while registration, can be about 'paymentType' value="+str(request.POST['paymentType'])
 				sendReportToAdmin(request, "Registration", "Could be : " + str(regID) + " (but is not) ", e, gInfo)
-				messages.success(request, "Could not register due to some technical error. Please try agin later.")
+				messages.success(request, "Could not register due to some technical error. Please try again later.")
 				return redirect('/registration')
 			if regID:
 				forward_registration_info(regID)
@@ -447,6 +447,7 @@ def is_duplicate_paper(request):
 		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
 	except Abstract.DoesNotExist:
 		abstract = None
+		return false
 	oldEntry = Paper.objects.filter(abstract=abstract)
 	return (len(oldEntry)> 0)
 
@@ -455,6 +456,7 @@ def is_duplicate_ppt(request):
 		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
 	except Abstract.DoesNotExist:
 		abstract = None
+		return false
 	oldEntry = Ppt.objects.filter(abstract=abstract)
 	return (len(oldEntry)> 0)
 
@@ -478,44 +480,46 @@ def assign_track_chair(request):
 def abstract_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_entry(request)
-		if not duplicate:
-			doc=request.FILES
-			file_pdf = doc['pdf1']
-			cnt = Paper_Count.objects.get()
-			year = datetime.datetime.now().year
-			yy = str(year)
-			p1 = yy[2:]
-			p2 = str(cnt.paper_count).zfill(4)
-			cnt.paper_count = cnt.paper_count + 1
-			cnt.save()
-			absID = "GCIMB" + p1 + p2
-			ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
-			ppr.track = request.POST['track']
-			ppr.prefix = request.POST['prefix']
-			ppr.first_name = request.POST['fname']
-			ppr.last_name = request.POST['lname']
-			ppr.institution = request.POST['institution']
-			ppr.country = request.POST['country']
-			ppr.state = request.POST['state']
-			ppr.email = request.POST['email']
-			ppr.phone = request.POST['phone']
-			ppr.paper_title = request.POST['title']
-			tracks = TrackChairProfile.objects.filter(track=ppr.track)
-			if len(tracks) > 0 :
-				ppr.track_A = tracks[0].user.username
-			else:
-				print("NO TRACK CHAIR FOUND")
-			if len(tracks) > 1 :
-				ppr.track_B = tracks[1].user.username
-			if ppr.track == 'Strategic Management and Corporate Governance':
-				ppr.track_B = 'mahesh'
-			ppr.save()
-	
 		absID = ''
 		try:
-			absID = get_object_or_404(Abstract, paper_title=request.POST['title']).abs_id
-		except:
-			absID = 'Exception While Abstract Submission'
+			if not duplicate:
+				doc=request.FILES
+				file_pdf = doc['pdf1']
+				cnt = Paper_Count.objects.get()
+				year = datetime.datetime.now().year
+				yy = str(year)
+				p1 = yy[2:]
+				p2 = str(cnt.paper_count).zfill(4)
+				cnt.paper_count = cnt.paper_count + 1
+				cnt.save()
+				absID = "GCIMB" + p1 + p2
+				ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
+				ppr.track = request.POST['track']
+				ppr.prefix = request.POST['prefix']
+				ppr.first_name = request.POST['fname']
+				ppr.last_name = request.POST['lname']
+				ppr.institution = request.POST['institution']
+				ppr.country = request.POST['country']
+				ppr.state = request.POST['state']
+				ppr.email = request.POST['email']
+				ppr.phone = request.POST['phone']
+				ppr.paper_title = request.POST['title']
+				tracks = TrackChairProfile.objects.filter(track=ppr.track)
+				if len(tracks) > 0 :
+					ppr.track_A = tracks[0].user.username
+				else:
+					print("NO TRACK CHAIR FOUND")
+				if len(tracks) > 1 :
+					ppr.track_B = tracks[1].user.username
+				if ppr.track == 'Strategic Management and Corporate Governance':
+					ppr.track_B = 'mahesh'
+				ppr.save()
+				absID = get_object_or_404(Abstract, paper_title=str(request.POST['title']).strip).abs_id
+		except Exception as e:
+			sendReportToAdmin(request, "abstract_submission", str(absID) +', title => ' + str(request.POST['title']) , e, "exception while creating new abstract, data may not be stored")
+			messages.success(request, "Could not submit. Please try again with correct entries.")
+			return redirect('/abstract-submission')
+		
 		try:
 			msg = MIMEMultipart()
 			msg.set_unixfrom('author')
@@ -573,63 +577,63 @@ def abstract_submission(request):
 def paper_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_paper(request)
-		if not duplicate:
-			doc=request.FILES
-			file_pdf1 = doc['pdf1']
-			file_pdf2 = doc['pdf2']
-			absID = request.POST['abs_id']
-			try:
-				abs = Abstract.objects.get(abs_id=absID)
-			except Abstract.DoesNotExist:
-				abs = None
-			if not abs:
-				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
-				return redirect('/paper-submission')
-			cnt = Full_Paper_Count.objects.get()
-			year = datetime.datetime.now().year
-			yy = str(year)[2:]
-			p1 = yy
-			cnt.full_paper_count = cnt.full_paper_count + 1
-			p2 = str(cnt.full_paper_count).zfill(4)
-			cnt.save()
-			pprID = "GCIMBP" + p1 + p2
-			ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_affiliation_pdf=file_pdf1, \
-					paper_manuscript_pdf=file_pdf2, abstract = abs)
-			ppr.track = request.POST['track']
-			ppr.prefix = request.POST['prefix']
-			ppr.first_name = request.POST['fname']
-			ppr.last_name = request.POST['lname']
-			ppr.institution = request.POST['institution']
-			ppr.country = request.POST['country']
-			ppr.state = request.POST['state']
-			ppr.email = request.POST['email']
-			ppr.phone = request.POST['phone']
-			ppr.paper_title = request.POST['title']
-
-			tracks = TrackChairProfile.objects.filter(track=ppr.track)
-			if len(tracks) > 0 :
-				ppr.track_A = tracks[0].user.username
-			else:
-				print("NO TRACK CHAIR FOUND")
-			if len(tracks) > 1 :
-				ppr.track_B = tracks[1].user.username
-			if ppr.track == 'Strategic Management and Corporate Governance':
-				ppr.track_B = 'mahesh'
-				
-			ppr.save()
-			
-		msg = MIMEMultipart()
-		msg.set_unixfrom('author')
-		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = request.POST['email']
-
 		pprID = ''
 		try:
-			pprID = str(get_object_or_404(Paper, paper_title=request.POST['title']).paper_id)
-		except:
-			pprID = '<Exception While Paper Submission>'
-		
+			if not duplicate:
+				doc=request.FILES
+				file_pdf1 = doc['pdf1']
+				file_pdf2 = doc['pdf2']
+				absID = request.POST['abs_id']
+				try:
+					abs = Abstract.objects.get(abs_id=absID)
+				except Abstract.DoesNotExist:
+					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
+					return redirect('/paper-submission')
+				cnt = Full_Paper_Count.objects.get()
+				year = datetime.datetime.now().year
+				yy = str(year)[2:]
+				p1 = yy
+				cnt.full_paper_count = cnt.full_paper_count + 1
+				p2 = str(cnt.full_paper_count).zfill(4)
+				cnt.save()
+				pprID = "GCIMBP" + p1 + p2
+				ppr = Paper.objects.create(paper_id=pprID, submission_date=datetime.datetime.now(), paper_affiliation_pdf=file_pdf1, \
+						paper_manuscript_pdf=file_pdf2, abstract = abs)
+				ppr.track = request.POST['track']
+				ppr.prefix = request.POST['prefix']
+				ppr.first_name = request.POST['fname']
+				ppr.last_name = request.POST['lname']
+				ppr.institution = request.POST['institution']
+				ppr.country = request.POST['country']
+				ppr.state = request.POST['state']
+				ppr.email = request.POST['email']
+				ppr.phone = request.POST['phone']
+				ppr.paper_title = request.POST['title']
+
+				tracks = TrackChairProfile.objects.filter(track=ppr.track)
+				if len(tracks) > 0 :
+					ppr.track_A = tracks[0].user.username
+				else:
+					print("NO TRACK CHAIR FOUND")
+				if len(tracks) > 1 :
+					ppr.track_B = tracks[1].user.username
+				if ppr.track == 'Strategic Management and Corporate Governance':
+					ppr.track_B = 'mahesh'
+					
+				ppr.save()
+			
+			pprID = str(get_object_or_404(Paper, abstract = abs).paper_id)
+			
+		except Exception as e:
+			sendReportToAdmin(request, "paper_submission", str(pprID), e, "exception while creating new paper, data may not be stored")
+			messages.success(request, "Could not submit. Please try agin with correct entries.")
+			return redirect('/paper-submission')
 		try:
+			msg = MIMEMultipart()
+			msg.set_unixfrom('author')
+			msg['From'] = settings.EMAIL_HOST_USER
+			msg['To'] = request.POST['email']
+
 			if not duplicate:
 				msg['Subject'] = 'Paper submission acknowledgement'
 				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
@@ -679,54 +683,53 @@ def paper_submission(request):
 def ppt_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_ppt(request)
-		if not duplicate:
-			doc=request.FILES
-			file_pdf = doc['pdf']
-			absID = request.POST['abs_id']
-			try:
-				abs = Abstract.objects.get(abs_id=absID)
-			except Abstract.DoesNotExist:
-				abs = None
-			if not abs:
-				messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
-				return redirect('/paper-submission')
-			cnt = Ppt_Count.objects.get()
-			year = datetime.datetime.now().year
-			yy = str(year)[2:]
-			p1 = yy
-			cnt.ppt_count = cnt.ppt_count + 1
-			p2 = str(cnt.ppt_count).zfill(4)
-			cnt.save()
-			pptID = "GCIMBT" + p1 + p2
-			ppt = Ppt.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
-			ppt.track = request.POST['track']
-			ppt.prefix = request.POST['prefix']
-			ppt.first_name = request.POST['fname']
-			ppt.last_name = request.POST['lname']
-			ppt.institution = request.POST['institution']
-			ppt.country = request.POST['country']
-			ppt.state = request.POST['state']
-			ppt.email = request.POST['email']
-			ppt.phone = request.POST['phone']
-			ppt.ppt_title = request.POST['title']
-
-			tracks = TrackChairProfile.objects.filter(track=ppt.track)
-			if len(tracks) > 0 :
-				ppt.track_A = tracks[0].user.username
-			else:
-				print("NO TRACK CHAIR FOUND")
-			if len(tracks) > 1 :
-				ppt.track_B = tracks[1].user.username
-			if ppt.track == 'Strategic Management and Corporate Governance':
-				ppt.track_B = 'mahesh'
-				
-			ppt.save()
-
-		pptID = ''
 		try:
-			pptID = str(get_object_or_404(Ppt, paper_title=request.POST['title']).ppt_id)
+			if not duplicate:
+				doc=request.FILES
+				file_pdf = doc['pdf']
+				absID = request.POST['abs_id']
+				try:
+					abs = Abstract.objects.get(abs_id=absID)
+				except Abstract.DoesNotExist:
+					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
+					return redirect('/paper-submission')
+				cnt = Ppt_Count.objects.get()
+				year = datetime.datetime.now().year
+				yy = str(year)[2:]
+				p1 = yy
+				cnt.ppt_count = cnt.ppt_count + 1
+				p2 = str(cnt.ppt_count).zfill(4)
+				cnt.save()
+				pptID = "GCIMBT" + p1 + p2
+				ppt = Ppt.objects.create(ppt_id=pptID, submission_date=datetime.datetime.now(), ppt_pdf=file_pdf, abstract = abs)
+				ppt.track = request.POST['track']
+				ppt.prefix = request.POST['prefix']
+				ppt.first_name = request.POST['fname']
+				ppt.last_name = request.POST['lname']
+				ppt.institution = request.POST['institution']
+				ppt.country = request.POST['country']
+				ppt.state = request.POST['state']
+				ppt.email = request.POST['email']
+				ppt.phone = request.POST['phone']
+				ppt.ppt_title = request.POST['title']
+
+				tracks = TrackChairProfile.objects.filter(track=ppt.track)
+				if len(tracks) > 0 :
+					ppt.track_A = tracks[0].user.username
+				else:
+					print("NO TRACK CHAIR FOUND")
+				if len(tracks) > 1 :
+					ppt.track_B = tracks[1].user.username
+				if ppt.track == 'Strategic Management and Corporate Governance':
+					ppt.track_B = 'mahesh'
+					
+				ppt.save()
+
+			pptID = str(get_object_or_404(Ppt, abstract = abs).ppt_id)
 		except:
-			pptID = '<Exception While Presentation Submission>'
+			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while creating new ppt, data may not be stored")
+			messages.success(request, "Could not submit. Please try again with correct entries.")
+			return redirect('/paper-submission')
 		
 		try:
 			msg = MIMEMultipart()
