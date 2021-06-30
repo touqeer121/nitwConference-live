@@ -229,3 +229,13 @@ class EmailInfo(models.Model):
 	def __unicode__(self):
 		return str(self.id) + corresponding_id
 	
+
+class Receipt(models.Model) :
+	registration = models.OneToOneField(Registration, verbose_name="Registration", primary_key=True, related_name='Receipt', 
+								on_delete=models.CASCADE)
+
+	receipt_file = models.FileField(upload_to='receipts', validators=[FileExtensionValidator(["png", "pdf", "jpeg", "jpg"])], 
+								storage=gd_storage, blank=True, null=True, default='undefined')
+
+	def __str__(self):
+		return str(self.registration.registration_id) + '(Receipt)'

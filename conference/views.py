@@ -47,6 +47,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 from reportlab.lib import colors
+from django.core.files import File
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -1212,6 +1213,17 @@ def generate_receipt(request, registrationid):
 	table.drawOn(pdf, *coord(1.8, 15, cm))
 
 	pdf.save()
+
+	local_file = open(filePath +'/'+ fileName, "rb")
+	django_file = File(local_file)
+	
+	#delete old receipts
+	Receipt.objects.filter(registration=reg).delete()		
+
+	#create new
+	receipt = Receipt.objects.create(registration=reg, receipt_file=django_file)
+	receipt.save()
+
 	return
 
 @login_required(login_url='/sign-in/')
@@ -1222,13 +1234,13 @@ def approve_payment(request, registrationid):
 	if uname=='gcimb' or uname =='accounts':
 		if cd.payment_status == '1':
 			messages.success(request, "Payment already approved, Receipt regenerated")
-			try:
-				fileName = 'static/files/' + cd.registration_id + '/' + cd.registration_id + '_receipt.pdf'
-				os.remove(fileName)
-				print('old recipt file deleted')
-			except OSError:
-				print('old recipt file NOT deleted')
-				pass
+			# try:
+			# 	fileName = 'static/files/' + cd.registration_id + '/' + cd.registration_id + '_receipt.pdf'
+			# 	os.remove(fileName)
+			# 	print('old recipt file deleted')
+			# except OSError:
+			# 	print('old recipt file NOT deleted')
+			# 	pass
 			generate_receipt(request, registrationid)
 			print("IF me")
 		else:
@@ -1404,7 +1416,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = reg.email.strip()
+		# msg['To'] = reg.email.strip()
+		msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
@@ -1413,19 +1426,20 @@ def send_approval_mail(request, registrationid):
 				'Many thanks for considering to attend the conference.\n\n'+\
 				'Best Regards,\n' + \
 				'Organizing Team,\n' + \
-				'Global Conference on Innovations in Management and Business'	
+				'Global Conference on Innovations in Management and Business\n' + \
+				str(reg.id_proof.url)
 		
 		msg.attach(MIMEText(message))
 
-		filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
-		with open(filePath, "rb") as fil:
-			part = MIMEApplication(
-				fil.read(),
-				Name=basename(filePath)
-			)
+		# filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
+		# with open(filePath, "rb") as fil:
+		# 	part = MIMEApplication(
+		# 		fil.read(),
+		# 		Name=basename(filePath)
+		# 	)
 		# After the file is closed
-		part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
-		msg.attach(part)
+		# part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
+		# msg.attach(part)
 
 		# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
 		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)

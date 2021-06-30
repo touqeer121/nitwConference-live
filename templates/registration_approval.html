@@ -201,10 +201,17 @@
                         </td> -->
                         <td>
                             {% if reg.payment_status == '1' %}
-                                <a style="display: inline-block" target="__blank"
+                                <!-- <a style="display: inline-block" target="__blank"
                                 href="{% with 'files/'|add:reg.registration_id|add:'/'|add:reg.registration_id|add:'_receipt.pdf' as receipt_static %}
                                         {% static receipt_static %}
-                                    {% endwith %}">
+                                    {% endwith %}"> -->
+                                <a style="display: inline-block" target="__blank"
+                                {% if reg.Receipt.receipt_file %}
+                                href="{{reg.Receipt.receipt_file.url}}view"
+                                {% else %}
+                                href="FILE_NOT_FOUND"
+                                {% endif %} 
+                                >
                                     View
                                 </a>
                             {% else %}
