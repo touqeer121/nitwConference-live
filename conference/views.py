@@ -1421,8 +1421,7 @@ def send_approval_mail(request, registrationid):
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
-				'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
-				'Your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
+				'Hope you are safe and doing well. This is to acknowledge that your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
 				'Many thanks for considering to attend the conference.\n\n'+\
 				'Best Regards,\n' + \
 				'Organizing Team,\n' + \

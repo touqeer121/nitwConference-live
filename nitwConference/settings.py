@@ -149,8 +149,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_HOST_USER = "info@gcimb.org"
-EMAIL_HOST_PASSWORD = "info123@gcimb"
+EMAIL_HOST_USER = "submissions@gcimb.org"
+EMAIL_HOST_PASSWORD = "submissions123@gcimb"
 PROJECT_PATH = ""
 EMAIL_PORT = 587
 
