@@ -48,6 +48,8 @@ from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 from reportlab.lib import colors
 from django.core.files import File
+import asyncio
+# from channels.db import database_sync_to_async
 
 permission = GoogleDriveFilePermission(
 	GoogleDrivePermissionRole.READER,
@@ -501,6 +503,10 @@ def abstract_submission(request):
 				abs.email = request.POST['email']
 				abs.phone = request.POST['phone']
 				abs.paper_title = request.POST['title']
+				try:
+					abs.abstract_url = abs.abstract_pdf.url[:-16]
+				except Exception as e:
+					pass
 				tracks = TrackChairProfile.objects.filter(track=abs.track)
 				if len(tracks) > 0 :
 					abs.track_A = tracks[0].user.username
@@ -823,6 +829,21 @@ def digital_transformation_and_information_systems(request):
 	return render(request, 'digital_transformation_and_information_systems.html')
 
 @login_required(login_url='/sign-in/')
+def storeURL(request, end):	
+
+	start = max(0, end-20)
+	abstracts = Abstract.objects.all().order_by('abs_id')[start:end]
+	for abs in abstracts:
+		if abs.abstract_pdf: 
+			abs.abstract_url = abs.abstract_pdf.url[:-16] 
+			print("IF", abs.abs_id, abs.abstract_pdf.url, abs.abstract_url)
+			abs.save()
+		else:
+			print("ELSE", abs.abs_id)
+	return redirect ('/')
+
+
+@login_required(login_url='/sign-in/')
 def export_abstracts_sheet(request):
 	response = HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="Abstracts.xls"'
@@ -845,24 +866,28 @@ def export_abstracts_sheet(request):
 	rows = Abstract.objects.all().values_list('abs_id', 'paper_title', 'track', 'prefix', 'first_name', 'last_name', 'country', 'state',\
 			 'institution', 'email', 'phone', 'abstract_pdf', 'submission_date' )
 
-	counter = 0
+	# urls = Abstract.objects.all().values('abstract_pdf')
+	# counter = 0
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			if col_num==13:
+			if col_num==12:
+				# url = urls[row_num-1][]
+				# url = row[col_num-1].url
+				# ws.write(row_num, col_num, str(url) , font_style)
 				dt = str(row[col_num]).split()[0]
-				ws.write(row_num, col_num, dt, font_style)
-			elif col_num==11:
-				ppr = get_object_or_404(Abstract, abs_id=row[0])
-				if ppr:
-					ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
-			elif col_num==12:
-				ppr = get_object_or_404(Abstract, abs_id=row[0])
-				if ppr:
-					ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
+				ws.write(row_num, col_num+1, dt , font_style)
+			# elif col_num==11:
+				# ppr = get_object_or_404(Abstract, abs_id=row[0])
+				# if ppr:
+					# ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
+			# elif col_num==12:
+			# 	ppr = get_object_or_404(Abstract, abs_id=row[0])
+			# 	if ppr:
+			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf.url), font_style)
 			else:
 				ws.write(row_num, col_num, row[col_num], font_style)
-		counter += 1
+		# counter += 1
 	wb.save(response)
 	return response
 

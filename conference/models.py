@@ -39,6 +39,8 @@ class Abstract(models.Model) :
 	abstract_pdf = models.FileField(upload_to='maps',
 								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
 
+	abstract_url = models.CharField(max_length=5000, blank=True, default='unknown')
+
 	submission_date = models.DateTimeField()
 
 	def __str__(self):
