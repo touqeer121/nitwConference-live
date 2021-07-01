@@ -39,7 +39,7 @@ class Abstract(models.Model) :
 	abstract_pdf = models.FileField(upload_to='maps',
 								validators=[FileExtensionValidator(["pdf"])], storage=gd_storage, null=True)
 
-	abstract_url = models.CharField(max_length=5000, blank=True, default='unknown')
+	# abstract_url = models.CharField(max_length=5000, blank=True, default='unknown')
 
 	submission_date = models.DateTimeField()
 
@@ -243,13 +243,13 @@ class Receipt(models.Model) :
 		return str(self.registration.registration_id) + '(Receipt)'
 
 
-class Query(models.Model):
-	asked_to = models.CharField(max_length=500, blank=True, default='unknown')
-	name =  models.CharField(max_length=500, blank=True, default='unknown')
-	email = models.EmailField()
-	query =  models.CharField(max_length=50000, blank=True, default='unknown')
-	institution =  models.CharField(max_length=10000, blank=True, default='unknown')
-	date = models.DateTimeField(default=timezone.now)
+# class Query(models.Model):
+# 	asked_to = models.CharField(max_length=500, blank=True, default='unknown')
+# 	name =  models.CharField(max_length=500, blank=True, default='unknown')
+# 	email = models.EmailField()
+# 	query =  models.CharField(max_length=50000, blank=True, default='unknown')
+# 	institution =  models.CharField(max_length=10000, blank=True, default='unknown')
+# 	date = models.DateTimeField(default=timezone.now)
 
-	def __str__(self):
-		return str(self.id) + '.' + self.name + ' => ' +  self.asked_to + ' : ' + self.query
+# 	def __str__(self):
+# 		return str(self.id) + '.' + self.name + ' => ' +  self.asked_to + ' : ' + self.query

@@ -831,15 +831,15 @@ def digital_transformation_and_information_systems(request):
 @login_required(login_url='/sign-in/')
 def storeURL(request, end):	
 
-	start = max(0, end-20)
-	abstracts = Abstract.objects.all().order_by('abs_id')[start:end]
-	for abs in abstracts:
-		if abs.abstract_pdf: 
-			abs.abstract_url = abs.abstract_pdf.url[:-16] 
-			print("IF", abs.abs_id, abs.abstract_pdf.url, abs.abstract_url)
-			abs.save()
-		else:
-			print("ELSE", abs.abs_id)
+	# start = max(0, end-20)
+	# abstracts = Abstract.objects.all().order_by('abs_id')[start:end]
+	# for abs in abstracts:
+	# 	if abs.abstract_pdf: 
+	# 		abs.abstract_url = abs.abstract_pdf.url[:-16] 
+	# 		print("IF", abs.abs_id, abs.abstract_pdf.url, abs.abstract_url)
+	# 		abs.save()
+	# 	else:
+	# 		print("ELSE", abs.abs_id)
 	return redirect ('/')
 
 
