@@ -48,7 +48,7 @@ from reportlab.platypus import Paragraph, Table, TableStyle
 from reportlab.lib.enums import TA_JUSTIFY, TA_LEFT, TA_CENTER
 from reportlab.lib import colors
 from django.core.files import File
-import asyncio
+# import asyncio
 # from channels.db import database_sync_to_async
 
 permission = GoogleDriveFilePermission(
