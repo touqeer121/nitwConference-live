@@ -215,10 +215,10 @@ def is_duplicate_registration(request):
 def registration(request):
 	if request.method == "POST":
 		duplicate = is_duplicate_registration(request)
+		abs = None
 		if not duplicate:
 			regID = None
 			try:
-				abs = ''
 				rtype = str(request.POST['registration_type']).strip()
 				atype = str(request.POST['author_type']).strip()
 				if(atype == '2'):
@@ -236,13 +236,10 @@ def registration(request):
 					try:
 						abs = Abstract.objects.get(abs_id=absID)
 					except Abstract.DoesNotExist:
-						abs = None				
-					if abs is None:
 						messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 						print("IF NO ABS ")
 						return redirect('/registration')
-					else:
-						print("ELSE GOT ABS ")
+						
 				cnt = Registration_Count.objects.get()
 				year = datetime.datetime.now().year
 				yy = str(year)
@@ -264,7 +261,7 @@ def registration(request):
 				reg.email = request.POST['email']
 				reg.phone = request.POST['phone']
 				reg.transaction_id = request.POST['trans_id']
-				reg.remark = request.POST.get('paymentType', '-EXCEPTION-')
+				reg.remark = request.POST.get('paymentType', '<ERROR>')
 				reg.save()
 				messages.success(request, "Thank you for registering. Our team will get back to you in three working days.")
 			except Exception as e:
@@ -480,7 +477,7 @@ def assign_track_chair(request):
 def abstract_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_entry(request)
-		absID = ''
+		abs = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -493,30 +490,31 @@ def abstract_submission(request):
 				cnt.paper_count = cnt.paper_count + 1
 				cnt.save()
 				absID = "GCIMB" + p1 + p2
-				ppr = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
-				ppr.track = request.POST['track']
-				ppr.prefix = request.POST['prefix']
-				ppr.first_name = request.POST['fname']
-				ppr.last_name = request.POST['lname']
-				ppr.institution = request.POST['institution']
-				ppr.country = request.POST['country']
-				ppr.state = request.POST['state']
-				ppr.email = request.POST['email']
-				ppr.phone = request.POST['phone']
-				ppr.paper_title = request.POST['title']
-				tracks = TrackChairProfile.objects.filter(track=ppr.track)
+				abs = Abstract.objects.create(abs_id=absID, submission_date=datetime.datetime.now(), abstract_pdf=file_pdf)
+				abs.track = request.POST['track']
+				abs.prefix = request.POST['prefix']
+				abs.first_name = request.POST['fname']
+				abs.last_name = request.POST['lname']
+				abs.institution = request.POST['institution']
+				abs.country = request.POST['country']
+				abs.state = request.POST['state']
+				abs.email = request.POST['email']
+				abs.phone = request.POST['phone']
+				abs.paper_title = request.POST['title']
+				tracks = TrackChairProfile.objects.filter(track=abs.track)
 				if len(tracks) > 0 :
-					ppr.track_A = tracks[0].user.username
+					abs.track_A = tracks[0].user.username
 				else:
 					print("NO TRACK CHAIR FOUND")
 				if len(tracks) > 1 :
-					ppr.track_B = tracks[1].user.username
-				if ppr.track == 'Strategic Management and Corporate Governance':
-					ppr.track_B = 'mahesh'
-				ppr.save()
-				absID = get_object_or_404(Abstract, paper_title=str(request.POST['title']).strip).abs_id
+					abs.track_B = tracks[1].user.username
+				if abs.track == 'Strategic Management and Corporate Governance':
+					abs.track_B = 'mahesh'
+				abs.save()
+			else:
+				abs = get_object_or_404(Abstract, paper_title=request.POST['title'])
 		except Exception as e:
-			sendReportToAdmin(request, "abstract_submission", str(absID) +', title => ' + str(request.POST['title']) , e, "exception while creating new abstract, data may not be stored")
+			sendReportToAdmin(request, "abstract_submission", abs.abs_id +', title => ' + str(request.POST['title']) , e, "exception while creating new abstract, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
 			return redirect('/abstract-submission')
 		
@@ -528,9 +526,9 @@ def abstract_submission(request):
 
 			if not duplicate:
 				msg['Subject'] = 'Abstract submission acknowledgement'
-				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+				message = 'Hello ' + str(abs.prefix) + ' ' + str(abs.first_name) + ' ' + str(abs.last_name) + ',\n\n' + \
 						'Hope you are safe and doing well. This is to acknowledge that we have received your abstract.' + \
-						'Your abstract ID will be ' + str(absID) +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Your abstract ID will be ' + str(abs.abs_id) +'. Please make a note of it and quote the same in future communications.\n\n' + \
 						'Your abstract will be sent for review and you should be hearing from us very soon on the next steps.\n\n' + \
 						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
 						'Best Regards,\n' + \
@@ -538,12 +536,9 @@ def abstract_submission(request):
 						'Global Conference on Innovations in Management and Business'
 			else:
 				msg['Subject'] = 'Abstract already submitted'
-				if absID is None:
-					message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" is already ' + \
-					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-				else:	
-					message = 'Looks like your abstract with the title \"'+str(request.POST['title'])+'\" (Abstract ID : ' + str(absID) + ') is already ' + \
-					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+				#abs cannot be None here
+				message = 'Looks like your abstract with the title \"'+ str(abs.title) +'\" (Abstract ID : ' + str(abs.abs_id) + ') is already ' + \
+					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
 			
 			msg.attach(MIMEText(message))
 
@@ -554,22 +549,22 @@ def abstract_submission(request):
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 	
 			if not duplicate:
-				EmailInfo.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_submission_info(absID)
+				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_submission_info(abs.abs_id)
 				messages.success(request, "You've successfully submitted the abstract.")
 			else:
-				EmailInfo.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted an abstract with this title.")
 			print("EVRYTHING DONE\n")
 			
 		except Exception as e:
 			if not duplicate:
-				EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="first", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the abstract.")
 			else:
-				EmailQueue.objects.create(corresponding_id=absID, mail_reason="abstract_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted an abstract with this title.")
-			sendReportToAdmin(request, "abstract_submission", str(absID), e, "exception while mailing, data is stored")
+			sendReportToAdmin(request, "abstract_submission", str(abs.abs_id)+', title => ' + str(abs.paper_title), e, "exception while mailing, data is stored")
 		return redirect('/abstract-submission')
 	return render(request, 'abstract_submission.html')
 
@@ -577,7 +572,8 @@ def abstract_submission(request):
 def paper_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_paper(request)
-		pprID = ''
+		ppr = None
+		abs = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -619,15 +615,14 @@ def paper_submission(request):
 					ppr.track_B = tracks[1].user.username
 				if ppr.track == 'Strategic Management and Corporate Governance':
 					ppr.track_B = 'mahesh'
-					
 				ppr.save()
-			
-			pprID = str(get_object_or_404(Paper, abstract = abs).paper_id)
-			
+			else:
+				ppr = get_object_or_404(Paper, abstract = abs)	
 		except Exception as e:
-			sendReportToAdmin(request, "paper_submission", str(pprID), e, "exception while creating new paper, data may not be stored")
+			sendReportToAdmin(request, "paper_submission", str(ppr.paper_id)+', title => ' + str(ppr.paper_title), e, "exception while creating new paper, data may not be stored")
 			messages.success(request, "Could not submit. Please try agin with correct entries.")
 			return redirect('/paper-submission')
+		
 		try:
 			msg = MIMEMultipart()
 			msg.set_unixfrom('author')
@@ -638,19 +633,16 @@ def paper_submission(request):
 				msg['Subject'] = 'Paper submission acknowledgement'
 				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
 						'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
-						'Your paper ID will be ' + pprID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Your paper ID will be ' + str(ppr.paper_id) +'. Please make a note of it and quote the same in future communications.\n\n' + \
 						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
 						'Best Regards,\n' + \
 						'Organizing Team,\n' + \
 						'Global Conference on Innovations in Management and Business'
 			else:
 				msg['Subject'] = 'Paper already submitted'
-				if pprID is None:
-					message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" is already ' + \
+				#ppr cannot be None
+				message = 'Looks like your paper with the title \"'+ ppr.paper_title +'\" (Paper ID : ' + ppr.paper_id + ') is already ' + \
 					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-				else:	
-					message = 'Looks like your paper with the title \"'+str(request.POST['title'])+'\" (Paper ID : ' + pprID + ') is already ' + \
-					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
 			
 			msg.attach(MIMEText(message))
 			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -660,22 +652,22 @@ def paper_submission(request):
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 
 			if not duplicate:
-				EmailInfo.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_paper_submission_info(pprID)
+				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_paper_submission_info(str(ppr.paper_id))
 				messages.success(request, "You've successfully submitted the paper.")
 			else: 
-				EmailInfo.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
 			print("EVRYTHING DONE with PAPER SUBMISSION\n")
 
 		except Exception as e:
 			if not duplicate:
-				EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the paper.")
 			else: 
-				EmailQueue.objects.create(corresponding_id=pprID, mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
-			sendReportToAdmin(request, "paper_submission", str(pprID), e, "exception while mailing, data is stored")
+			sendReportToAdmin(request, "paper_submission", str(ppr.paper_id)+', title => ' + str(ppr.paper_title), e, "exception while mailing, data is stored")
 
 		return redirect('/paper-submission')
 	return render(request, 'paper_submission.html')	
@@ -683,6 +675,7 @@ def paper_submission(request):
 def ppt_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_ppt(request)
+		ppt = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -722,12 +715,11 @@ def ppt_submission(request):
 					ppt.track_B = tracks[1].user.username
 				if ppt.track == 'Strategic Management and Corporate Governance':
 					ppt.track_B = 'mahesh'
-					
 				ppt.save()
-
-			pptID = str(get_object_or_404(Ppt, abstract = abs).ppt_id)
+			else:
+				ppt = get_object_or_404(Ppt, abstract = abs)
 		except:
-			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while creating new ppt, data may not be stored")
+			sendReportToAdmin(request, "ppt_submission", str(ppt.ppt_id) +', title => ' + str(ppt.ppt_title), e, "exception while creating new ppt, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
 			return redirect('/ppt-submission')
 		
@@ -741,19 +733,15 @@ def ppt_submission(request):
 				msg['Subject'] = 'Presentation submission acknowledgement'
 				message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
 						'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
-						'Your paper ID will be ' + pptID +'. Please make a note of it and quote the same in future communications.\n\n' + \
+						'Your paper ID will be ' + ppt.ppt_id +'. Please make a note of it and quote the same in future communications.\n\n' + \
 						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
 						'Best Regards,\n' + \
 						'Organizing Team,\n' + \
 						'Global Conference on Innovations in Management and Business'
 			else:
 				msg['Subject'] = 'Presentation already submitted'
-				if pptID is None:
-					message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" is already ' + \
+				message = 'Looks like your presentation with the title \"'+ ppt.ppt_title +'\" (Presentation ID : ' + ppt.ppt_id + ') is already ' + \
 					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
-				else:	
-					message = 'Looks like your presentation with the title \"'+str(request.POST['title'])+'\" (Presentation ID : ' + pptID + ') is already ' + \
-					'submitted and you should receive an an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
 			
 			msg.attach(MIMEText(message))
 			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -764,22 +752,22 @@ def ppt_submission(request):
 
 
 			if not duplicate:
-				EmailInfo.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_ppt_submission_info(pptID)
+				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
+				forward_ppt_submission_info(ppt.ppt_id)
 				messages.success(request, "You've successfully submitted the ppt.")
 			else:
-				EmailInfo.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
 			print("EVRYTHING DONE with PPT SUBMISSION\n")
 
 		except Exception as e:
 			if not duplicate:
-				EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
 				messages.success(request, "You've successfully submitted the ppt.")
 			else:
-				EmailQueue.objects.create(corresponding_id=pptID, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
+				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
-			sendReportToAdmin(request, "ppt_submission", str(pptID), e, "exception while mailing, data is stored")
+			sendReportToAdmin(request, "ppt_submission", str(ppt.ppt_id)+', title => ' + str(ppt.ppt_title), e, "exception while mailing, data is stored")
 
 		return redirect('/ppt-submission')
 	return render(request, 'ppt_submission.html')	
