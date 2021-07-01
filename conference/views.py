@@ -824,7 +824,6 @@ def digital_transformation_and_information_systems(request):
 
 @login_required(login_url='/sign-in/')
 def export_abstracts_sheet(request):
-	assign_track_chair(request)
 	response = HttpResponse(content_type='application/ms-excel')
 	response['Content-Disposition'] = 'attachment; filename="Abstracts.xls"'
 	wb = xlwt.Workbook(encoding='utf-8')
@@ -1676,3 +1675,28 @@ def test_doc3(request):
 	else:
 		messages.success(request, 'Access Denied!')
 	return redirect('/')
+
+def is_duplicate_query(request):
+	oldEntry = Query.objects.filter(name=request.POST['name'], asked_to=request.POST['asked_to'], query=request.POST['query'])
+	return len(oldEntry)>0
+
+def meet_the_editors(request):
+	if request.method == "POST":
+		if is_duplicate_query(request):
+			messages.success(request, "You've already asked this query.")
+			return redirect('/meet-the-editors')
+		prefix = request.POST.get('prefix', 'unknown')
+		asked_to = request.POST.get('asked_to', 'unknown')
+		name = request.POST.get('name', 'unknown')
+		query = request.POST.get('query', 'unknown')
+		institution = request.POST.get('institution', 'unknown')
+		email = request.POST.get('email', 'unknown')
+
+		q = Query.objects.create(name=name, asked_to=asked_to, query=query)
+		q.institution = institution
+		q.email = email
+		q.save()
+		
+		messages.success(request, "Your query has been successfully noted.")
+		return redirect('/meet-the-editors')
+	return render(request, 'meet_the_editors.html')
