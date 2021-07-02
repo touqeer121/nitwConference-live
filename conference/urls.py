@@ -9,6 +9,7 @@ urlpatterns = [
     # url(r'login/$', views.user_login, name='login'),    
     path('', views.index, name='index'),
     path('update_sheet/', views.update_sheet, name='update_sheet'),
+    path('remark-abstracts/<int:pgNo>', views.remark_abstracts, name='remark_abstracts'),
     path('remark-abstracts/', views.remark_abstracts, name='remark_abstracts'),
     path('registration/', views.registration, name='registration'),
     path('registration-approval/', views.registration_approval, name='registration_approval'),

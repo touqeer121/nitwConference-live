@@ -868,38 +868,59 @@ def export_abstracts_sheet(request):
 
 	# urls = Abstract.objects.all().values('abstract_pdf')
 	# counter = 0
+	# for row in rows:
+	# 	row_num += 1
+	# 	for col_num in range(len(row)):
+	# 		if col_num==12:
+	# 			# url = urls[row_num-1][]
+	# 			# url = row[col_num-1].url
+	# 			# ws.write(row_num, col_num, str(url) , font_style)
+	# 			dt = str(row[col_num]).split()[0]
+	# 			ws.write(row_num, col_num+1, dt , font_style)
+	# 		elif col_num==11:
+	# 			ppr = get_object_or_404(Abstract, abs_id=row[0])
+	# 			if ppr:	
+	# 				ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
+	# 		elif col_num==12:
+	# 			ppr = get_object_or_404(Abstract, abs_id=row[0])
+	# 			if ppr:
+	# 				ws.write(row_num, col_num, str(ppr.abstract_pdf.url), font_style)
+	# 		else:
+	# 			ws.write(row_num, col_num, row[col_num], font_style)
+		
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
-			if col_num==12:
-				# url = urls[row_num-1][]
-				# url = row[col_num-1].url
-				# ws.write(row_num, col_num, str(url) , font_style)
+			if col_num==13:
 				dt = str(row[col_num]).split()[0]
-				ws.write(row_num, col_num+1, dt , font_style)
-			# elif col_num==11:
-				# ppr = get_object_or_404(Abstract, abs_id=row[0])
-				# if ppr:
-					# ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
-			# elif col_num==12:
-			# 	ppr = get_object_or_404(Abstract, abs_id=row[0])
-			# 	if ppr:
-			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf.url), font_style)
+				ws.write(row_num, col_num, dt, font_style)
+			elif col_num==11:
+				ppr = get_object_or_404(Abstract, abs_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
+			elif col_num==12:
+				ppr = get_object_or_404(Abstract, abs_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
 			else:
 				ws.write(row_num, col_num, row[col_num], font_style)
-		# counter += 1
 	wb.save(response)
 	return response
 
-@csrf_exempt
+# @csrf_exempt
 @login_required(login_url='/sign-in/')
-def remark_abstracts(request):
+def remark_abstracts(request,pgNo=1):
 	print("START")
 	context = {}
 	if(request.user.username=='gcimb'):
 		print("SUPERADMIN")
-		context['abstracts'] = Abstract.objects.all().order_by('abs_id')
-		context['track'] = ''
+		s = (pgNo-1)*20
+		e = pgNo * 20
+		print("pgNo=",pgNo)
+		context['abstracts'] = Abstract.objects.all()[s:e]
+		# else:
+		# 	context['abstracts'] = Abstract.objects.all().order_by('abs_id')[141:]
+		# context['track'] = ''
 		return render(request, 'all_abstracts.html', context)
 	if(request.user.username=='shekar'):
 		print("SHEKAR")
