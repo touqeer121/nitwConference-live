@@ -917,7 +917,7 @@ def remark_abstracts(request,pgNo=1):
 		s = (pgNo-1)*20
 		e = pgNo * 20
 		print("pgNo=",pgNo)
-		context['abstracts'] = Abstract.objects.all()[s:e]
+		context['abstracts'] = Abstract.objects.all().order_by('abs_id')[s:e]
 		# else:
 		# 	context['abstracts'] = Abstract.objects.all().order_by('abs_id')[141:]
 		# context['track'] = ''
