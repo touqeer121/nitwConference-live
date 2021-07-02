@@ -1465,26 +1465,17 @@ def send_approval_mail(request, registrationid):
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
-				'Hope you are safe and doing well. This is to acknowledge that your registration has been approved. Please find the attached receipt and keep it for future reference.\n\n' + \
-				'Many thanks for considering to attend the conference.\n\n'+\
+				'Greetings from GCIMB 2021!' + '\n\n' + \
+				'This email is to acknowledge that we have received your application for registration. Your registration ID is ' + \
+				str(reg.registration_id) + '. A receipt of your payment is attached to this email. \nReceipt link: ' + str(reg.Receipt.receipt_file.url)[:-16] + '\n' + \
+				'Please make a note of your registration ID and quote the same in future communications, if any. \n' + \
+				'We will send you the schedule and links for joining the events by 23rd July and we look forward to seeing you during the conference.\n\n' + \
+				'Thank you very much.\n\n' + \
 				'Best Regards,\n' + \
-				'Organizing Team,\n' + \
-				'Global Conference on Innovations in Management and Business\n' + \
-				'Receipt link: ' + str(reg.Receipt.receipt_file.url)[:-16]
-		
+				'The Organizing Team,\n' + \
+				'GCIMB 2021\n' + \
+				'Email:info@gcimb.org\n'
 		msg.attach(MIMEText(message))
-
-		# filePath =  'static/files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'
-		# with open(filePath, "rb") as fil:
-		# 	part = MIMEApplication(
-		# 		fil.read(),
-		# 		Name=basename(filePath)
-		# 	)
-		# After the file is closed
-		# part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filePath)
-		# msg.attach(part)
-
-		# msg.attach_file('abc.pdf', static('files/'+ reg.registration_id + '/' + reg.registration_id + '_receipt.pdf'))
 		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
 		mailserver.ehlo()
@@ -1492,10 +1483,10 @@ def send_approval_mail(request, registrationid):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 		
 		messages.success(request, 'Email Sent Successfully')
-		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", sent_date=datetime.datetime.now())
+		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), sent_date=datetime.datetime.now())
 	except Exception as e:
-		messages.success(request, 'Email could not be sent. (Limit Exceeded) OR ' + str(e.message))
-		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info="", pending_date=datetime.datetime.now())
+		messages.success(request, 'Email could not be sent. (Limit Exceeded) OR ' + str(e))
+		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), pending_date=datetime.datetime.now())
 		sendReportToAdmin(request, "send_approval_mail" , reg.registration_id, e, "")
 
 	return redirect(request.META.get('HTTP_REFERER', '/'))
