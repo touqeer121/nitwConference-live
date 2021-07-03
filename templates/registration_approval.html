@@ -222,10 +222,20 @@
                         </td>
                         <td>
                             {% if reg.payment_status == '1' %}
-                                <a class="formButton brochureButton" data-toggle="tooltip" title="Send verification mail"
-                                href="../send-approval-mail/{{reg.registration_id}}">
-                                    Send
-                                </a>
+                                {% if reg.id_status == '2' %}
+                                    <a class="formButton brochureButton" data-toggle="tooltip" title="Send verification mail"
+                                    href="../send-approval-mail/{{reg.registration_id}}">
+                                        Send
+                                    </a>
+                                {% else %}
+                                <b>
+                                    <span style="color: green;">Sent</span><br>
+                                    <a class="formButton brochureButton" data-toggle="tooltip" title="Send verification mail"
+                                    href="../send-approval-mail/{{reg.registration_id}}">
+                                        Resend
+                                    </a>
+                                </b>
+                                {% endif %}
                             {% else %}
                                 <span style="color: red;"> 
                                 N/A

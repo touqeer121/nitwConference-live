@@ -1460,8 +1460,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = reg.email.strip()
-		# msg['To'] = 'touqeer.pathan4567@gmail.com'
+		# msg['To'] = reg.email.strip()
+		msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
@@ -1483,6 +1483,8 @@ def send_approval_mail(request, registrationid):
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 		
 		messages.success(request, 'Email Sent Successfully')
+		reg.id_status = '1'
+		reg.save()
 		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), sent_date=datetime.datetime.now())
 	except Exception as e:
 		messages.success(request, 'Email could not be sent. (Limit Exceeded) OR ' + str(e))
