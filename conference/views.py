@@ -1467,12 +1467,12 @@ def send_approval_mail(request, registrationid):
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
 				'Greetings from GCIMB 2021!' + '\n\n' + \
 				'This email is to acknowledge that we have received your application for registration. Your registration ID is ' + \
-				str(reg.registration_id) + '. A receipt of your payment is attached to this email. \nReceipt link: ' + str(reg.Receipt.receipt_file.url)[:-16] + '\n' + \
+				str(reg.registration_id) + '. A receipt of your payment is attached to this email. \nAlternatively you can view your receipt using this link: ' + str(reg.Receipt.receipt_file.url)[:-16] + '\n\n' + \
 				'Please make a note of your registration ID and quote the same in future communications, if any. \n' + \
 				'We will send you the schedule and links for joining the events by 23rd July and we look forward to seeing you during the conference.\n\n' + \
 				'Thank you very much.\n\n' + \
 				'Best Regards,\n' + \
-				'The Organizing Team,\n' + \
+				'The Organizing Team\n' + \
 				'GCIMB 2021\n' + \
 				'Email:info@gcimb.org\n'
 		msg.attach(MIMEText(message))
