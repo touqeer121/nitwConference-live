@@ -1866,6 +1866,16 @@ th, td{
 	background-color: #f0f0f0;
 }
 
+.checklist-table{
+	margin : 0 auto;
+	text-align: center;
+
+}
+.checklist-table th,td{
+	padding: 5px;
+	text-align: left;
+	border: 1px solid #cfd2db;
+}
 .actionButton{
 	/* position: relative; */
 	transition: all 0.3s ease;
