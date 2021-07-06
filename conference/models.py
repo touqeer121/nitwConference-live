@@ -246,6 +246,7 @@ class Receipt(models.Model) :
 class Query(models.Model):
 	asked_to = models.CharField(max_length=500, blank=True, default='unknown')
 	name =  models.CharField(max_length=500, blank=True, default='unknown')
+	registration_id = models.CharField(max_length=100, blank=True, default='unknown')
 	email = models.EmailField()
 	query =  models.CharField(max_length=50000, blank=True, default='unknown')
 	institution =  models.CharField(max_length=10000, blank=True, default='unknown')
