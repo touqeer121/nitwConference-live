@@ -210,7 +210,7 @@ def forward_registration_info(regID):
 
 def is_duplicate_registration(request):
 	oldEntry = Registration.objects.filter(first_name=request.POST['fname'], \
-				institution= request.POST['institution'])
+				institution= request.POST['institution'], email=request.POST['email'], )
 	# oldEntry=1
 	return (len(oldEntry)> 0)
 
