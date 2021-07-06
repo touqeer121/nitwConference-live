@@ -1487,7 +1487,7 @@ def send_approval_mail(request, registrationid):
 		reg.save()
 		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), sent_date=datetime.datetime.now())
 	except Exception as e:
-		messages.success(request, 'Email could not be sent. (Limit Exceeded) OR ' + str(e))
+		messages.success(request, 'rEmail could not be sent. (Limit Exceeded) OR ' + str(e))
 		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), pending_date=datetime.datetime.now())
 		sendReportToAdmin(request, "send_approval_mail" , reg.registration_id, e, "")
 
@@ -1728,12 +1728,14 @@ def meet_the_editors(request):
 		asked_to = request.POST.get('asked_to', 'unknown')
 		name = request.POST.get('name', 'unknown')
 		query = request.POST.get('query', 'unknown')
+		registration_id = request.POST.get('registration_id', 'unknown')
 		institution = request.POST.get('institution', 'unknown')
 		email = request.POST.get('email', 'unknown')
 
 		q = Query.objects.create(name=name, asked_to=asked_to, query=query)
 		q.institution = institution
 		q.email = email
+		q.registration_id = registration_id
 		q.save()
 		
 		messages.success(request, "Your query has been successfully noted.")
