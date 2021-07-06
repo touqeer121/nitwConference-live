@@ -58,7 +58,7 @@ urlpatterns = [
     path('test-mail/', views.test_mail, name='test_mail'),
     url('send-approval-mail/(?P<registrationid>\w+)', views.send_approval_mail, name='send_approval_mail'),
 
-    path('meet-the-editors/', views.meet_the_editors, name='meet_the_editors'),
+    path('ask-the-editors/', views.ask_the_editors, name='ask_the_editors'),
     path('storeURL/<int:end>', views.storeURL, name='storeURL'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

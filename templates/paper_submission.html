@@ -80,10 +80,10 @@
                     <b>Manuscript File: </b><br>
                     This file will have your entire manuscript. Please make sure your article is written within 3,000 words, 
                     excluding references. The following sections will help you format your paper effectively. 
-                    <ul>
+                    <ul style="list-style-type: none;">
                         <li>
-                            <a class="" data-toggle="collapse" href="#title2" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Title of the Article
+                            <a id="click_title" style="text-decoration: none;" data-toggle="collapse" href="#title2" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> Title of the Article
                             </a>    
                             <div class="collapse" id="title2">
                                 <div class="">
@@ -92,8 +92,8 @@
                                 </div>
                             </div>
                         </li><li>
-                            <a class="" data-toggle="collapse" href="#abstract" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Abstract
+                            <a id="click_abstract" style="text-decoration: none;"  data-toggle="collapse" href="#abstract" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> Abstract
                             </a>    
                             <div class="collapse" id="abstract">
                                 <div class="">
@@ -102,8 +102,8 @@
                                 </div>
                             </div>
                         </li><li>
-                            <a class="" data-toggle="collapse" href="#keywords" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Keywords
+                            <a id="click_keywords" style="text-decoration: none;"  data-toggle="collapse" href="#keywords" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> Keywords
                             </a>    
                             <div class="collapse" id="keywords">
                                 <div class="">
@@ -111,8 +111,8 @@
                                 </div>
                             </div>
                         </li><li>
-                            <a class="" data-toggle="collapse" href="#structure" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Paper Structure
+                            <a id="click_structure" style="text-decoration: none;"  data-toggle="collapse" href="#structure" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> Paper Structure
                             </a>    
                             <div class="collapse" id="structure">
                                 <div class="">
@@ -122,8 +122,8 @@
                                 </div>
                             </div>
                         </li><li>
-                            <a class="" data-toggle="collapse" href="#references" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                References
+                            <a id="click_references" style="text-decoration: none;"  data-toggle="collapse" href="#references" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> References
                             </a>    
                             <div class="collapse" id="references">
                                 <div class="">
@@ -133,8 +133,8 @@
                                 </div>
                             </div>
                         </li><li>
-                            <a class="" data-toggle="collapse" href="#checklist" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                Checklist
+                            <a id="click_checklist" style="text-decoration: none;"  data-toggle="collapse" href="#checklist" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fa fa-plus-square"></i> Checklist
                             </a>    
                             <div class="collapse" id="checklist">
                                 <div class="">
@@ -346,6 +346,25 @@
         selectName2.innerText = filename2;
     }
 </script>
-
+<script>
+    $('#click_title').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+    $('#click_abstract').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+    $('#click_keywords').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+    $('#click_structure').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+    $('#click_references').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+    $('#click_checklist').click(function() {
+        $("i", this).toggleClass("fa-plus-square fa-minus-square");
+    });
+</script>
 
 {% endblock content %} 

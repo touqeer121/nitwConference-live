@@ -1719,11 +1719,11 @@ def is_duplicate_query(request):
 	oldEntry = Query.objects.filter(name=request.POST['name'], asked_to=request.POST['asked_to'], query=request.POST['query'])
 	return len(oldEntry)>0
 
-def meet_the_editors(request):
+def ask_the_editors(request):
 	if request.method == "POST":
 		if is_duplicate_query(request):
 			messages.success(request, "You've already asked this query.")
-			return redirect('/meet-the-editors')
+			return redirect('/ask-the-editors')
 		prefix = request.POST.get('prefix', 'unknown')
 		asked_to = request.POST.get('asked_to', 'unknown')
 		name = request.POST.get('name', 'unknown')
@@ -1739,5 +1739,5 @@ def meet_the_editors(request):
 		q.save()
 		
 		messages.success(request, "Your query has been successfully noted.")
-		return redirect('/meet-the-editors')
-	return render(request, 'meet_the_editors.html')
+		return redirect('/ask-the-editors')
+	return render(request, 'ask_the_editors.html')
