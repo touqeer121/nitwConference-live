@@ -199,6 +199,7 @@ def forward_registration_info(regID):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		mailserver.quit()
 
 		EmailInfo.objects.create(corresponding_id=regID, mail_reason="forward_registration_info", general_info="first", sent_date=datetime.datetime.now())
 
@@ -354,6 +355,7 @@ def forward_submission_info(absID):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		mailserver.quit()
 		
 		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_submission_info",  general_info="first", sent_date=datetime.datetime.now())
 
@@ -393,6 +395,7 @@ def forward_paper_submission_info(pprID):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		mailserver.quit()
 		
 		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_paper_submission_info",  general_info="first", sent_date=datetime.datetime.now())
 
@@ -432,6 +435,7 @@ def forward_ppt_submission_info(pptID):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		mailserver.quit()
 		
 		EmailInfo.objects.create(corresponding_id=absID, mail_reason="forward_ppt_submission_info",  general_info="first", sent_date=datetime.datetime.now())
 
@@ -557,6 +561,7 @@ def abstract_submission(request):
 			mailserver.ehlo()
 			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			mailserver.quit()
 	
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
@@ -660,6 +665,7 @@ def paper_submission(request):
 			mailserver.ehlo()
 			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			mailserver.quit()
 
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
@@ -759,6 +765,7 @@ def ppt_submission(request):
 			mailserver.ehlo()
 			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			mailserver.quit()
 
 
 			if not duplicate:
@@ -1464,8 +1471,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = reg.email.strip()
-		# msg['To'] = 'touqeer.pathan4567@gmail.com'
+		# msg['To'] = reg.email.strip()
+		msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
@@ -1485,7 +1492,7 @@ def send_approval_mail(request, registrationid):
 		mailserver.ehlo()
 		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-		
+		mailserver.quit()
 		messages.success(request, 'Email Sent Successfully')
 		reg.id_status = '1'
 		reg.save()
@@ -1533,6 +1540,7 @@ def test_mail(request):
 	mailserver.ehlo()
 	mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
 	mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+	mailserver.quit()
 
 	return redirect(request.META.get('HTTP_REFERER', '/'))
 

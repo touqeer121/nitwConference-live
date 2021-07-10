@@ -149,9 +149,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 # EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtpout.secureserver.net'
-EMAIL_HOST_USER = "submissions@gcimb.org"
-EMAIL_HOST_PASSWORD = "submissions123@gcimb"
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 PROJECT_PATH = ""
-EMAIL_PORT = 587
+EMAIL_PORT = 465
 
 django_heroku.settings(locals())
