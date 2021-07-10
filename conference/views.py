@@ -1471,8 +1471,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		# msg['To'] = reg.email.strip()
-		msg['To'] = 'touqeer.pathan4567@gmail.com'
+		msg['To'] = reg.email.strip()
+		# msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
