@@ -169,7 +169,7 @@ def sendReportToAdmin(request, fn , cid, e, gInfo):
 			exception_message=msg, general_info=gInfo, current_user_info=userInfo, exception_date=datetime.datetime.now())
 	# reg.save()
 
-def forward_registration_info(regID):
+def forward_registration_info(request, regID):
 	reg = Registration.objects.get(registration_id=regID)
 	if reg is None :
 		return
@@ -277,7 +277,7 @@ def registration(request):
 				messages.success(request, "Could not register due to some technical error. Please try again later.")
 				return redirect('/registration')
 			if regID:
-				forward_registration_info(regID)
+				forward_registration_info(request, regID)
 		else:
 			messages.success(request, "You've already registered. Plese wait for our email.")	
 		return redirect('/registration')
@@ -326,7 +326,7 @@ def update_sheet(absID):
 	wb.save('Abstracts.xls')
 	print("SHEET UPDATED\n")
 
-def forward_submission_info(absID):
+def forward_submission_info(request, absID):
 	try:
 		ppr = get_object_or_404(Abstract, abs_id=absID)
 		msg = MIMEMultipart()
@@ -364,7 +364,7 @@ def forward_submission_info(absID):
 		EmailQueue.objects.create(corresponding_id=str(absID), mail_reason="forward_submission_info",  general_info="first", pending_date=datetime.datetime.now())
 		sendReportToAdmin(request, "forward_submission_info ", str(absID), e, "")
 
-def forward_paper_submission_info(pprID):
+def forward_paper_submission_info(request, pprID):
 	try : 
 		ppr = get_object_or_404(Paper, paper_id=pprID)
 		absID = ppr.abstract.abs_id
@@ -405,7 +405,7 @@ def forward_paper_submission_info(pprID):
 		sendReportToAdmin(request, "forward_paper_submission_info ", str(pprID), e, "")
 	
 
-def forward_ppt_submission_info(pptID):
+def forward_ppt_submission_info(request, pptID):
 	try:
 		ppt = get_object_or_404(Ppt, ppt_id=pptID)
 		absID = ppt.abstract.abs_id
@@ -565,7 +565,7 @@ def abstract_submission(request):
 	
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_submission_info(abs.abs_id)
+				forward_submission_info(request, abs.abs_id)
 				messages.success(request, "You've successfully submitted the abstract.")
 			else:
 				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
@@ -669,7 +669,7 @@ def paper_submission(request):
 
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_paper_submission_info(str(ppr.paper_id))
+				forward_paper_submission_info(request, str(ppr.paper_id))
 				messages.success(request, "You've successfully submitted the paper.")
 			else: 
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
@@ -770,7 +770,7 @@ def ppt_submission(request):
 
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_ppt_submission_info(ppt.ppt_id)
+				forward_ppt_submission_info(request, ppt.ppt_id)
 				messages.success(request, "You've successfully submitted the ppt.")
 			else:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
