@@ -277,7 +277,8 @@ def registration(request):
 				messages.success(request, "Could not register due to some technical error. Please try again later.")
 				return redirect('/registration')
 			if regID:
-				forward_registration_info(request, regID)
+				pass
+				# forward_registration_info(request, regID)
 		else:
 			messages.success(request, "You've already registered. Plese wait for our email.")	
 		return redirect('/registration')
@@ -565,7 +566,7 @@ def abstract_submission(request):
 	
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_submission_info(request, abs.abs_id)
+				# forward_submission_info(request, abs.abs_id)
 				messages.success(request, "You've successfully submitted the abstract.")
 			else:
 				EmailInfo.objects.create(corresponding_id=abs.abs_id, mail_reason="abstract_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
@@ -669,7 +670,7 @@ def paper_submission(request):
 
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_paper_submission_info(request, str(ppr.paper_id))
+				# forward_paper_submission_info(request, str(ppr.paper_id))
 				messages.success(request, "You've successfully submitted the paper.")
 			else: 
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
@@ -770,7 +771,7 @@ def ppt_submission(request):
 
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
-				forward_ppt_submission_info(request, ppt.ppt_id)
+				# forward_ppt_submission_info(request, ppt.ppt_id)
 				messages.success(request, "You've successfully submitted the ppt.")
 			else:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
@@ -1471,8 +1472,8 @@ def send_approval_mail(request, registrationid):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		msg['To'] = reg.email.strip()
-		# msg['To'] = 'touqeer.pathan4567@gmail.com'
+		# msg['To'] = reg.email.strip()
+		msg['To'] = 'touqeer.pathan4567@gmail.com'
 
 		msg['Subject'] = 'Registration Aprroved!'
 		message = 'Hello ' + reg.first_name + ',\n\n' + \
