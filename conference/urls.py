@@ -39,6 +39,7 @@ urlpatterns = [
     path('evaluation-process/', views.evaluation_process, name='evaluation_process'),
     path('contact-us/', views.contact_us, name='contact_us'),
     path('export/xls/', views.export_abstracts_sheet, name='export_abstracts_sheet'),
+    path('exportr/xls/', views.export_registrations_sheet, name='export_registrations_sheet'),
 
     url('approveabstract/(?P<abstractid>\w+)', views.approve_abstract, name='approve_abstract'),
     url('rejectabstract/(?P<abstractid>\w+)', views.reject_abstract, name='reject_abstract'),

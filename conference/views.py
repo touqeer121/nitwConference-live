@@ -919,6 +919,60 @@ def export_abstracts_sheet(request):
 	wb.save(response)
 	return response
 
+@login_required(login_url='/sign-in/')
+def export_registrations_sheet(request):
+	response = HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="Registrations.xls"'
+	wb = xlwt.Workbook(encoding='utf-8')
+	ws = wb.add_sheet('Registrations')
+	
+	# Sheet header, first row
+	row_num = 0
+	
+	font_style = xlwt.XFStyle()
+	font_style.font.bold = True
+	columns = ['Registration ID', 'Registration Type', 'Participant Type', 'Transaction ID', 'Abstract ID', 'Full Name', 'Country', 'State', \
+			'Institute', 'Email', 'Phone', 'Fee', 'Registration Date']		
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+	
+	# Sheet body, remaining rows
+	font_style = xlwt.XFStyle()
+	
+	rows = Registration.objects.all().values_list('registration_id', 'registration_type', 'author_type', 'transaction_id', 'abstract', 'first_name', 'country', 'state',\
+			 'institution', 'email', 'phone', 'remark', 'registration_date' )
+
+	rtype = ['Early Bird (Conference) ', 'Early Bird (Conference+Workshop)', 'Regular (Conference)', 'Regular (Conference+Workshop)', 'Regular (Workshop)']
+	atype= ['Academician', 'Doctoral Student', 'Industry Professional', 'Masters Student', 'Listener']
+
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			if col_num==1:
+				r = rtype[int(row[col_num])-1]
+				ws.write(row_num, col_num, r, font_style)
+			elif col_num==2:
+				tmp = int(row[col_num])
+				if tmp != 1:
+					tmp -= 3
+				a = atype[tmp-1]
+				ws.write(row_num, col_num, a, font_style)
+			elif col_num==12:
+				dt = str(row[col_num]).split()[0]
+				ws.write(row_num, col_num, dt, font_style)
+			# elif col_num==11:
+			# 	ppr = get_object_or_404(Abstract, abs_id=row[0])
+			# 	if ppr:
+			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
+			# elif col_num==12:
+			# 	ppr = get_object_or_404(Abstract, abs_id=row[0])
+			# 	if ppr:
+			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
+			else:	
+				ws.write(row_num, col_num, row[col_num], font_style)
+	wb.save(response)
+	return response
+
 # @csrf_exempt
 @login_required(login_url='/sign-in/')
 def remark_abstracts(request,pgNo=1):
