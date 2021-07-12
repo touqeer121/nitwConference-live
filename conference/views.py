@@ -1754,3 +1754,6 @@ def ask_the_editors(request):
 		messages.success(request, "Your query has been successfully noted.")
 		return redirect('/ask-the-editors')
 	return render(request, 'ask_the_editors.html')
+
+def biggie_bills(request):
+	return render(request, 'biggie_bills.html')

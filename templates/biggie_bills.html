@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% block title %} | Biggie Bills{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    {% if messages %}
+        {% for mes in messages %}
+            <div class="alert alert-success message_container">
+                <a href="#" class="close" data-dismiss="success" aria-label="close">&times;</a>
+                <strong>{{ mes }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div>
+        <!-- <img class="headIcon" src="{% static 'images/dollar-coin.png' %}" style="margin-top: -20px"> -->
+        <!-- <h1 style="display:inline-block ;">Biggie Bills</h1> -->
+        <img style="height:4em ; width:25em ;border-radius: 5px;" src="{% static 'images/bb.png' %}" style="margin-top: -20px">
+        <!-- <img class="headIcon" src="{% static 'images/dollar-coin.png' %}" style="margin-top: -20px">  -->
+    </div>
+    <div class="my-main-container">
+        <p class="my-content">
+        </p>
+    </div>
+    <br>
+    <div class="my-main-container">
+        <p class="my-content">
+            <b>
+            BIGGIE BILLS : AN INTERACTIVE STRATEGIC THINKING GAME
+            </b>
+        </p>
+    </div>
+    <br>
+    <div class="my-main-container">
+        <p class="my-content">
+            A patented, interactive, and dynamic strategic thinking system, designed and played as a card game. Presently, the 
+            game can be <b>completely online</b>, or it could use a <b></b>hybrid approach</b> (game is online and players are gathered in a large 
+            room or multiple breakout rooms). The patent was granted in December 2019 by USPTO (details are provided at 
+            <a  href="https://www.BiggieBills.com">https://www.BiggieBills.com</a>).
+        </p>
+        <br>
+        
+        <p class="my-content">
+            <b>
+                Strategic Thinking for Students & Exceutives :
+            </b>
+        </p>
+        <ul style="text-align: left;font-size: 20px;">
+            <li data-aos="fade-right" data-aos-duration="1000">
+                <b>EMBA, MBA and UG students</b> benefit with respect to application of strategy management frameworks and tools as an 
+                experiential exercise.
+            </li>
+            <li data-aos="fade-right" data-aos-duration="1000"  data-aos-delay="150">
+                <b>Senior Executives</b> benefit from strategy formulation and strategic planning perspective.
+            </li>
+            <li data-aos="fade-right" data-aos-duration="1000"  data-aos-delay="200">
+                <b>Middle Managers</b> benefit from strategy execution and resource management perspective.
+            </li>
+            <li data-aos="fade-right" data-aos-duration="1000"  data-aos-delay="250">
+                <b>Entry-Level Managers</b> benefit from the onboarding process and learning of business skills. 
+            </li>
+        </ul>
+        <br>
+
+        <p class="my-content">
+            <b>
+                Multidimensional benefits of BiggieBills :
+            </b>
+        </p>
+        <div class="row" style="margin-top: 2%;">
+            <div class="container mt-2">
+              <div class="row">
+                <div class="col-md-2 col-sm-4 my-item">
+                    <div class="my-card my-item-card my-card-block">
+                        <img src="{% static 'images/interactive.png' %}"
+                        data-aos="fade-up" data-aos-duration="1000"/>
+                           <h5 class="my-card-title"><br>Allows for a dynamic and interactive real-time gaming experience to the participants</h5>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 my-item ">
+                  <div class="my-card my-item-card my-card-block">
+                    <img src="{% static 'images/satisfaction.png' %}"
+                    data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100"/>
+                    <h5 class="my-card-title"><br>Provides instant feedback loops and allows for counter offensives in real time</h5>
+                  </div>
+                </div>
+                <div class="col-md-2 col-sm-4 my-item">
+                  <div class="my-card my-item-card my-card-block">
+                    <a href="../ask-the-editors/">
+                        <img src="{% static 'images/brainstorm.png' %}"
+                        data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200"/>
+                        <h5 class="my-card-title"><br>Raises the level of team participation</h5>
+                    </a>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-4 my-item">
+                    <div class="my-card my-item-card my-card-block">
+                        <img src="{% static 'images/small-talk.png' %}"
+                        data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"/>
+                          <h5 class="my-card-title"><br>Used as an icebreaker for new team members</h5>
+                      </div>
+                  </div>
+                  <div class="col-md-2 col-sm-4 my-item">
+                    <div class="my-card my-item-card my-card-block">
+                        <img src="{% static 'images/notebook.png' %}"
+                        data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300"/>
+                          <h5 class="my-card-title"><br>Covers strategy management course material and is easily integrated into course delivery</h5>
+                      </div>
+                  </div>
+              </div>
+            </div>
+            </div>
+        <br>
+
+        <p class="my-content">
+            <b>
+                Skills Development (General Managerial Competencies) :
+            </b>
+        </p>            
+        <table class="display-table">
+            <thead>
+            </thead>
+                <tr>
+                    <td>Cash Flow Management</td> 
+                    <td>Decision Making Skills & Problem Solving</td>
+                </tr><tr>
+                    <td>Assessment of environmental Changes</td> 
+                    <td>Managing Change</td>
+                </tr><tr>
+                    <td>Managing Sunk Costs</td> 
+                    <td>Scenario Building</td>
+                </tr><tr>
+                    <td>Assessing the Context</td> 
+                    <td>Real Option Analysis</td>
+                </tr><tr>
+                    <td>Risk Assessment</td> 
+                    <td>Risk-Return Trade-off</td>
+                </tr>
+            <tbody>
+
+            </tbody>
+        </table>
+        <br>
+
+        <p class="my-content">
+            <b>
+                Skills Development (Soft Skills & Power Skills) :
+            </b>
+        </p>            
+        <table class="display-table">
+            <thead>
+            </thead>
+                <tr>
+                    <td>Concentration and Focus</td> 
+                    <td>Observations & Reflections</td>
+                </tr><tr>
+                    <td>Open Communications</td> 
+                    <td>Sensitivity to Emotional Aspects</td>
+                </tr><tr>
+                    <td>Signaling and Negotiation</td> 
+                    <td>Being a Team Player</td>
+                </tr>
+            <tbody>
+
+            </tbody>
+        </table>
+        <br>
+
+        <p class="my-content">
+            <b>
+                Strategic Thinking (Frameworks and Tools from Strategy Management for students) :
+            </b>
+        </p>            
+        <table class="display-table">
+            <thead>
+            </thead>
+                <tr>
+                    <td>Resource Based View of the firm (VRIO)</td> 
+                    <td>Building Blocks of an Organization</td>
+                </tr><tr>
+                    <td>Resources, Capabilities &  Dynamic Capabilities</td> 
+                    <td>Competitive Dynamics</td>
+                </tr><tr>
+                    <td>Managing Growth, Diversification and Globalization</td> 
+                    <td>Merger and Acquisitions</td>
+                </tr>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock content %}
