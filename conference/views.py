@@ -214,8 +214,10 @@ def is_duplicate_registration(request):
 	try:
 		abs = get_object_or_404(Abstract, pk=absID)
 		oldEntry = Registration.objects.filter(email=request.POST['email'], abstract=abs)
-	except:
+		print("OLDENTRY ", oldEntry)
+	except Exception as e:
 		abs = None	
+		print("EXCEPTION ", e)
 		oldEntry = Registration.objects.filter(email=request.POST['email'])
 	return (len(oldEntry)> 0)
 
@@ -226,13 +228,13 @@ def registration(request):
 		if not duplicate:
 			regID = None
 			try:
-				# listener = str(request.POST.get('listenerOrNot', '<ERROR>')).strip()
-				# if(listener == 'listener'):
-				# 	atype = '8'
-				# 	rtype = str(request.POST.get('listenerType', '<ERROR>')).strip()
-				# else:
-				rtype = str(request.POST['registration_type']).strip()
-				atype = str(request.POST['author_type']).strip()
+				listener = str(request.POST.get('listenerOrNot', '<ERROR>')).strip()
+				if(listener == 'listener'):
+					atype = '8'
+					rtype = str(request.POST.get('listenerType', '<ERROR>')).strip()
+				else:
+					rtype = str(request.POST['registration_type']).strip()
+					atype = str(request.POST['author_type']).strip()
 				if(atype == '2'):
 					atype = '5'
 				elif(atype == '3'):
@@ -828,7 +830,9 @@ def contact_us(request):
 			msg['From'] = 'info@gcimb.org'
 			msg['To'] = 'info@gcimb.org'
 			msg['Subject'] = request.POST['subject']
-			message = request.POST['message']
+			message = 'Name: ' + str(request.POST['fullName']).strip() + '\n'\
+					  'Email: ' + str(request.POST['email']).strip() + '\n\n'\
+					 + request.POST['message']
 			msg.attach(MIMEText(message))
 			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 			mailserver.ehlo()

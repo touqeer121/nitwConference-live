@@ -2023,6 +2023,14 @@ th, td{
 .hideBox{
 	visibility: hidden;
 }
+.showBox2{
+	visibility: visible;
+	display: block;
+}
+.hideBox2{
+	visibility: hidden;
+	display: none;
+}
 
 .disabled-button{
 	background-color: grey;
