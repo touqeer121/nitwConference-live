@@ -826,7 +826,7 @@ def contact_us(request):
 			msg = MIMEMultipart()
 			msg.set_unixfrom('author')
 			msg['From'] = 'info@gcimb.org'
-			msg['To'] = request.POST['email']
+			msg['To'] = 'info@gcimb.org'
 			msg['Subject'] = request.POST['subject']
 			message = request.POST['message']
 			msg.attach(MIMEText(message))
