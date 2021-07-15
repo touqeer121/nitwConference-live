@@ -226,6 +226,11 @@ def registration(request):
 		if not duplicate:
 			regID = None
 			try:
+				# listener = str(request.POST.get('listenerOrNot', '<ERROR>')).strip()
+				# if(listener == 'listener'):
+				# 	atype = '8'
+				# 	rtype = str(request.POST.get('listenerType', '<ERROR>')).strip()
+				# else:
 				rtype = str(request.POST['registration_type']).strip()
 				atype = str(request.POST['author_type']).strip()
 				if(atype == '2'):
@@ -830,11 +835,11 @@ def contact_us(request):
 			mailserver.login('info@gcimb.org', 'info123@gcimb')
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 			mailserver.quit()
-			EmailInfo.objects.create(str(request.POST['email']), mail_reason="contact_us", general_info=str(request.POST['subject']) +'\n'+ str(request.POST['message']), sent_date=datetime.datetime.now())
+			EmailInfo.objects.create(corresponding_id=str(request.POST['email']), mail_reason="contact_us", general_info=str(request.POST['subject']) +'\n'+ str(request.POST['message']), sent_date=datetime.datetime.now())
 			messages.success(request, "Message Sent successfully. We'll get back to you soon.")
 		except Exception as e:
 			sendReportToAdmin(request, "contact_us", 'Subject : '+ str(request.POST['subject']), e, str(request.POST['message']))
-		return redirect('/contact_us')
+		return redirect('/contact-us')
 	return render(request, 'contact_us.html')
 
 def digital_transformation_and_information_systems(request):
