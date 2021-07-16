@@ -1532,35 +1532,35 @@ def test_doc_old(request):
 def send_approval_mail(request, registrationid):
 	try: 
 		reg = get_object_or_404(Registration, pk=registrationid)
-		msg = MIMEMultipart()
-		msg.set_unixfrom('author')
-		msg['From'] = settings.EMAIL_HOST_USER
-		# msg['To'] = reg.email.strip()
-		msg['To'] = 'touqeer.pathan4567@gmail.com'
+		# msg = MIMEMultipart()
+		# msg.set_unixfrom('author')
+		# msg['From'] = settings.EMAIL_HOST_USER
+		# # msg['To'] = reg.email.strip()
+		# msg['To'] = 'touqeer.pathan4567@gmail.com'
 
-		msg['Subject'] = 'Registration Aprroved!'
-		message = 'Hello ' + reg.first_name + ',\n\n' + \
-				'Greetings from GCIMB 2021!' + '\n\n' + \
-				'This email is to acknowledge that we have received your application for registration. Your registration ID is ' + \
-				str(reg.registration_id) + '. A receipt of your payment is attached to this email. \nAlternatively you can view your receipt using this link: ' + str(reg.Receipt.receipt_file.url)[:-16] + '\n\n' + \
-				'Please make a note of your registration ID and quote the same in future communications, if any. \n' + \
-				'We will send you the schedule and links for joining the events by 23rd July and we look forward to seeing you during the conference.\n\n' + \
-				'Thank you very much.\n\n' + \
-				'Best Regards,\n' + \
-				'The Organizing Team\n' + \
-				'GCIMB 2021\n' + \
-				'Email:info@gcimb.org\n'
-		msg.attach(MIMEText(message))
-		mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+		# msg['Subject'] = 'Registration Aprroved!'
+		# message = 'Hello ' + reg.first_name + ',\n\n' + \
+		# 		'Greetings from GCIMB 2021!' + '\n\n' + \
+		# 		'This email is to acknowledge that we have received your application for registration. Your registration ID is ' + \
+		# 		str(reg.registration_id) + '. A receipt of your payment is attached to this email. \nAlternatively you can view your receipt using this link: ' + str(reg.Receipt.receipt_file.url)[:-16] + '\n\n' + \
+		# 		'Please make a note of your registration ID and quote the same in future communications, if any. \n' + \
+		# 		'We will send you the schedule and links for joining the events by 23rd July and we look forward to seeing you during the conference.\n\n' + \
+		# 		'Thank you very much.\n\n' + \
+		# 		'Best Regards,\n' + \
+		# 		'The Organizing Team\n' + \
+		# 		'GCIMB 2021\n' + \
+		# 		'Email:info@gcimb.org\n'
+		# msg.attach(MIMEText(message))
+		# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-		mailserver.ehlo()
-		mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-		mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-		mailserver.quit()
-		messages.success(request, 'Email Sent Successfully')
+		# mailserver.ehlo()
+		# mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+		# mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+		# mailserver.quit()
+		# messages.success(request, 'Email Sent Successfully')
 		reg.id_status = '1'
 		reg.save()
-		EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), sent_date=datetime.datetime.now())
+		# EmailInfo.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), sent_date=datetime.datetime.now())
 	except Exception as e:
 		messages.success(request, 'rEmail could not be sent. (Limit Exceeded) OR ' + str(e))
 		EmailQueue.objects.create(corresponding_id=registrationid, mail_reason="send_approval_mail", general_info=str(msg['To']), pending_date=datetime.datetime.now())
