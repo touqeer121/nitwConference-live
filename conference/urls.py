@@ -12,6 +12,7 @@ urlpatterns = [
     path('remark-abstracts/<int:pgNo>', views.remark_abstracts, name='remark_abstracts'),
     path('remark-abstracts/', views.remark_abstracts, name='remark_abstracts'),
     path('registration/', views.registration, name='registration'),
+    path('registration-approval/<int:pgNo>', views.registration_approval, name='registration_approval'),
     path('registration-approval/', views.registration_approval, name='registration_approval'),
     path('abstract-submission/', views.abstract_submission, name='abstract_submission'),
     path('paper-submission/', views.paper_submission, name='paper_submission'),

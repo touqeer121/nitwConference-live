@@ -294,9 +294,17 @@ def registration(request):
 
 @csrf_exempt
 @login_required(login_url='/sign-in/')
-def registration_approval(request):
+def registration_approval(request, pgNo=1):
 	context = {}
 	if(request.user.username=='gcimb' or request.user.username=='accounts'):
+		s = (pgNo-1)*20
+		e = pgNo * 20
+		print("pgNo=",pgNo)
+		context['registrations'] = Registration.objects.all().order_by('registration_id')[s:e]
+		# else:
+		# 	context['abstracts'] = Abstract.objects.all().order_by('abs_id')[141:]
+		# context['track'] = ''
+		return render(request, 'registration_approval.html', context)
 		context['registrations'] = Registration.objects.all().order_by('registration_id')
 	return render(request, 'registration_approval.html', context)
 	
