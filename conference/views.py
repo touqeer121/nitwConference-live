@@ -469,18 +469,20 @@ def is_duplicate_paper(request):
 	try:
 		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
 	except Abstract.DoesNotExist:
-		abstract = None
-		return false
+		print("No abstract so not duplicate")
+		return False
 	oldEntry = Paper.objects.filter(abstract=abstract)
+	print(oldEntry)
 	return (len(oldEntry)> 0)
 
 def is_duplicate_ppt(request):
 	try:
 		abstract = Abstract.objects.get(abs_id=request.POST['abs_id'])
 	except Abstract.DoesNotExist:
-		abstract = None
-		return false
+		print("No abstract so not duplicate")
+		return False
 	oldEntry = Ppt.objects.filter(abstract=abstract)
+	print(oldEntry)
 	return (len(oldEntry)> 0)
 
 def assign_track_chair(request):
@@ -612,7 +614,7 @@ def paper_submission(request):
 				file_pdf2 = doc['pdf2']
 				absID = request.POST['abs_id']
 				try:
-					abs = Abstract.objects.get(abs_id=absID)
+					abs = get_object_or_404(Abstract, abs_id=absID)
 				except Abstract.DoesNotExist:
 					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 					return redirect('/paper-submission')
@@ -648,9 +650,11 @@ def paper_submission(request):
 					ppr.track_B = 'mahesh'
 				ppr.save()
 			else:
+				abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
+				print("DUPLICATE PAPER, abs=", abs)
 				ppr = get_object_or_404(Paper, abstract = abs)	
 		except Exception as e:
-			sendReportToAdmin(request, "paper_submission", str(ppr.paper_id)+', title => ' + str(ppr.paper_title), e, "exception while creating new paper, data may not be stored")
+			sendReportToAdmin(request, "paper_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception while creating new paper, data may not be stored")
 			messages.success(request, "Could not submit. Please try agin with correct entries.")
 			return redirect('/paper-submission')
 		
@@ -714,7 +718,7 @@ def ppt_submission(request):
 				file_pdf = doc['pdf']
 				absID = request.POST['abs_id']
 				try:
-					abs = Abstract.objects.get(abs_id=absID)
+					abs = get_object_or_404(Abstract, abs_id=absID)
 				except Abstract.DoesNotExist:
 					messages.success(request, "Abstract ID is invalid. Please retry with correct one.")
 					return redirect('/ppt-submission')
@@ -749,9 +753,10 @@ def ppt_submission(request):
 					ppt.track_B = 'mahesh'
 				ppt.save()
 			else:
-				ppt = get_object_or_404(Ppt, abstract = abs)
+				abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
+				print("DUPLICATE PPT, abs=", abs)
 		except:
-			sendReportToAdmin(request, "ppt_submission", str(ppt.ppt_id) +', title => ' + str(ppt.ppt_title), e, "exception while creating new ppt, data may not be stored")
+			sendReportToAdmin(request, "ppt_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception while creating new ppt, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
 			return redirect('/ppt-submission')
 		
