@@ -329,22 +329,39 @@
         fileButton.style.background = "#43cae8";
         fileButton.style.color = "white";
         selectName.innerText = filename;
+        
+        if(filename.length < 21)
+            selectName.innerText = filename;
+        else
+            selectName.innerText = filename.substring(0,20) + '...';
 
     }
 
     let fileInput2 = document.getElementById("pdf2");
     let fileSelect2 = document.getElementById("fus2");
     let fileButton2 = document.getElementById("fsb2");
+    let length = 100
     fileSelect2.onclick = function() {
         fileInput2.click();
     }
     fileInput2.onchange = function() {
         let filename2 = fileInput2.files[0].name;
         let selectName2 = document.getElementById("fsn2");
+        const width = selectName2.offsetWidth;
         fileButton2.style.background = "#43cae8";
         fileButton2.style.color = "white";
-        selectName2.innerText = filename2;
-    }
+        // console.log("W:", width);
+        // if(width > 240){
+
+        // }
+        // else if(width > 120){
+
+        // }
+        if(filename2.length < 21)
+            selectName2.innerText = filename2;
+        else
+            selectName2.innerText = filename2.substring(0,20) + '...';
+    }   
 </script>
 <script>
     $('#click_title').click(function() {

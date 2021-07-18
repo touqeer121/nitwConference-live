@@ -190,7 +190,11 @@
         let selectName = document.getElementById("fsn1");
         fileButton.style.background = "#43cae8";
         fileButton.style.color = "white";
-        selectName.innerText = filename;
+        
+        if(filename.length < 21)
+            selectName.innerText = filename;
+        else
+            selectName.innerText = filename.substring(0,20) + '...';
     }
 </script>
 
