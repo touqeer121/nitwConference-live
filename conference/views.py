@@ -690,7 +690,7 @@ def paper_submission(request):
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
 				# forward_paper_submission_info(request, str(ppr.paper_id))
-				messages.success(request, "You've successfully submitted the paper.")
+				messages.success(request, "Thank you for submitting the full paper. Our team will get back to you after 24th July.")
 			else: 
 				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
@@ -699,7 +699,7 @@ def paper_submission(request):
 		except Exception as e:
 			if not duplicate:
 				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "You've successfully submitted the paper.")
+				messages.success(request, "Thank you for submitting the full paper. Our team will get back to you after 24th July.")
 			else: 
 				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
@@ -792,7 +792,7 @@ def ppt_submission(request):
 			if not duplicate:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
 				# forward_ppt_submission_info(request, ppt.ppt_id)
-				messages.success(request, "You've successfully submitted the ppt.")
+				messages.success(request, "Thank you for submitting the presentation. Our team will get back to you after 24th July.")
 			else:
 				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
@@ -801,7 +801,7 @@ def ppt_submission(request):
 		except Exception as e:
 			if not duplicate:
 				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "You've successfully submitted the ppt.")
+				messages.success(request, "Thank you for submitting the presentation. Our team will get back to you after 24th July.")
 			else:
 				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
