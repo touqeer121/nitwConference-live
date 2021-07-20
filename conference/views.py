@@ -650,17 +650,29 @@ def paper_submission(request):
 				if ppr.track == 'Strategic Management and Corporate Governance':
 					ppr.track_B = 'mahesh'
 				ppr.save()
+				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you in case they need any further information.")
+
 			else:
-				abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
-				print("DUPLICATE PAPER, abs=", abs)
-				ppr = get_object_or_404(Paper, abstract = abs)	
+				try:
+					print("DUPLICATE PAPER, abs")
+					abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
+					print("abs : ", abs)
+					ppr = get_object_or_404(Paper, abstract = abs)	
+					messages.success(request, "You've already submitted a paper for this abstract. Paper ID: "+ ppr.paper_id)
+				except Exception as e:
+					sendReportToAdmin(request, "paper_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception after getting duplicate paper")
+					messages.success(request, "You've already submitted a paper for this abstract. ")
+		
 		except Exception as e:
 			sendReportToAdmin(request, "paper_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception while creating new paper, data may not be stored")
 			messages.success(request, "Could not submit. Please try agin with correct entries.")
-			return redirect('/paper-submission')
+			
+		return redirect('/paper-submission')
 		
-		try:
-			ppr = get_object_or_404(Paper, ppr_id=pprID)
+	return render(request, 'paper_submission.html')	
+	
+		# try:
+		# 	ppr = get_object_or_404(Paper, ppr_id=pprID)
 			# msg = MIMEMultipart()
 			# msg.set_unixfrom('author')
 			# msg['From'] = settings.EMAIL_HOST_USER
@@ -698,23 +710,23 @@ def paper_submission(request):
 			# 	messages.success(request, "You've already submitted a paper for this abstract.")
 			# print("EVRYTHING DONE with PAPER SUBMISSION\n")
 
-		except Exception as e:
-			if not duplicate:
-				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
-			else: 
-				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
-				messages.success(request, "You've already submitted a paper for this abstract.")
-			sendReportToAdmin(request, "paper_submission", str(ppr.paper_id)+', title => ' + str(ppr.paper_title), e, "exception while mailing, data is stored")
+	# 	except Exception as e:
+	# 		if not duplicate:
+	# 			EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
+	# 			messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
+	# 		else: 
+	# 			EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
+	# 			messages.success(request, "You've already submitted a paper for this abstract.")
+	# 		sendReportToAdmin(request, "paper_submission", str(ppr.paper_id)+', title => ' + str(ppr.paper_title), e, "exception while mailing, data is stored")
 
-		return redirect('/paper-submission')
-	return render(request, 'paper_submission.html')	
+	# 	return redirect('/paper-submission')
+	# return render(request, 'paper_submission.html')	
 
 def ppt_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_ppt(request)
 		ppt = None
-		pptID = None
+		abs = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -755,16 +767,28 @@ def ppt_submission(request):
 				if ppt.track == 'Strategic Management and Corporate Governance':
 					ppt.track_B = 'mahesh'
 				ppt.save()
+				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you in case they need any further information.")
 			else:
-				abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
-				print("DUPLICATE PPT, abs=", abs)
+				try:
+					print("DUPLICATE PPT")
+					abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
+					print("abs : ", abs)
+					ppt = get_object_or_404(Ppt, abstract=abs)
+					messages.success(request, "You've already submitted a ppt for this abstract. Ppt ID : "+ ppt.ppt_id)
+				except Exception as e:
+					sendReportToAdmin(request, "ppt_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception after getting duplicate ppt")
+					messages.success(request, "You've already submitted a ppt for this abstract.")
+		
 		except Exception as e:
 			sendReportToAdmin(request, "ppt_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception while creating new ppt, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
-			return redirect('/ppt-submission')
 		
-		try:
-			ppt = get_object_or_404(Ppt, ppt_id=pptID)
+		return redirect('/ppt-submission')
+	
+	return render(request, 'ppt_submission.html')	
+		# try:
+		# 	print("abs : ", abs)
+		# 	ppt = get_object_or_404(Ppt, abstract=abs)
 			# msg = MIMEMultipart()
 			# msg.set_unixfrom('author')
 			# msg['From'] = settings.EMAIL_HOST_USER
@@ -802,17 +826,17 @@ def ppt_submission(request):
 			# 	messages.success(request, "You've already submitted a ppt for this abstract.")
 			# print("EVRYTHING DONE with PPT SUBMISSION\n")
 
-		except Exception as e:
-			if not duplicate:
-				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
-			else:
-				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
-				messages.success(request, "You've already submitted a ppt for this abstract.")
-			sendReportToAdmin(request, "ppt_submission", str(ppt.ppt_id)+', title => ' + str(ppt.ppt_title), e, "exception while mailing, data is stored")
+		# except Exception as e:
+		# 	if not duplicate:
+		# 		# EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
+		# 		messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
+		# 	else:
+		# 		# EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
+		# 		messages.success(request, "You've already submitted a ppt for this abstract.")
+		# 	sendReportToAdmin(request, "ppt_submission", str(ppt.ppt_id)+', title => ' + str(ppt.ppt_title), e, "exception while mailing, data is stored")
 
-		return redirect('/ppt-submission')
-	return render(request, 'ppt_submission.html')	
+		# return redirect('/ppt-submission')
+	# return render(request, 'ppt_submission.html')	
 
 
 def early_bird(request):
