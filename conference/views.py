@@ -758,7 +758,7 @@ def ppt_submission(request):
 			else:
 				abs = get_object_or_404(Abstract, abs_id=request.POST['abs_id'])
 				print("DUPLICATE PPT, abs=", abs)
-		except:
+		except Exception as e:
 			sendReportToAdmin(request, "ppt_submission", request.POST['abs_id']+', title => ' + request.POST['title'], e, "exception while creating new ppt, data may not be stored")
 			messages.success(request, "Could not submit. Please try again with correct entries.")
 			return redirect('/ppt-submission')
