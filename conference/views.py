@@ -607,6 +607,7 @@ def paper_submission(request):
 		duplicate = is_duplicate_paper(request)
 		ppr = None
 		abs = None
+		pprID = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -659,47 +660,48 @@ def paper_submission(request):
 			return redirect('/paper-submission')
 		
 		try:
-			msg = MIMEMultipart()
-			msg.set_unixfrom('author')
-			msg['From'] = settings.EMAIL_HOST_USER
-			msg['To'] = request.POST['email']
+			ppr = get_object_or_404(Paper, ppr_id=pprID)
+			# msg = MIMEMultipart()
+			# msg.set_unixfrom('author')
+			# msg['From'] = settings.EMAIL_HOST_USER
+			# msg['To'] = request.POST['email']
 
-			if not duplicate:
-				msg['Subject'] = 'Paper submission acknowledgement'
-				message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
-						'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
-						'Your paper ID will be ' + str(ppr.paper_id) +'. Please make a note of it and quote the same in future communications.\n\n' + \
-						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-						'Best Regards,\n' + \
-						'Organizing Team,\n' + \
-						'Global Conference on Innovations in Management and Business'
-			else:
-				msg['Subject'] = 'Paper already submitted'
-				#ppr cannot be None
-				message = 'Looks like your paper with the title \"'+ ppr.paper_title +'\" (Paper ID : ' + ppr.paper_id + ') is already ' + \
-					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			# if not duplicate:
+			# 	msg['Subject'] = 'Paper submission acknowledgement'
+			# 	message = 'Hello ' + ppr.prefix + ' ' + ppr.first_name + ' ' + ppr.last_name + ',\n\n' + \
+			# 			'Hope you are safe and doing well. This is to acknowledge that we have received your paper.' + \
+			# 			'Your paper ID will be ' + str(ppr.paper_id) +'. Please make a note of it and quote the same in future communications.\n\n' + \
+			# 			'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+			# 			'Best Regards,\n' + \
+			# 			'Organizing Team,\n' + \
+			# 			'Global Conference on Innovations in Management and Business'
+			# else:
+			# 	msg['Subject'] = 'Paper already submitted'
+			# 	#ppr cannot be None
+			# 	message = 'Looks like your paper with the title \"'+ ppr.paper_title +'\" (Paper ID : ' + ppr.paper_id + ') is already ' + \
+			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
 			
-			msg.attach(MIMEText(message))
-			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+			# msg.attach(MIMEText(message))
+			# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-			mailserver.ehlo()
-			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-			mailserver.quit()
+			# mailserver.ehlo()
+			# mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+			# mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			# mailserver.quit()
 
-			if not duplicate:
-				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
-				# forward_paper_submission_info(request, str(ppr.paper_id))
-				messages.success(request, "Thank you for submitting the full paper. Our team will get back to you after 24th July.")
-			else: 
-				EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
-				messages.success(request, "You've already submitted a paper for this abstract.")
-			print("EVRYTHING DONE with PAPER SUBMISSION\n")
+			# if not duplicate:
+			# 	EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", sent_date=datetime.datetime.now())
+			# 	# forward_paper_submission_info(request, str(ppr.paper_id))
+			# 	messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
+			# else: 
+			# 	EmailInfo.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+			# 	messages.success(request, "You've already submitted a paper for this abstract.")
+			# print("EVRYTHING DONE with PAPER SUBMISSION\n")
 
 		except Exception as e:
 			if not duplicate:
 				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "Thank you for submitting the full paper. Our team will get back to you after 24th July.")
+				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
 			else: 
 				EmailQueue.objects.create(corresponding_id=str(ppr.paper_id), mail_reason="paper_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a paper for this abstract.")
@@ -712,6 +714,7 @@ def ppt_submission(request):
 	if (request.method == "POST"):
 		duplicate = is_duplicate_ppt(request)
 		ppt = None
+		pptID = None
 		try:
 			if not duplicate:
 				doc=request.FILES
@@ -761,47 +764,48 @@ def ppt_submission(request):
 			return redirect('/ppt-submission')
 		
 		try:
-			msg = MIMEMultipart()
-			msg.set_unixfrom('author')
-			msg['From'] = settings.EMAIL_HOST_USER
-			msg['To'] = request.POST['email']
+			ppt = get_object_or_404(Ppt, ppt_id=pptID)
+			# msg = MIMEMultipart()
+			# msg.set_unixfrom('author')
+			# msg['From'] = settings.EMAIL_HOST_USER
+			# msg['To'] = request.POST['email']
 
-			if not duplicate:
-				msg['Subject'] = 'Presentation submission acknowledgement'
-				message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
-						'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
-						'Your paper ID will be ' + ppt.ppt_id +'. Please make a note of it and quote the same in future communications.\n\n' + \
-						'Many thanks for considering to submit your work to GCIMB.\n\n'+\
-						'Best Regards,\n' + \
-						'Organizing Team,\n' + \
-						'Global Conference on Innovations in Management and Business'
-			else:
-				msg['Subject'] = 'Presentation already submitted'
-				message = 'Looks like your presentation with the title \"'+ ppt.ppt_title +'\" (Presentation ID : ' + ppt.ppt_id + ') is already ' + \
-					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			# if not duplicate:
+			# 	msg['Subject'] = 'Presentation submission acknowledgement'
+			# 	message = 'Hello ' + ppt.prefix + ' ' + ppt.first_name + ' ' + ppt.last_name + ',\n\n' + \
+			# 			'Hope you are safe and doing well. This is to acknowledge that we have received your presentation.' + \
+			# 			'Your paper ID will be ' + ppt.ppt_id +'. Please make a note of it and quote the same in future communications.\n\n' + \
+			# 			'Many thanks for considering to submit your work to GCIMB.\n\n'+\
+			# 			'Best Regards,\n' + \
+			# 			'Organizing Team,\n' + \
+			# 			'Global Conference on Innovations in Management and Business'
+			# else:
+			# 	msg['Subject'] = 'Presentation already submitted'
+			# 	message = 'Looks like your presentation with the title \"'+ ppt.ppt_title +'\" (Presentation ID : ' + ppt.ppt_id + ') is already ' + \
+			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
 			
-			msg.attach(MIMEText(message))
-			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
+			# msg.attach(MIMEText(message))
+			# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
-			mailserver.ehlo()
-			mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
-			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
-			mailserver.quit()
+			# mailserver.ehlo()
+			# mailserver.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+			# mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
+			# mailserver.quit()
 
 
-			if not duplicate:
-				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
-				# forward_ppt_submission_info(request, ppt.ppt_id)
-				messages.success(request, "Thank you for submitting the presentation. Our team will get back to you after 24th July.")
-			else:
-				EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
-				messages.success(request, "You've already submitted a ppt for this abstract.")
-			print("EVRYTHING DONE with PPT SUBMISSION\n")
+			# if not duplicate:
+			# 	EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", sent_date=datetime.datetime.now())
+			# 	# forward_ppt_submission_info(request, ppt.ppt_id)
+			# 	messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
+			# else:
+			# 	EmailInfo.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", sent_date=datetime.datetime.now())
+			# 	messages.success(request, "You've already submitted a ppt for this abstract.")
+			# print("EVRYTHING DONE with PPT SUBMISSION\n")
 
 		except Exception as e:
 			if not duplicate:
 				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="first", pending_date=datetime.datetime.now())
-				messages.success(request, "Thank you for submitting the presentation. Our team will get back to you after 24th July.")
+				messages.success(request, "Thank you for submitting. We have received your submission. Our team will get back to you incase they need any further information.")
 			else:
 				EmailQueue.objects.create(corresponding_id=ppt.ppt_id, mail_reason="ppt_submission",  general_info="duplicate", pending_date=datetime.datetime.now())
 				messages.success(request, "You've already submitted a ppt for this abstract.")
