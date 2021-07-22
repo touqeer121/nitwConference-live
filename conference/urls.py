@@ -22,6 +22,7 @@ urlpatterns = [
     path('who-can-join/', views.who_should_join, name='who_should_join'),
     path('committee/', views.committee, name='committee'),
     path('track-chairs/', views.track_chairs, name='track_chairs'),
+    path('session-chairs/', views.session_chairs, name='session_chairs'),
     path('preconference-workshop/', views.preconference_workshop, name='preconference_workshop'),
     path('important-dates/', views.important_dates, name='important_dates'),
     path('brochure/', views.brochure, name='brochure'),
@@ -39,7 +40,7 @@ urlpatterns = [
     path('publication-opportunities/', views.publication_opportunities, name='publication_opportunities'),
     path('evaluation-process/', views.evaluation_process, name='evaluation_process'),
     path('contact-us/', views.contact_us, name='contact_us'),
-    path('export/xls/', views.export_abstracts_sheet, name='export_abstracts_sheet'),
+    path('export/xls/', views.export_presentations_sheet, name='export_presentations_sheet'),
     path('exportr/xls/', views.export_registrations_sheet, name='export_registrations_sheet'),
 
     url('approveabstract/(?P<abstractid>\w+)', views.approve_abstract, name='approve_abstract'),

@@ -137,6 +137,9 @@ def committee(request):
 def track_chairs(request):
 	return render(request, 'track_chairs.html')
 
+def session_chairs(request):
+	return render(request, 'session_chairs.html')
+
 def preconference_workshop(request):
 	return render(request, 'preconference_workshop.html')
 
@@ -999,13 +1002,21 @@ def export_registrations_sheet(request):
 		row_num += 1
 		for col_num in range(len(row)):
 			if col_num==1:
-				r = rtype[int(row[col_num])-1]
+				if(row[col_num] is None):
+					# print("Reg ID : ", rows[0])
+					r = "-"
+				else:
+					r = rtype[int(row[col_num])-1]
 				ws.write(row_num, col_num, r, font_style)
-			elif col_num==2:
-				tmp = int(row[col_num])
-				if tmp != 1:
-					tmp -= 3
-				a = atype[tmp-1]
+			elif col_num==2:				
+				if(row[col_num] is None):
+					# print("2Reg ID : ", rows[0])
+					a = "-"
+				else:
+					tmp = int(row[col_num])
+					if tmp != 1:
+						tmp -= 3
+					a = atype[tmp-1]
 				ws.write(row_num, col_num, a, font_style)
 			elif col_num==12:
 				dt = str(row[col_num]).split()[0]
@@ -1019,6 +1030,46 @@ def export_registrations_sheet(request):
 			# 	if ppr:
 			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
 			else:	
+				ws.write(row_num, col_num, row[col_num], font_style)
+	wb.save(response)
+	return response
+
+@login_required(login_url='/sign-in/')
+def export_presentations_sheet(request):
+	response = HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="Presentations.xls"'
+	wb = xlwt.Workbook(encoding='utf-8')
+	ws = wb.add_sheet('Presentations')
+	
+	# Sheet header, first row
+	row_num = 0
+	
+	font_style = xlwt.XFStyle()
+	font_style.font.bold = True
+	columns = ['Presentation ID', 'Title', 'Track', 'Abstracts ID', 'Prefix', 'Full Name', 'Country', 'State', \
+			'Institute', 'Email', 'Phone', 'File Link', 'Submission Date']		
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+	
+	# Sheet body, remaining rows
+	font_style = xlwt.XFStyle()
+	
+	rows = Ppt.objects.all().values_list('ppt_id', 'ppt_title', 'track', 'abstract', 'prefix', 'first_name', 'country', 'state',\
+			 'institution', 'email', 'phone', 'submission_date' )
+		
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			if col_num==12:
+				dt = str(row[col_num]).split()[0]
+				ws.write(row_num, col_num, dt, font_style)
+			elif col_num==11:
+				ppt = get_object_or_404(Ppt, ppt_id=row[0])
+				if ppt:
+					ws.write(row_num, col_num, str(ppt.ppt_pdf.url)[:-16], font_style)
+				else:
+					ws.write(row_num, col_num, "ERROR", font_style)
+			else:
 				ws.write(row_num, col_num, row[col_num], font_style)
 	wb.save(response)
 	return response
