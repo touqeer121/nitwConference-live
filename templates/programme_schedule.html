@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} | Programme Schedule{% endblock title %}
+{% block title %} | Schedule{% endblock title %}
 {% load static %}
 {% block scripts %}
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,700' rel='stylesheet' type='text/css'>
@@ -13,8 +13,15 @@
 </section>
 
 <section class="content" style="text-align: center; margin: 0 auto; padding: 30px 0">
-    <h1 style="margin-bottom:25px ;">Programme Schedule</h1>
+    <h1 style="margin-bottom:25px ;">Schedule</h1>
     <div class="my-main-container" >
+            <p class="my-content" style="color:blue">
+                <b>
+                    All the times in the schedules are in IST.
+                </b>
+            </p>
+            <br>
+
             <div  style="font-size: 20px; text-align: left "  ><b class="my-row-2">Pre-Conference Workshop Schedule :</b></div>
             <br>
             <iframe src="{% static 'files/Pre-Conference Workshop Schedule.pdf' %}#zoom=FitW" style="text-align:center; margin:0 auto; width: 100%;height: 100%; 
@@ -31,7 +38,7 @@
             <a class="formButton brochureButton" style="display: inline-block" href="{% static 'files/GCIMB 2021 Schedule.pdf' %}">
                 Download GCIMB 2021 Schedule
             </a>
-            <br><br><br><br><br>
+            <br><br><br>
 
             <p class="my-content" style="color:blue">
                 <b>
