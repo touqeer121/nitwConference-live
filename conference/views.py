@@ -865,6 +865,9 @@ def publication_opportunities(request):
 def evaluation_process(request):
 	return render(request, 'evaluation_process.html')
 
+def programme_schedule(request):
+	return render(request, 'programme_schedule.html')
+
 
 def contact_us(request):
 	if request.method == 'POST':

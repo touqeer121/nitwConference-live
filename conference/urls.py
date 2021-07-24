@@ -65,5 +65,7 @@ urlpatterns = [
 
     path('ask-the-editors/', views.ask_the_editors, name='ask_the_editors'),
     path('storeURL/<int:end>', views.storeURL, name='storeURL'),
+    
+    path('programme-schedule/', views.programme_schedule, name='programme_schedule'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
