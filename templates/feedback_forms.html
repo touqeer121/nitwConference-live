@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %} | Feedback Forms{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    <div>
+        <h1 style="display:inline-block ;">Feedback Forms</h1>
+        <img class="headIcon"  src="{% static 'images/feedback.png' %}">
+    </div>
+    <div class="my-main-container">
+        <p class="my-content">
+            <b>
+                Participants are requested to kindly fill the following feedback forms to help us improve in organizing such conferences.
+            </b>
+        </p>
+
+        <div class = "row mt-5 mb-5">
+            <div class="col-md-6 col-sm-12 my-item">
+                <b>
+                Workshops Feedback Form
+                </b><br><br>
+                <a target="_blank" class="formButton" href="https://forms.gle/SM4gVny9QZnRsiyn8" >
+                    Fill now 
+                </a>
+            </div>
+
+            <div class="col-md-6 col-sm-12 my-item">
+                <b>
+                Conference Feedback Form
+            </b><br><br>
+            <a target="_blank" class="formButton" href="https://forms.gle/SM4gVny9QZnRsiyn8" >
+                Fill now
+            </a>
+            </div>
+
+            <div>
+
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock content %}

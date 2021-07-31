@@ -119,8 +119,20 @@
                                     <a class="dropdown-item" href="../publication-opportunities">Publication Opportunities</a>
                                 </div>
                             </li>
-                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/registration/' %}active{% endif %}">
+                            <!-- <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/registration/' %}active{% endif %}">
                                 <a class="nav-link" href="../registration/">Registration</a>
+                            </li> -->
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4
+                                {% if request.path == '/best-papers/' or request.path == '/feedback-forms/' %}
+                                    active
+                                {% endif %}">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                   aria-haspopup="true" aria-expanded="false" onclick='pc_dropdown()'>
+                                    Post Conference <div id="pc" class="fas fa-angle-right rotate"></div></a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="../best-papers">Best Papers</a>
+                                    <a class="dropdown-item" href="../feedback-forms">Feedback Forms</a>
+                                </div>
                             </li>
                             <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/contact-us/' %}active{% endif %}">
                                 <a class="nav-link" href="../contact-us/">Contact Us</a>

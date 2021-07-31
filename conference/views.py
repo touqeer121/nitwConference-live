@@ -1915,3 +1915,9 @@ def ask_the_editors(request):
 
 def biggie_bills(request):
 	return render(request, 'biggie_bills.html')
+
+def best_papers(request):
+	return render(request, 'best_papers.html')
+	
+def feedback_forms(request):
+	return render(request, 'feedback_forms.html')

@@ -67,5 +67,7 @@ urlpatterns = [
     path('storeURL/<int:end>', views.storeURL, name='storeURL'),
     
     path('programme-schedule/', views.programme_schedule, name='programme_schedule'),
+    path('best-papers/', views.best_papers, name='best_papers'),
+    path('feedback-forms/', views.feedback_forms, name='feedback_forms'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

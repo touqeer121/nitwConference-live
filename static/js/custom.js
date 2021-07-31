@@ -140,6 +140,10 @@ function ag_dropdown() {
 	arrow = $("#ag").toggleClass("down")
 }
 
+function pc_dropdown() {
+	arrow = $("#pc").toggleClass("down")
+}
+
 //Fade animation
 
 $(document).ready(function () {

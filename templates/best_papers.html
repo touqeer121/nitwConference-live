@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% block title %} | Best Papers{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    <div>
+        <h1 style="display:inline-block ;">Best Papers</h1>
+        <img class="headIcon"  src="{% static 'images/ribbon.png    ' %}">
+    </div>
+    <div class="my-main-container">
+        <p class="my-content">
+            <b>
+                &bull; Following are the best papers as chosen during the conference.
+            </b>
+            <br>
+            <b>
+                &bull; Please note that this is not the order of merit.
+            </b>
+        </p>
+
+        <div style="color: #1f1f1f; font-size:24px;margin: 25px auto;">
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                    
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                            Manojee Domingo & Shantharuby Buvanendra
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">University of Colombo, Sri Lanka<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "The Mediating Role of Financial Self-Efficacy between Social Determinants and 
+                            Personal Finance Behavior of Women within Micro Finance Sector of Sri Lanka"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                 
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                            Ashok Margam & Thani Jambulinga
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Saint Joseph’s University, Philadelphiam, U.S.A.<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Differential Wealth Impact of Covid-19 on the Industries in the Healthcare Sector"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                 
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                            Sarin Raju, Rofin T.M & S. Pavan Kumar
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">National Institute of Technology Karnataka, Surathkal, India<sup>1 & 3</sup><br>
+                            & National Institute of Industrial Engineering, Mumbai, India<sup>2</sup> 
+                        </span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Effect of COVID-19 Induced Panic Buying on The Dual-Channel Supply Chain Under Channel Power Structure: A Game-Theoretic Analysis"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                  
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Tarunima Mishra, Jitesh Thakkar, Kunal Kanthi Ghosh & Swagato Chatterjee
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Indian Institute of Technology Kharagpur, India<sup>1,2,3,& 4</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Effect of COVID-19 in changing the Performance of Supply Chain Barriers: A Case of the Indian MSME sector"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                 
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Zihan Chen
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">The Hong Kong Polytechnic University, Hong Kong</span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "The Impact of Content and Sentiment Coherence on Information Diffusion"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                   
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Surendra M. Dixit & Moutusy Maity
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Indian Institute of Management Lucknow, Uttar Pradesh, India<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Mobile Learning by the Gig-Workforce: The Case of E-Commerce Deliver"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                  
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Anh Phan T. & Kentaro Hayash
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">University of Hawai'i at Manoa<sup>1 & 2</sup><br>
+                        & University of Hawai'i at Hilo<sup>3</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "SME Corruption in Vietnam: A Case of the Glass Being Half Empt"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                 
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Nikhil Suryakant Ghag & Koteswara Nayak
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">National Institute of Industrial Engineering, Mumbai, India<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Analyzing the Factors Affecting Sustainable Entrepreneurship"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                  
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Neha Zaidi & Ajay Kumar
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Sharda University, Greater Noida, India<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Antecedents of Risk Perception and Travel Intention in the COVID- 19 Era"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                 
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Linda Susan Mathew
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">CET School of Management, Kerala, India</span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Country-of-Origin and its impact on Brand Equity and Purchase intension"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                    
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Shalini Garg
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">University of Rajasthan, Jaipur, India</span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            " Creative Isomorphism in Organizations through the Lenses of Employees"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                  
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Haleh Hashemi Toroghi
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Brunel University, London, U.K.</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Compassionate Leadership Matters Within Higher Education"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+            <ul style="text-align: center; list-style:none; padding: 0; ">
+                <li class="my-row half2 " style="margin-bottom: 15px; padding: 5px" 
+                    data-aos="fade-right" data-aos-duration="1000">
+                    <table style="margin: 0 auto ; border: none !important;">                   
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Sudipta Halder
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">West Bengal State University, West Bengal, India</span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Study on Socio-Economic Aspects of Substance Abuse in Auto-Rickshaw Drivers of Kolkata, West Bengal, India"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+                <li class="my-row half2 alt-row" style="margin-bottom: 15px; padding: 5px"
+                    data-aos="fade-left" data-aos-duration="1000">
+                    <table style="margin: 0 auto; border: none !important;">                   
+                        <td class="block my-td" style="border: none !important;">
+                        <span style="font-size: 18px;">
+                            <b>
+                                Amod Kumar & Sanjay Kumar Singh
+                            </b>
+                        </span>
+                        <br>
+                        <span style="font-size: 18px; color: grey">Indian Institute of Management Lucknow, Uttar Pradesh, India<sup>1 & 2</sup></span>                        
+                        <br>
+                        <span style="font-size: 18px;">
+                            <i>
+                            "Affirmative Action in Education leads to Complacency or Complementarity? Evidence from Affirmative Action 
+                            in Education Inclusion in Uttar Pradesh, India"
+                        </i>
+                        </span>
+                    </td>
+                    </table>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock content %}
