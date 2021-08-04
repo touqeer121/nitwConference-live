@@ -1921,3 +1921,6 @@ def best_papers(request):
 	
 def feedback_forms(request):
 	return render(request, 'feedback_forms.html')
+
+def book_of_abstracts(request):
+	return render(request, 'book_of_abstracts.html')

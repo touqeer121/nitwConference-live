@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} | Book Of Abstracts{% endblock title %}
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            // messages timeout for 3 sec
+            setTimeout(function () {
+                $('.message_container').fadeOut('slow');
+            }, 3000);
+        });
+    </script>
+{% endblock scripts %}
+{% load static %}
+
+{% block content %}
+
+<section id="hero1" class="hero">
+  <div class="inner-other">
+  </div>
+</section>
+
+<section class="content">
+    <div>
+        <h1 style="display:inline-block ;">Book Of Abstracts</h1>
+        <img class="headIcon"  src="{% static 'images/open-book.png' %}">
+    </div>
+    <div class="my-main-container">
+        <p class="my-content" style="margin:50px auto; text-align:center">
+            <b>
+                The book of abstracts will be available for download from 9th August, 2021.
+            </b>
+        </p>
+
+
+    </div>
+
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+{% endblock content %}
