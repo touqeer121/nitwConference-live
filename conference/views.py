@@ -1101,7 +1101,6 @@ def export_presentations_sheet(request):
 	wb.save(response)
 	return response
 
-# @csrf_exempt
 @login_required(login_url='/sign-in/')
 def remark_abstracts(request,pgNo=1):
 	print("START")
@@ -1948,3 +1947,162 @@ def feedback_forms(request):
 
 def book_of_abstracts(request):
 	return render(request, 'book_of_abstracts.html')
+
+@login_required(login_url='/sign-in/')
+def review_papers(request,pgNo=1):
+	print("START")
+	context = {}
+	if(request.user.username=='gcimb'):
+		print("SUPERADMIN")
+		s = (pgNo-1)*20
+		e = pgNo * 20
+		print("pgNo=",pgNo)
+		context['papers'] = Paper.objects.all().order_by('paper_id')[s:e]
+		return render(request, 'review_papers.html', context)
+	if(request.user.username=='shekar'):
+		print("SHEKAR")
+		context['papers'] = Paper.objects.filter(track='Digital Transformation and Information Systems')
+		return render(request, 'review_papers.html', context)
+
+	curUser = request.user
+	curUser = TrackChairProfile.objects.get(user=curUser)
+	print("USER " , curUser)
+
+	if(request.user.username=='mahesh'):
+		track2 = 'Strategic Management and Corporate Governance'
+	else:
+		track2 = 'NA' 
+	context['papers'] = Paper.objects.filter(Q(track=curUser.track) | Q(track=track2)).order_by('paper_id') 
+	context['track'] = curUser.track
+	context['track2'] = track2
+	return render(request, 'review_papers.html', context)
+
+@login_required(login_url='/sign-in/')
+def approve_paper(request, paperid):
+	cd = get_object_or_404(Paper, pk=paperid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.status == '1':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper approved.")
+			cd.status = '1'
+		cd.remark = str(remark).strip()
+		cd.save()
+	#check this
+	elif uname=='shekar':
+		if cd.status == '1':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper approved.")
+			cd.status = '1'
+		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_A:
+		if cd.status_A=='1':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper approved.")
+			cd.status_A='1'
+		cd.remark_A = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_B:
+		if cd.status_B == '1':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper approved.")
+			cd.status_B = '1'
+		cd.remark_B = str(remark).strip()
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("A | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required(login_url='/sign-in/')
+def reject_paper(request, paperid):
+	cd = get_object_or_404(Paper, pk=paperid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.status == '0':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper rejected.")
+			cd.status ='0'
+		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname=='shekar':
+		if cd.status == '0':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper rejected.")
+			cd.status = '0'
+		cd.remark = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_A:
+		if cd.status_A=='0':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper rejected.")
+			cd.status_A ='0'
+		cd.remark_A = str(remark).strip()
+		cd.save()
+	elif uname == cd.track_B:
+		if cd.status_B=='0':
+			messages.success(request, "Remarks Updated.")
+		else:
+			messages.success(request, "Paper rejected.")
+			cd.status_B ='0'
+		cd.remark_B = str(remark).strip()
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("R | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))
+
+@login_required(login_url='/sign-in/')
+def remove_paper_remark(request, paperid):
+	cd = get_object_or_404(Paper, pk=paperid)
+	uname = request.user.username
+	remark = request.POST.get('remark')
+	if uname=='gcimb':
+		if cd.status == '2':
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.status = '2'
+		cd.remark = ''
+		cd.save()
+	elif uname=='shekar':
+		if cd.status == '2':
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.status = '2'
+		cd.remark = ''
+		cd.save()
+	elif uname == cd.track_A:
+		if cd.status_A == '2':
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.status_A = '2'
+		cd.remark_A = ''
+		cd.save()
+	elif uname == cd.track_B:
+		if cd.status_B == '2':
+			messages.success(request, "Already no remarks.")
+		else:
+			messages.success(request, "Remarks Removed.")
+			cd.status_B = '2'
+		cd.remark_B = ''
+		cd.save()
+	else : 
+		messages.success(request, "You do not have the authority to perform this action.")
+	
+	print("R | Remark : ", remark)
+	return redirect(request.META.get('HTTP_REFERER', '/'))

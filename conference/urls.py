@@ -55,6 +55,10 @@ urlpatterns = [
     url('approvepayment/(?P<registrationid>\w+)', views.approve_payment, name='approve_payment'),
     url('rejectpayment/(?P<registrationid>\w+)', views.reject_payment, name='reject_payment'),
     url('resetdecisionforpayment/(?P<registrationid>\w+)', views.reset_decision_for_payment, name='reset_decision_for_payment'),
+
+    url('approvepaper/(?P<paperid>\w+)', views.approve_paper, name='approve_paper'),
+    url('rejectpaper/(?P<paperid>\w+)', views.reject_paper, name='reject_paper'),
+    url('removepaperremarks/(?P<paperid>\w+)', views.remove_paper_remark, name='remove_paper_remark'),
     
     path('test-doc/', views.test_doc, name='test_doc'),
     url('generate-receipt/(?P<registrationid>\w+)', views.generate_receipt, name='generate_receipt'),
@@ -71,5 +75,7 @@ urlpatterns = [
     path('best-papers/', views.best_papers, name='best_papers'),
     path('feedback-forms/', views.feedback_forms, name='feedback_forms'),
     path('book-of-abstracts/', views.book_of_abstracts, name='book_of_abstracts'),
+    
+    path('review-papers/', views.review_papers, name='review_papers'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

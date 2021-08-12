@@ -64,8 +64,8 @@
                                 <a class="nav-link " href="/">Home</a>
                             </li>
                             {% if request.user.is_authenticated and request.user.username != 'accounts' %}
-                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/remark-abstracts/' %}active{% endif %}">
-                                <a class="nav-link " href="../remark-abstracts">Review Abstracts</a>
+                            <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 {% if request.path == '/review-papers/' %}active{% endif %}">
+                                <a class="nav-link " href="../review-papers">Review Papers</a>
                             </li>
                             {% endif %}
                             {% if request.user.is_authenticated %} 
