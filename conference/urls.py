@@ -40,7 +40,8 @@ urlpatterns = [
     path('publication-opportunities/', views.publication_opportunities, name='publication_opportunities'),
     path('evaluation-process/', views.evaluation_process, name='evaluation_process'),
     path('contact-us/', views.contact_us, name='contact_us'),
-    path('export/xls/', views.export_presentations_sheet, name='export_presentations_sheet'),
+    # path('export/xls/', views.export_presentations_sheet, name='export_presentations_sheet'),
+    path('export/xls/', views.export_papers_sheet, name='export_papers_sheet'),
     path('exportr/xls/', views.export_registrations_sheet, name='export_registrations_sheet'),
 
     url('approveabstract/(?P<abstractid>\w+)', views.approve_abstract, name='approve_abstract'),

@@ -934,28 +934,6 @@ def export_abstracts_sheet(request):
 	rows = Abstract.objects.all().values_list('abs_id', 'paper_title', 'track', 'prefix', 'first_name', 'last_name', 'country', 'state',\
 			 'institution', 'email', 'phone', 'abstract_pdf', 'submission_date' )
 
-	# urls = Abstract.objects.all().values('abstract_pdf')
-	# counter = 0
-	# for row in rows:
-	# 	row_num += 1
-	# 	for col_num in range(len(row)):
-	# 		if col_num==12:
-	# 			# url = urls[row_num-1][]
-	# 			# url = row[col_num-1].url
-	# 			# ws.write(row_num, col_num, str(url) , font_style)
-	# 			dt = str(row[col_num]).split()[0]
-	# 			ws.write(row_num, col_num+1, dt , font_style)
-	# 		elif col_num==11:
-	# 			ppr = get_object_or_404(Abstract, abs_id=row[0])
-	# 			if ppr:	
-	# 				ws.write(row_num, col_num, str(ppr.abstract_pdf), font_style)
-	# 		elif col_num==12:
-	# 			ppr = get_object_or_404(Abstract, abs_id=row[0])
-	# 			if ppr:
-	# 				ws.write(row_num, col_num, str(ppr.abstract_pdf.url), font_style)
-	# 		else:
-	# 			ws.write(row_num, col_num, row[col_num], font_style)
-		
 	for row in rows:
 		row_num += 1
 		for col_num in range(len(row)):
@@ -1033,6 +1011,52 @@ def export_registrations_sheet(request):
 			# 	if ppr:
 			# 		ws.write(row_num, col_num, str(ppr.abstract_pdf.url)[:-16], font_style)
 			else:	
+				ws.write(row_num, col_num, row[col_num], font_style)
+	wb.save(response)
+	return response
+
+@login_required(login_url='/sign-in/')
+def export_papers_sheet(request):
+	response = HttpResponse(content_type='application/ms-excel')
+	response['Content-Disposition'] = 'attachment; filename="Papers.xls"'
+	wb = xlwt.Workbook(encoding='utf-8')
+	ws = wb.add_sheet('Papers')
+	
+	# Sheet header, first row
+	row_num = 0
+	
+	font_style = xlwt.XFStyle()
+	font_style.font.bold = True
+	columns = ['Paper ID', 'Title', 'Track', 'Abstract ID', 'Prefix', 'Full Name', 'Country', 'State', \
+			'Institute', 'Email', 'Phone', 'Affiliation File Link', 'Manuscript File Link', 'Submission Date']		
+	for col_num in range(len(columns)):
+		ws.write(row_num, col_num, columns[col_num], font_style)
+	
+	# Sheet body, remaining rows
+	font_style = xlwt.XFStyle()
+	
+	rows = Paper.objects.all().values_list('paper_id', 'paper_title', 'track', 'abstract', 'prefix', 'first_name', 'country', 'state',\
+			 'institution', 'email', 'phone', 'submission_date' )
+		
+	for row in rows:
+		row_num += 1
+		for col_num in range(len(row)):
+			if col_num==13:
+				dt = str(row[col_num]).split()[0]
+				ws.write(row_num, col_num, dt, font_style)
+			elif col_num==12:
+				ppr = get_object_or_404(Paper, paper_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.paper_manuscript_pdf.url)[:-16], font_style)
+				else:
+					ws.write(row_num, col_num, "ERROR", font_style)
+			elif col_num==11:
+				ppr = get_object_or_404(Paper, paper_id=row[0])
+				if ppr:
+					ws.write(row_num, col_num, str(ppr.paper_affiliation_pdf.url)[:-16], font_style)
+				else:
+					ws.write(row_num, col_num, "ERROR", font_style)
+			else:
 				ws.write(row_num, col_num, row[col_num], font_style)
 	wb.save(response)
 	return response

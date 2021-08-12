@@ -15,17 +15,12 @@ import django_heroku
 import dj_database_url
 from decouple import config
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
+SECRET_KEY = config('SECRET_KEY')
+SECRET_KEY = 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'uodf1o(fdj5gvde)vwc!xobv7$iio0mhpb=%141_l@bicp0_iu'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
@@ -33,7 +28,6 @@ ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhe
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -80,10 +74,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'nitwConference.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -92,9 +82,6 @@ DATABASES = {
 }
 db_from_env = dj_database_url.config(conn_max_age=600)
 DATABASES['default'].update(db_from_env)
-
-# Password validation
-# https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -111,18 +98,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.1/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
@@ -131,7 +110,6 @@ MEDIA_URL = '/media/'
 TEMP_ROOT = os.path.join(BASE_DIR, 'media/tmp')
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (
@@ -143,11 +121,10 @@ STRIPE_SECRET_KEY = "sk_test_51Ii4ZHSBwVuEeUmRR3NV1nnLE2aFVS8c239Igm3ru7EmdwVCk4
 STRIPE_WEBHOOK_SECRET = ""
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE=os.path.join(BASE_DIR,'credentials.json')
-GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '/abc' # OPTIONAL
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '/temp' # OPTIONAL
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-# EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST = 'smtpout.secureserver.net'
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
