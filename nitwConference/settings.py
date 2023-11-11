@@ -1,5 +1,5 @@
 import os
-import django_heroku
+# import django_heroku
 import dj_database_url
 from decouple import config
 
@@ -10,8 +10,8 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'touqeer11.pythonanywhere.com', 'gcimb.org',
-                 'localhost', 'www.gcimb.org']
+ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'gcimb.com',
+                 'localhost', 'www.gcimb.com']
 
 
 # Application definition
@@ -103,9 +103,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-STRIPE_PUBLIC_KEY = "pk_test_51Ii4ZHSBwVuEeUmRoV8QEXJXQYc2jfCBLraTDj89HHkD8ozf0A1p6P7aCvVIW4fpKU9QBhWcW2eVjRS2b9x0htLh00SgPXQwtz"
-STRIPE_SECRET_KEY = "sk_test_51Ii4ZHSBwVuEeUmRR3NV1nnLE2aFVS8c239Igm3ru7EmdwVCk4tnbLCredDVstknUBw1LNj0h3Oke7OxklfdLU9Z00wfeHBFPh"
-STRIPE_WEBHOOK_SECRET = ""
+# STRIPE_PUBLIC_KEY = "pk_test_51Ii4ZHSBwVuEeUmRoV8QEXJXQYc2jfCBLraTDj89HHkD8ozf0A1p6P7aCvVIW4fpKU9QBhWcW2eVjRS2b9x0htLh00SgPXQwtz"
+# STRIPE_SECRET_KEY = "sk_test_51Ii4ZHSBwVuEeUmRR3NV1nnLE2aFVS8c239Igm3ru7EmdwVCk4tnbLCredDVstknUBw1LNj0h3Oke7OxklfdLU9Z00wfeHBFPh"
+# STRIPE_WEBHOOK_SECRET = ""
 
 GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE=os.path.join(BASE_DIR,'credentials.json')
 GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = '/temp' # OPTIONAL
@@ -118,4 +118,4 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 PROJECT_PATH = ""
 EMAIL_PORT = 465
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())

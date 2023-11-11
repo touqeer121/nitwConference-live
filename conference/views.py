@@ -68,39 +68,31 @@ def stripe_config(request):
 
 @csrf_exempt
 def create_checkout_session(request):
-    if request.method == 'GET':
-        domain_url = 'http://localhost:8000/'
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        try:
-            print('TRY START')
-            # Create new Checkout Session for the order
-            # Other optional params include:
-            # [billing_address_collection] - to display billing address details on the page
-            # [customer] - if you have an existing Stripe Customer ID
-            # [payment_intent_data] - capture the payment later
-            # [customer_email] - prefill the email input in the form
-            # For full details see https://stripe.com/docs/api/checkout/sessions/create
-
-            # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
-            checkout_session = stripe.checkout.Session.create(
-                success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
-                cancel_url=domain_url + 'cancelled/',
-                payment_method_types=['alipay'],
-                mode='payment',
-                line_items=[
-                    {
-                        'name': 'GCIMB Conference Regular Registration',
-                        'quantity': 1,
-                        'currency': 'inr',
-                        'amount': '55',
-                    }
-                ]
-            )
-            print('TRY END')
-            return JsonResponse({'sessionId': checkout_session.id})
-        except Exception as e:
-            print('ECXEPTION')
-            return JsonResponse({'error': str(e)})
+	pass
+    # if request.method == 'GET':
+    #     domain_url = 'http://localhost:8000/'
+    #     stripe.api_key = settings.STRIPE_SECRET_KEY
+    #     try:
+    #         print('TRY START')
+    #         checkout_session = stripe.checkout.Session.create(
+    #             success_url=domain_url + 'success?session_id={CHECKOUT_SESSION_ID}',
+    #             cancel_url=domain_url + 'cancelled/',
+    #             payment_method_types=['alipay'],
+    #             mode='payment',
+    #             line_items=[
+    #                 {
+    #                     'name': 'GCIMB Conference Regular Registration',
+    #                     'quantity': 1,
+    #                     'currency': 'inr',
+    #                     'amount': '55',
+    #                 }
+    #             ]
+    #         )
+    #         print('TRY END')
+    #         return JsonResponse({'sessionId': checkout_session.id})
+    #     except Exception as e:
+    #         print('ECXEPTION')
+    #         return JsonResponse({'error': str(e)})
 
 			
 def success(request):
@@ -180,7 +172,7 @@ def forward_registration_info(request, regID):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		recipients = ['submissions@gcimb.org', 'rama@sgcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		recipients = ['submissions@gcimb.com', 'rama@sgcimb.com', 'ravi@gcimb.com', 'nrustagi@gcimb.com']
 		# recipients = ['touqeer.pathan289@gmail.com']
 		msg['To'] = ", ".join(recipients)
 		msg['Subject'] = 'New participant registered | Registration ID : '+regID
@@ -351,7 +343,7 @@ def forward_submission_info(request, absID):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		recipients = ['submissions@gcimb.com', 'rama@gcimb.com', 'ravi@gcimb.com', 'nrustagi@gcimb.com']
 		# recipients = ['touqeer.pathan289@gmail.com']
 		msg['To'] = ", ".join(recipients)
 		msg['Subject'] = 'New Abstract Submitted | Abstract ID : '+absID
@@ -390,7 +382,7 @@ def forward_paper_submission_info(request, pprID):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		recipients = ['submissions@gcimb.com', 'rama@gcimb.com', 'ravi@gcimb.com', 'nrustagi@gcimb.com']
 		# recipients = ['touqeer.pathan289@gmail.com']
 		msg['To'] = ", ".join(recipients)
 		msg['Subject'] = 'New Paper Submitted | Paper ID : '+pprID
@@ -431,7 +423,7 @@ def forward_ppt_submission_info(request, pptID):
 		msg = MIMEMultipart()
 		msg.set_unixfrom('author')
 		msg['From'] = settings.EMAIL_HOST_USER
-		recipients = ['submissions@gcimb.org', 'rama@gcimb.org', 'ravi@gcimb.org', 'nrustagi@gcimb.org']
+		recipients = ['submissions@gcimb.com', 'rama@gcimb.com', 'ravi@gcimb.com', 'nrustagi@gcimb.com']
 		# recipients = ['touqeer.pathan289@gmail.com']
 		msg['To'] = ", ".join(recipients)
 		msg['Subject'] = 'New Presentation Submitted | Presentation ID : '+pptID
@@ -573,7 +565,7 @@ def abstract_submission(request):
 				msg['Subject'] = 'Abstract already submitted'
 				#abs cannot be None here
 				message = 'Looks like your abstract with the title \"'+ str(abs.title) +'\" (Abstract ID : ' + str(abs.abs_id) + ') is already ' + \
-					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+					'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.com quoting your details.'	
 			
 			msg.attach(MIMEText(message))
 
@@ -694,7 +686,7 @@ def paper_submission(request):
 			# 	msg['Subject'] = 'Paper already submitted'
 			# 	#ppr cannot be None
 			# 	message = 'Looks like your paper with the title \"'+ ppr.paper_title +'\" (Paper ID : ' + ppr.paper_id + ') is already ' + \
-			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.com quoting your details.'	
 			
 			# msg.attach(MIMEText(message))
 			# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -809,7 +801,7 @@ def ppt_submission(request):
 			# else:
 			# 	msg['Subject'] = 'Presentation already submitted'
 			# 	message = 'Looks like your presentation with the title \"'+ ppt.ppt_title +'\" (Presentation ID : ' + ppt.ppt_id + ') is already ' + \
-			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.org quoting your details.'	
+			# 		'submitted and you should receive an email. \nIn case you didn’t, please write to submissions@gcimb.com quoting your details.'	
 			
 			# msg.attach(MIMEText(message))
 			# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
@@ -874,8 +866,8 @@ def contact_us(request):
 		try:
 			msg = MIMEMultipart()
 			msg.set_unixfrom('author')
-			msg['From'] = 'info@gcimb.org'
-			msg['To'] = 'info@gcimb.org'
+			msg['From'] = 'info@gcimb.com'
+			msg['To'] = 'info@gcimb.com'
 			msg['Subject'] = request.POST['subject']
 			message = 'Name: ' + str(request.POST['fullName']).strip() + '\n'\
 					  'Email: ' + str(request.POST['email']).strip() + '\n\n'\
@@ -883,7 +875,7 @@ def contact_us(request):
 			msg.attach(MIMEText(message))
 			mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 			mailserver.ehlo()
-			mailserver.login('info@gcimb.org', 'info123@gcimb')
+			mailserver.login('info@gcimb.com', 'info123@gcimb')
 			mailserver.sendmail(msg['From'], msg['To'], msg.as_string())
 			mailserver.quit()
 			EmailInfo.objects.create(corresponding_id=str(request.POST['email']), mail_reason="contact_us", general_info=str(request.POST['subject']) +'\n'+ str(request.POST['message']), sent_date=datetime.datetime.now())
@@ -1667,7 +1659,7 @@ def send_approval_mail(request, registrationid):
 		# 		'Best Regards,\n' + \
 		# 		'The Organizing Team\n' + \
 		# 		'GCIMB 2021\n' + \
-		# 		'Email:info@gcimb.org\n'
+		# 		'Email:info@gcimb.com\n'
 		# msg.attach(MIMEText(message))
 		# mailserver = smtplib.SMTP_SSL('smtpout.secureserver.net', 465)
 
