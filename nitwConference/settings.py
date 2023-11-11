@@ -10,7 +10,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', '127.0.0.1', 'gcimb.com',
+ALLOWED_HOSTS = ['gcimb-cli.herokuapp.com', 'gcimb-caa26e45a29e.herokuapp.com', '127.0.0.1', 'gcimb.com',
                  'localhost', 'www.gcimb.com']
 
 
